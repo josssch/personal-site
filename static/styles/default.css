@@ -1,0 +1,24 @@
+:root,
+:host {
+    /* https://tailwindcss.com/docs/colors */
+    --color-background: oklch(17.5% 0 0);
+    --color-on-background: oklch(92.2% 0 0); /* neutral-200 */
+    --color-on-background-highlight: oklch(98.5% 0 0); /* neutral-50 */
+}
+
+* {
+    outline: none;
+    cursor: default;
+    user-select: none;
+}
+
+html,
+body {
+    min-height: 100dvh;
+    height: 100%;
+}
+
+body {
+    background-color: var(--color-background);
+    color: var(--color-on-background);
+}

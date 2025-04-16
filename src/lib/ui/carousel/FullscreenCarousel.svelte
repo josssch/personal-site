@@ -1,0 +1,216 @@
+<script lang="ts">
+    import type { Snippet } from 'svelte'
+
+    import { ArrowLeft, ArrowRight } from '@lucide/svelte'
+    import { browser } from '$app/environment'
+
+    import isEventSupported from '$lib/utils/is-event-supported'
+    import CircleButton from '../form/CircleButton.svelte'
+
+    const { screens, translatePx = 100 }: { screens: Snippet[]; translatePx?: number } = $props()
+
+    const isScrollEndSupported = browser && isEventSupported('onscrollend')
+
+    let panel: HTMLDivElement | null = $state(null)
+
+    $effect(() => {
+        void screens
+
+        // once the panel is mounted, update the clipping paths so that things display properly initially
+        if (panel) updateClippingPaths(panel)
+    })
+
+    let currentIndex = $state(0)
+    let isNavigating = false
+
+    let lastScrollX = 0
+    let lowDeltaCount = 0
+
+    function onScroll(event: { currentTarget: HTMLDivElement }) {
+        updateClippingPaths(event.currentTarget)
+
+        // this is for Safari support
+        if (isScrollEndSupported) {
+            return
+        }
+
+        const LOW_DELTA_THRESHOLD = 5
+
+        const scrollX = event.currentTarget.scrollLeft
+        const deltaX = scrollX - lastScrollX
+        lastScrollX = scrollX
+
+        // this is an attempt to detect when the scrolling is slowing down
+        // since on Safari, scrolling is smoothly eased out
+        // this isn't a perfect solution but it works for now, this doesn't account for direction
+        if (Math.abs(deltaX) > 2) {
+            lowDeltaCount = 0
+            return
+        }
+
+        lowDeltaCount++
+
+        if (lowDeltaCount > LOW_DELTA_THRESHOLD) {
+            lowDeltaCount = 0
+            onScrollEnd(event)
+        }
+    }
+
+    function onScrollEnd(event: { currentTarget: HTMLDivElement }) {
+        const panelWidth = event.currentTarget.clientWidth
+        const scrollX = event.currentTarget.scrollLeft
+
+        // this handles cases where the user scrolls too fast so the numbers are not accurate
+        // on the last tick of the scroll event
+        updateClippingPaths(event.currentTarget)
+
+        // if the scroll is in a perfect position then we reset isNavigating
+        if (scrollX % panelWidth === 0) {
+            // update the current index here as well, since if someone flicks too fast
+            // the navigateTo(...) snapping won't happen, causing an update to the index to be missed
+            currentIndex = Math.round(scrollX / panelWidth)
+            isNavigating = false
+            return
+        }
+
+        // don't try to correct if we're already navigating
+        // this is mainly to allow users to spam click the navigation arrows
+        if (isNavigating) return
+
+        // this is our own snapping behavior, since we can't rely on CSS snapping in this case
+        navigateTo(Math.round(scrollX / panelWidth), {
+            updateState: false,
+        })
+    }
+
+    export function navigateTo(index: number, { updateState = true, force = false } = {}) {
+        if (!panel) return
+
+        const panelWidth = panel.clientWidth
+
+        // this is mostly for handling when resize happens, since the width changes and we expect
+        // a desync between the scroll left and the index, so correct it with no animation
+        if (force) {
+            isNavigating = false
+            panel.scrollTo({ left: currentIndex * panelWidth, behavior: 'instant' })
+            updateClippingPaths(panel)
+            return
+        }
+
+        if (index < 0) {
+            index = 0
+        } else if (index >= screens.length) {
+            index = screens.length - 1
+        }
+
+        currentIndex = index
+
+        // this flag determines whether we update the isNavigating flag
+        if (updateState) {
+            isNavigating = true
+        }
+
+        panel.scrollTo({
+            left: currentIndex * panelWidth,
+            behavior: 'smooth',
+        })
+    }
+
+    function updateClippingPaths(container: HTMLDivElement) {
+        const panelWidth = container.clientWidth
+        const scrollX = container.scrollLeft
+
+        const index = Math.floor(scrollX / panelWidth)
+        const prevIndex = index - 1
+        const nextIndex = index + 1
+
+        // the progress is the fraction of the panel that has been scrolled past
+        const progress = scrollX / panelWidth - index
+        const uProgress = 1 - progress
+
+        const getPanelItem = (index: number) =>
+            container.querySelector(`[data-item-index="${index}"]`)
+
+        const prevEl = getPanelItem(prevIndex)
+        const currentEl = getPanelItem(index)
+        const nextEl = getPanelItem(nextIndex)
+
+        // if there is a previous element, then we hide it so it's not overlapping
+        // and the next element is not being blocked from getting interacted with
+        if (prevEl instanceof HTMLElement) {
+            prevEl.style.visibility = 'hidden'
+        }
+
+        if (currentEl instanceof HTMLElement) {
+            currentEl.style.clipPath = `rect(0 calc(${uProgress * 100}% + ${translatePx}px) 100% 0)`
+            currentEl.style.transform = `translateX(${progress * -translatePx}px)`
+            currentEl.style.visibility = 'visible'
+        }
+
+        if (nextEl instanceof HTMLElement) {
+            // clipping is required in the case there's no background
+            nextEl.style.clipPath = `rect(0 100% 100% calc(${uProgress * 100}% - ${translatePx}px))`
+            nextEl.style.transform = `translateX(${uProgress * translatePx}px)`
+            nextEl.style.visibility = 'visible'
+        }
+    }
+
+    const NAV_BUTTON_STYLES =
+        'transition group-hover:translate-y-0 group-hover:opacity-100 max-sm:size-8 sm:translate-y-1/2 sm:opacity-0'
+</script>
+
+<svelte:window onresize={() => navigateTo(currentIndex, { force: true })} />
+
+<div
+    bind:this={panel}
+    onscroll={onScroll}
+    onscrollend={onScrollEnd}
+    style="--count: {screens.length}; --current-index: {currentIndex};"
+    class="size-full overflow-x-scroll overflow-y-hidden"
+>
+    <!-- this layer is responsible for the actual width of the carousel -->
+    <div class="h-full w-[calc(var(--count)_*_100%)]">
+        <!-- this layer is here to keep all elements in the same place regardless of the scroll position -->
+        <div class="sticky left-0 h-full w-[calc(100%_/_var(--count))]">
+            <!-- <h1 class="center-x absolute">{currentIndex}</h1> -->
+
+            {#each screens as screen, i (i)}
+                <!-- render each screen in a wrapper element where everything is invisible by default -->
+                <div
+                    data-item-index={i}
+                    style="--index: {i}; visibility: hidden;"
+                    class="absolute -z-(--index) size-full"
+                >
+                    {@render screen()}
+                </div>
+            {/each}
+
+            <div
+                class="group absolute bottom-lg center-x z-1 flex items-center gap-md opacity-50 transition-opacity hover:opacity-100 sm:-m-xl sm:p-xl"
+            >
+                <CircleButton
+                    class="mr-lg {NAV_BUTTON_STYLES}"
+                    onclick={() => navigateTo(currentIndex - 1)}
+                >
+                    <ArrowLeft />
+                </CircleButton>
+
+                {#each screens as _, i (i)}
+                    <button
+                        onclick={() => navigateTo(i)}
+                        aria-label="Go to Screen {i}"
+                        class="rounded-full bg-neutral-200 transition-all group-hover:translate-y-0 group-hover:scale-100 sm:translate-y-sm sm:scale-75
+                        {i === currentIndex ? 'size-2' : 'size-1.5 opacity-50'}"
+                    ></button>
+                {/each}
+
+                <CircleButton
+                    class="ml-lg {NAV_BUTTON_STYLES}"
+                    onclick={() => navigateTo(currentIndex + 1)}
+                >
+                    <ArrowRight />
+                </CircleButton>
+            </div>
+        </div>
+    </div>
+</div>

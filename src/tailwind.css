@@ -1,0 +1,38 @@
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/typography' {
+}
+
+@theme {
+    --default-font-family: 'Inter', sans-serif;
+    --default-transition-duration: 500ms;
+
+    /* variables defined in ~/static/styles/default.css */
+    --color-background: var(--color-background);
+    --color-on-background: var(--color-on-background);
+    --color-on-background-highlight: var(--color-on-background-highlight);
+
+    --spacing-xs: --spacing(0.5);
+    --spacing-sm: --spacing(1);
+    --spacing-md: --spacing(2);
+    --spacing-lg: --spacing(4);
+    --spacing-xl: --spacing(8);
+    --spacing-2xl: --spacing(16);
+    --spacing-3xl: --spacing(32);
+    --spacing-4xl: --spacing(48);
+}
+
+/*
+    utilities for centering along an axis for absolute positioning
+    @utility so they can be used with variants
+*/
+
+@utility center-x {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+@utility center-y {
+    top: 50%;
+    transform: translateY(-50%);
+}
