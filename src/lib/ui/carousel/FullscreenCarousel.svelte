@@ -1,3 +1,14 @@
+<script
+    lang="ts"
+    module
+>
+    export interface ScreenState {
+        currentIndex: number
+        index: number
+        isVisible: boolean
+    }
+</script>
+
 <script lang="ts">
     import type { Snippet } from 'svelte'
 
@@ -7,7 +18,10 @@
     import isEventSupported from '$lib/utils/is-event-supported'
     import CircleButton from '../form/CircleButton.svelte'
 
-    const { screens, translatePx = 100 }: { screens: Snippet[]; translatePx?: number } = $props()
+    const {
+        screens,
+        translatePx = 100,
+    }: { screens: Snippet<[ScreenState]>[]; translatePx?: number } = $props()
 
     const isScrollEndSupported = browser && isEventSupported('onscrollend')
 
@@ -29,6 +43,13 @@
     function onScroll(event: { currentTarget: HTMLDivElement }) {
         updateClippingPaths(event.currentTarget)
 
+        const panelWidth = event.currentTarget.clientWidth
+        const scrollX = event.currentTarget.scrollLeft
+
+        // this is to eagerly update the index value so that UI elements can respond
+        // far quicker instead of having to wait for the scroll end to update
+        currentIndex = Math.round(scrollX / panelWidth)
+
         // this is for Safari support
         if (isScrollEndSupported) {
             return
@@ -36,7 +57,6 @@
 
         const LOW_DELTA_THRESHOLD = 5
 
-        const scrollX = event.currentTarget.scrollLeft
         const deltaX = scrollX - lastScrollX
         lastScrollX = scrollX
 
@@ -175,20 +195,27 @@
             <!-- <h1 class="center-x absolute">{currentIndex}</h1> -->
 
             {#each screens as screen, i (i)}
+                {@const state = {
+                    currentIndex,
+                    index: i,
+                    isVisible: i === currentIndex,
+                } satisfies ScreenState}
+
                 <!-- render each screen in a wrapper element where everything is invisible by default -->
                 <div
                     data-item-index={i}
                     style="--index: {i}; visibility: hidden;"
                     class="absolute -z-(--index) size-full"
                 >
-                    {@render screen()}
+                    {@render screen(state)}
                 </div>
             {/each}
 
             <div
-                class="group absolute bottom-lg center-x z-1 flex items-center gap-md opacity-50 transition-opacity hover:opacity-100 sm:-m-xl sm:p-xl"
+                class="group absolute bottom-lg center-x z-1 flex items-center gap-md opacity-50 transition-opacity hover:opacity-100 sm:-mt-xl sm:pt-xl"
             >
                 <CircleButton
+                    aria-label="Go Back"
                     class="mr-lg {NAV_BUTTON_STYLES}"
                     onclick={() => navigateTo(currentIndex - 1)}
                 >
@@ -199,12 +226,13 @@
                     <button
                         onclick={() => navigateTo(i)}
                         aria-label="Go to Screen {i}"
-                        class="rounded-full bg-neutral-200 transition-all group-hover:translate-y-0 group-hover:scale-100 sm:translate-y-sm sm:scale-75
+                        class="rounded-full bg-on-background transition-all group-hover:translate-y-0 group-hover:scale-100 sm:translate-y-sm sm:scale-75
                         {i === currentIndex ? 'size-2' : 'size-1.5 opacity-50'}"
                     ></button>
                 {/each}
 
                 <CircleButton
+                    aria-label="Go Forward"
                     class="ml-lg {NAV_BUTTON_STYLES}"
                     onclick={() => navigateTo(currentIndex + 1)}
                 >
