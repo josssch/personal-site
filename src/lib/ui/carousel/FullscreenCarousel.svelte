@@ -106,6 +106,8 @@
         })
     }
 
+    export const navigateBy = (diff: number) => navigateTo(currentIndex + diff)
+
     export function navigateTo(index: number, { blockSnapping = true, instant = false } = {}) {
         if (!panel) return
 

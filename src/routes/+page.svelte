@@ -3,7 +3,24 @@
 
     import FullscreenCarousel from '$lib/ui/carousel/FullscreenCarousel.svelte'
     import ScreenLayout from '$lib/ui/carousel/ScreenLayout.svelte'
+
+    let carousel: FullscreenCarousel
+
+    function handleKeyPress(event: KeyboardEvent) {
+        if (event.key === 'ArrowLeft') {
+            carousel.navigateBy(-1)
+            event.preventDefault()
+            return
+        }
+
+        if (event.key === 'ArrowRight') {
+            carousel.navigateBy(1)
+            event.preventDefault()
+        }
+    }
 </script>
+
+<svelte:window onkeydown={handleKeyPress} />
 
 {#snippet screen1(state: ScreenState)}
     <ScreenLayout
@@ -31,4 +48,7 @@
     />
 {/snippet}
 
-<FullscreenCarousel screens={[screen1, screen2, screen3, screen1, screen2, screen3]} />
+<FullscreenCarousel
+    bind:this={carousel}
+    screens={[screen1, screen2, screen3, screen1, screen2, screen3]}
+/>
