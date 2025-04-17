@@ -24,7 +24,7 @@
 
 {#snippet screen1(state: ScreenState)}
     <ScreenLayout
-        class="color-scheme-neutral bg-neutral-950"
+        class="theme-bg-neutral-950 theme-text-neutral-200"
         title="Orbiting"
         summary="A beautiful, yet, customizable control panel for all your apps. It's the best way to have complete control over your app in production."
         {state}
@@ -41,7 +41,7 @@
 
 {#snippet screen3(state: ScreenState)}
     <ScreenLayout
-        class="bg-gray-950"
+        class="theme-bg-gray-950 theme-text-gray-400"
         title="Lorem Ipsum"
         summary="Praesent nec risus neque. Donec ullamcorper velit risus, quis sagittis dui efficitur ut. Mauris aliquam sed eros a finibus. Duis vestibulum nec nisi et tincidunt."
         {state}

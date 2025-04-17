@@ -33,7 +33,7 @@
     const displayNumber = $derived((screenState.index + 1).toString().padStart(2, '0'))
 </script>
 
-<div class={merge('relative size-full', clazz)}>
+<div class={merge('relative size-full bg-theme-bg text-theme-on-bg', clazz)}>
     <div class="container mx-auto grid h-full grid-rows-2 px-lg py-xl sm:px-xl lg:grid-cols-2">
         <h1 class="col-start-1 self-end text-4xl">
             <SlideInText

@@ -11,11 +11,6 @@
 @theme {
     --default-transition-duration: 500ms;
 
-    /* variables defined in ~/static/styles/default.css */
-    --color-background: var(--color-background);
-    --color-on-background: var(--color-on-background);
-    --color-on-background-highlight: var(--color-on-background-highlight);
-
     --default-font-family: var(--font-family);
     --default-font-feature-settings: var(--font-feature-settings);
 
@@ -29,6 +24,51 @@
     --spacing-2xl: --spacing(16);
     --spacing-3xl: --spacing(32);
     --spacing-4xl: --spacing(48);
+}
+
+/* If they want to be used with Tailwind utilities, we must pre-define them */
+@theme inline {
+    --color-theme-on-bg: var(--theme-on-bg);
+    --color-theme-on-bg-em: var(--theme-on-bg-em);
+    --color-theme-bg: var(--theme-bg);
+
+    --color-theme-bg-1: var(--theme-bg-1);
+    --color-theme-bg-2: var(--theme-bg-2);
+    --color-theme-bg-3: var(--theme-bg-3);
+}
+
+/* Utilities to manage a scoped theme */
+
+@utility theme-text-* {
+    /* prettier-ignore */
+    --theme-text-color: --value(--color-*);
+
+    /* For text on the background */
+    --theme-on-bg: var(--theme-text-color);
+    --theme-on-bg-em: color-mix(in oklab, var(--theme-on-bg), 10% white);
+}
+
+@utility theme-bg-* {
+    /* prettier-ignore */
+    --theme-bg-color: --value(--color-*);
+
+    /* The background color */
+    --theme-bg: var(--theme-bg-color);
+
+    /* For containers placed on top of the background or on each other */
+    --theme-bg-1: color-mix(in oklab, var(--theme-bg), 5% white);
+    --theme-bg-2: color-mix(in oklab, var(--theme-bg), 12.5% white);
+    --theme-bg-3: color-mix(in oklab, var(--theme-bg), 17.5% white);
+}
+
+html {
+    /* Make the default theme neutral */
+    @apply theme-bg-neutral-900 theme-text-neutral-200;
+}
+
+body {
+    background-color: var(--color-theme-bg);
+    color: var(--color-theme-on-bg);
 }
 
 /*

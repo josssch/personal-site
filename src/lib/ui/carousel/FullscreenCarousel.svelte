@@ -233,7 +233,7 @@
                     <button
                         onclick={() => navigateTo(i)}
                         aria-label="Go to Screen {i}"
-                        class="rounded-full bg-on-background transition-all group-hover:translate-y-0 group-hover:scale-100 sm:translate-y-sm sm:scale-75
+                        class="rounded-full bg-theme-on-bg transition-all group-hover:translate-y-0 group-hover:scale-100 sm:translate-y-sm sm:scale-75
                         {i === currentIndex ? 'size-2' : 'size-1.5 opacity-50'}"
                     ></button>
                 {/each}

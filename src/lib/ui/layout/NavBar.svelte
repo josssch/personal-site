@@ -32,7 +32,7 @@
             <SlideInText settings={{ delayMs: (items.length - i - 1) * 150 }}>
                 <a
                     class="transition-colors
-                    {isCurrent ? 'text-on-background-highlight' : 'font-light text-on-background'}"
+                    {isCurrent ? 'text-theme-on-bg-em' : 'font-light text-theme-on-bg'}"
                     href={item.href}
                 >
                     {item.label}

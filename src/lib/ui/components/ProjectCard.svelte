@@ -7,7 +7,7 @@
     const { title, summary, class: clazz = '' } = $props()
 </script>
 
-<div class={merge('max-w-128 rounded-2xl bg-neutral-900 p-lg shadow-lg', clazz)}>
+<div class={merge('max-w-128 rounded-2xl bg-theme-bg-1 p-lg shadow-lg', clazz)}>
     <div class="flex items-center justify-between">
         <h1 class="text-xl font-semibold">{title}</h1>
 
