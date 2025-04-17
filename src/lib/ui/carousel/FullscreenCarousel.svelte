@@ -27,6 +27,7 @@
     const isScrollEndSupported = browser && isEventSupported('onscrollend')
 
     let panel: HTMLDivElement
+    const screenElements: HTMLElement[] = $state.raw([])
 
     $effect(() => {
         void screens
@@ -139,37 +140,38 @@
             const scrollX = panel.scrollLeft
 
             const index = Math.floor(scrollX / panelWidth)
-            const prevIndex = index - 1
-            const nextIndex = index + 1
 
             // the progress is the fraction of the panel that has been scrolled past
             const progress = scrollX / panelWidth - index
             const uProgress = 1 - progress
 
-            const getPanelItem = (index: number) =>
-                panel.querySelector(`[data-item-index="${index}"]`)
+            const currentEl = screenElements[index]
+            const nextEl = screenElements[index + 1]
 
-            const prevEl = getPanelItem(prevIndex)
-            const currentEl = getPanelItem(index)
-            const nextEl = getPanelItem(nextIndex)
+            // for all of the remaining elements we will change their visibility to hidden and make it
+            // so they cannot be interacted with, this should fix some visual issues, especially in cases
+            // where carousel screens do not have a background
+            for (const el of screenElements) {
+                // for our currentEl and nextEl we will remove these styles
+                if (el === currentEl || el === nextEl) {
+                    el.style.removeProperty('visibility')
+                    el.style.removeProperty('pointer-events') // gross that it's different
+                    continue
+                }
 
-            // if there is a previous element, then we hide it so it's not overlapping
-            // and the next element is not being blocked from getting interacted with
-            if (prevEl instanceof HTMLElement) {
-                prevEl.style.visibility = 'hidden'
+                el.style.visibility = 'hidden'
+                el.style.pointerEvents = 'none'
             }
 
-            if (currentEl instanceof HTMLElement) {
+            if (currentEl != null) {
                 currentEl.style.clipPath = `rect(0 calc(${uProgress * 100}% + ${translatePx}px) 100% 0)`
                 currentEl.style.transform = `translateX(${progress * -translatePx}px)`
-                currentEl.style.visibility = 'visible'
             }
 
-            if (nextEl instanceof HTMLElement) {
+            if (nextEl != null) {
                 // clipping is required in the case there's no background
                 nextEl.style.clipPath = `rect(0 100% 100% calc(${uProgress * 100}% - ${translatePx}px))`
                 nextEl.style.transform = `translateX(${uProgress * translatePx}px)`
-                nextEl.style.visibility = 'visible'
             }
         })
 
@@ -201,6 +203,7 @@
 
                 <!-- render each screen in a wrapper element where everything is invisible by default -->
                 <div
+                    bind:this={screenElements[i]}
                     data-item-index={i}
                     style="--index: {i}; visibility: hidden;"
                     class="absolute -z-(--index) size-full"
