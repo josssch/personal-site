@@ -15,19 +15,18 @@
     export const play = () => controller.play?.()
 </script>
 
-<span class="block overflow-hidden leading-normal">
-    <span
-        use:animateController={{ animation, keyframes: 'slide-in' }}
-        bind:this={controller}
-        class="inline-block translate-y-full"
-    >
-        {@render children()}
-    </span>
-</span>
+<div
+    use:animateController={{ animation, keyframes: 'fly-in' }}
+    bind:this={controller}
+    class="translate-y-4 opacity-0"
+>
+    {@render children()}
+</div>
 
 <style>
-    @keyframes -global-slide-in {
+    @keyframes -global-fly-in {
         to {
+            opacity: 1;
             translate: 0 0;
         }
     }

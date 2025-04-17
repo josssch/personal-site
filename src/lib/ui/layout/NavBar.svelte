@@ -11,6 +11,7 @@
 <script lang="ts">
     import { page } from '$app/state'
 
+    import FlyUp from '../animators/FlyUp.svelte'
     import SlideInText from '../animators/SlideInText.svelte'
     import Signature from '../branding/Signature.svelte'
 
@@ -21,12 +22,14 @@
     <nav
         class="absolute center-x z-100 container flex items-center gap-xl px-xl py-lg transition ease-out hover:opacity-100 sm:gap-2xl sm:p-xl sm:opacity-75"
     >
-        <Signature class="mr-auto w-24 sm:w-32" />
+        <div class="mr-auto">
+            <FlyUp><Signature class="w-24 sm:w-32" /></FlyUp>
+        </div>
 
         {#each items as item, i (item.href)}
             {@const isCurrent = page.url.pathname === item.href}
 
-            <SlideInText delayMs={(items.length - i - 1) * 150}>
+            <SlideInText settings={{ delayMs: (items.length - i - 1) * 150 }}>
                 <a
                     class="transition-colors
                     {isCurrent ? 'text-on-background-highlight' : 'font-light text-on-background'}"

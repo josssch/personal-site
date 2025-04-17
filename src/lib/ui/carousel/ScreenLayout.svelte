@@ -1,54 +1,68 @@
 <script lang="ts">
+    import type { ScreenState } from './FullscreenCarousel.svelte'
+
     import merge from '$lib/utils/class-merge'
+    import FlyUp from '../animators/FlyUp.svelte'
     import SlideInText from '../animators/SlideInText.svelte'
     import ProjectCard from '../components/ProjectCard.svelte'
 
-    const { index = 0, title, summary, visible = false, class: clazz = '' } = $props()
+    const {
+        title,
+        summary,
+        state: screenState,
+        class: clazz = '',
+    }: { class?: string; state: ScreenState; title: string; summary: string } = $props()
 
     // when this component is first initialized, take the state of this prop
     // and if it's true, wait 500ms before playing the animations (this is to account
     // for page animations)
-    const wasInitiallyVisible = $state.snapshot(visible)
+    const initialDelay = $state.snapshot(screenState.isVisible) ? 750 : 0
 
     let numberTextEl: SlideInText
     let titleTextEl: SlideInText
+    let projectCardEl: FlyUp
 
     $effect(() => {
-        if (visible) {
+        if (screenState.isVisible) {
             numberTextEl.play()
             titleTextEl.play()
+            projectCardEl.play()
         }
     })
 
-    const displayNumber = $derived((index + 1).toString().padStart(2, '0'))
+    const displayNumber = $derived((screenState.index + 1).toString().padStart(2, '0'))
 </script>
 
 <div class={merge('relative size-full', clazz)}>
-    <div class="container mx-auto grid h-full grid-rows-2 px-lg py-xl sm:grid-cols-2 sm:px-xl">
-        <h1 class="row-start-1 self-end text-4xl">
+    <div class="container mx-auto grid h-full grid-rows-2 px-lg py-xl sm:px-xl lg:grid-cols-2">
+        <h1 class="col-start-1 self-end text-4xl">
             <SlideInText
                 bind:this={numberTextEl}
-                trigger="manual"
-                delayMs={250 + (wasInitiallyVisible ? 500 : 0)}
+                settings={{ delayMs: initialDelay + 100, trigger: 'manual' }}
             >
                 <span class="font-extralight">{displayNumber}</span>
             </SlideInText>
 
             <SlideInText
                 bind:this={titleTextEl}
-                trigger="manual"
-                delayMs={150 + (wasInitiallyVisible ? 500 : 0)}
+                settings={{ delayMs: initialDelay, trigger: 'manual' }}
             >
                 <span class="block font-bold">{title}</span>
             </SlideInText>
         </h1>
 
-        <ProjectCard
-            class="row-start-2 self-center"
-            {title}
-            {summary}
-        />
+        <div class="col-start-1 self-center">
+            <FlyUp
+                bind:this={projectCardEl}
+                settings={{ delayMs: initialDelay, trigger: 'manual' }}
+            >
+                <ProjectCard
+                    {title}
+                    {summary}
+                />
+            </FlyUp>
+        </div>
 
-        <div class="row-span-full max-sm:hidden">hi</div>
+        <!-- <div class="col-start-2 row-span-full max-sm:hidden">hi</div> -->
     </div>
 </div>
