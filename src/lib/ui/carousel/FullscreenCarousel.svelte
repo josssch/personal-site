@@ -16,6 +16,7 @@
     import { browser } from '$app/environment'
 
     import isEventSupported from '$lib/utils/is-event-supported'
+    import scrollToWait from '$lib/utils/scroll-to-wait'
     import CircleButton from '../form/CircleButton.svelte'
 
     const {
@@ -25,26 +26,26 @@
 
     const isScrollEndSupported = browser && isEventSupported('onscrollend')
 
-    let panel: HTMLDivElement | null = $state(null)
+    let panel: HTMLDivElement
 
     $effect(() => {
         void screens
 
         // once the panel is mounted, update the clipping paths so that things display properly initially
-        if (panel) updateClippingPaths(panel)
+        if (panel) updateClippingPaths()
     })
 
     let currentIndex = $state(0)
-    let isNavigating = false
+    let enableSnapping = true
 
     let lastScrollX = 0
     let lowDeltaCount = 0
 
-    function onScroll(event: { currentTarget: HTMLDivElement }) {
-        updateClippingPaths(event.currentTarget)
+    function onScroll() {
+        updateClippingPaths()
 
-        const panelWidth = event.currentTarget.clientWidth
-        const scrollX = event.currentTarget.scrollLeft
+        const panelWidth = panel.clientWidth
+        const scrollX = panel.scrollLeft
 
         // this is to eagerly update the index value so that UI elements can respond
         // far quicker instead of having to wait for the scroll end to update
@@ -72,48 +73,44 @@
 
         if (lowDeltaCount > LOW_DELTA_THRESHOLD) {
             lowDeltaCount = 0
-            onScrollEnd(event)
+            onScrollEnd()
         }
     }
 
-    function onScrollEnd(event: { currentTarget: HTMLDivElement }) {
-        const panelWidth = event.currentTarget.clientWidth
-        const scrollX = event.currentTarget.scrollLeft
+    function onScrollEnd() {
+        const panelWidth = panel.clientWidth
+        const scrollX = panel.scrollLeft
 
         // this handles cases where the user scrolls too fast so the numbers are not accurate
         // on the last tick of the scroll event
-        updateClippingPaths(event.currentTarget)
+        updateClippingPaths()
 
         // if the scroll is in a perfect position then we reset isNavigating
         if (scrollX % panelWidth === 0) {
             // update the current index here as well, since if someone flicks too fast
             // the navigateTo(...) snapping won't happen, causing an update to the index to be missed
             currentIndex = Math.round(scrollX / panelWidth)
-            isNavigating = false
             return
         }
 
-        // don't try to correct if we're already navigating
-        // this is mainly to allow users to spam click the navigation arrows
-        if (isNavigating) return
+        if (!enableSnapping) return
 
         // this is our own snapping behavior, since we can't rely on CSS snapping in this case
         navigateTo(Math.round(scrollX / panelWidth), {
-            updateState: false,
+            blockSnapping: false,
         })
     }
 
-    export function navigateTo(index: number, { updateState = true, force = false } = {}) {
+    export function navigateTo(index: number, { blockSnapping = true, instant = false } = {}) {
         if (!panel) return
 
         const panelWidth = panel.clientWidth
 
         // this is mostly for handling when resize happens, since the width changes and we expect
         // a desync between the scroll left and the index, so correct it with no animation
-        if (force) {
-            isNavigating = false
+        if (instant) {
             panel.scrollTo({ left: currentIndex * panelWidth, behavior: 'instant' })
-            updateClippingPaths(panel)
+            updateClippingPaths()
             return
         }
 
@@ -125,61 +122,62 @@
 
         currentIndex = index
 
-        // this flag determines whether we update the isNavigating flag
-        if (updateState) {
-            isNavigating = true
-        }
+        if (blockSnapping) enableSnapping = false
 
-        panel.scrollTo({
+        scrollToWait(panel, {
             left: currentIndex * panelWidth,
             behavior: 'smooth',
+        }).then(() => {
+            // reset the snapping state after the scroll completes
+            enableSnapping = true
         })
     }
 
-    function updateClippingPaths(container: HTMLDivElement) {
-        const panelWidth = container.clientWidth
-        const scrollX = container.scrollLeft
+    const updateClippingPaths = () =>
+        requestAnimationFrame(() => {
+            const panelWidth = panel.clientWidth
+            const scrollX = panel.scrollLeft
 
-        const index = Math.floor(scrollX / panelWidth)
-        const prevIndex = index - 1
-        const nextIndex = index + 1
+            const index = Math.floor(scrollX / panelWidth)
+            const prevIndex = index - 1
+            const nextIndex = index + 1
 
-        // the progress is the fraction of the panel that has been scrolled past
-        const progress = scrollX / panelWidth - index
-        const uProgress = 1 - progress
+            // the progress is the fraction of the panel that has been scrolled past
+            const progress = scrollX / panelWidth - index
+            const uProgress = 1 - progress
 
-        const getPanelItem = (index: number) =>
-            container.querySelector(`[data-item-index="${index}"]`)
+            const getPanelItem = (index: number) =>
+                panel.querySelector(`[data-item-index="${index}"]`)
 
-        const prevEl = getPanelItem(prevIndex)
-        const currentEl = getPanelItem(index)
-        const nextEl = getPanelItem(nextIndex)
+            const prevEl = getPanelItem(prevIndex)
+            const currentEl = getPanelItem(index)
+            const nextEl = getPanelItem(nextIndex)
 
-        // if there is a previous element, then we hide it so it's not overlapping
-        // and the next element is not being blocked from getting interacted with
-        if (prevEl instanceof HTMLElement) {
-            prevEl.style.visibility = 'hidden'
-        }
+            // if there is a previous element, then we hide it so it's not overlapping
+            // and the next element is not being blocked from getting interacted with
+            if (prevEl instanceof HTMLElement) {
+                prevEl.style.visibility = 'hidden'
+            }
 
-        if (currentEl instanceof HTMLElement) {
-            currentEl.style.clipPath = `rect(0 calc(${uProgress * 100}% + ${translatePx}px) 100% 0)`
-            currentEl.style.transform = `translateX(${progress * -translatePx}px)`
-            currentEl.style.visibility = 'visible'
-        }
+            if (currentEl instanceof HTMLElement) {
+                currentEl.style.clipPath = `rect(0 calc(${uProgress * 100}% + ${translatePx}px) 100% 0)`
+                currentEl.style.transform = `translateX(${progress * -translatePx}px)`
+                currentEl.style.visibility = 'visible'
+            }
 
-        if (nextEl instanceof HTMLElement) {
-            // clipping is required in the case there's no background
-            nextEl.style.clipPath = `rect(0 100% 100% calc(${uProgress * 100}% - ${translatePx}px))`
-            nextEl.style.transform = `translateX(${uProgress * translatePx}px)`
-            nextEl.style.visibility = 'visible'
-        }
-    }
+            if (nextEl instanceof HTMLElement) {
+                // clipping is required in the case there's no background
+                nextEl.style.clipPath = `rect(0 100% 100% calc(${uProgress * 100}% - ${translatePx}px))`
+                nextEl.style.transform = `translateX(${uProgress * translatePx}px)`
+                nextEl.style.visibility = 'visible'
+            }
+        })
 
     const NAV_BUTTON_STYLES =
         'transition group-hover:translate-y-0 group-hover:opacity-100 max-sm:size-8 sm:translate-y-1/2 sm:opacity-0'
 </script>
 
-<svelte:window onresize={() => navigateTo(currentIndex, { force: true })} />
+<svelte:window onresize={() => navigateTo(currentIndex, { instant: true })} />
 
 <div
     bind:this={panel}
