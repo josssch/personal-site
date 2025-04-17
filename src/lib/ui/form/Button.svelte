@@ -8,11 +8,15 @@
         class: clazz = '',
         ...props
     } = $props()
+
+    const isAnchor = $derived(href !== null)
+    const ANCHOR_SPECIFIC_TAGS = { target: '_blank', rel: 'noopener noreferrer' }
 </script>
 
 <svelte:element
-    this={href ? 'a' : 'button'}
+    this={isAnchor ? 'a' : 'button'}
     {...props}
+    {...isAnchor ? ANCHOR_SPECIFIC_TAGS : {}}
     {href}
     {type}
     class={merge(

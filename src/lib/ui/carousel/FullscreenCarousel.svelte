@@ -12,24 +12,28 @@
 <script lang="ts">
     import type { Snippet } from 'svelte'
 
-    import { ArrowLeft, ArrowRight } from '@lucide/svelte'
+    import ArrowLeft from '@lucide/svelte/icons/arrow-left'
+    import ArrowRight from '@lucide/svelte/icons/arrow-right'
     import { browser } from '$app/environment'
 
     import isEventSupported from '$lib/utils/is-event-supported'
     import scrollToWait from '$lib/utils/scroll-to-wait'
     import CircleButton from '../form/CircleButton.svelte'
 
-    const {
-        screens,
-        translatePx = 100,
-    }: { screens: Snippet<[ScreenState]>[]; translatePx?: number } = $props()
+    interface Props {
+        screens: Snippet<[ScreenState]>[]
+        translatePx?: number
+    }
+
+    const { screens, translatePx = 100 }: Props = $props()
 
     const isScrollEndSupported = browser && isEventSupported('onscrollend')
 
     let panel: HTMLDivElement
-    const screenElements: HTMLElement[] = $state.raw([])
+    const screenElements: HTMLElement[] = $state([])
 
     $effect(() => {
+        // when the screens update
         void screens
 
         // once the panel is mounted, update the clipping paths so that things display properly initially

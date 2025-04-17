@@ -9,28 +9,25 @@
     <ScreenLayout
         class="color-scheme-neutral bg-neutral-950"
         title="Orbiting"
-        summary="It's a funky little guy"
-        index={state.index}
-        visible={state.isVisible}
+        summary="A beautiful, yet, customizable control panel for all your apps. It's the best way to have complete control over your app in production."
+        {state}
     />
 {/snippet}
 
 {#snippet screen2(state: ScreenState)}
     <ScreenLayout
-        index={state.index}
         title="Lorem Ipsum"
         summary="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas enim lacus, placerat at velit ut, interdum laoreet velit. Proin sed felis risus."
-        visible={state.isVisible}
+        {state}
     />
 {/snippet}
 
 {#snippet screen3(state: ScreenState)}
     <ScreenLayout
         class="bg-gray-950"
-        index={state.index}
         title="Lorem Ipsum"
         summary="Praesent nec risus neque. Donec ullamcorper velit risus, quis sagittis dui efficitur ut. Mauris aliquam sed eros a finibus. Duis vestibulum nec nisi et tincidunt."
-        visible={state.isVisible}
+        {state}
     />
 {/snippet}
 

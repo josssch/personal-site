@@ -36,6 +36,7 @@
             hidden={hideNav}
             items={[
                 { href: '/', label: 'Projects' },
+                { href: '/contact', label: 'Services' },
                 { href: '/about', label: 'About' },
             ]}
         />
