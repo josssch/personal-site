@@ -6,7 +6,7 @@
 
 <div
     {...props}
-    class={merge('prose prose-neutral prose-invert', clazz)}
+    class={merge('prose', clazz)}
 >
     {@render children?.()}
 </div>

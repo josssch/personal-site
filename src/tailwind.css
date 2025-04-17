@@ -1,16 +1,25 @@
 @import 'tailwindcss';
 
-@plugin '@tailwindcss/typography' {
+@plugin '@tailwindcss/typography';
+
+/* this is the simplest way to default the prose styles as far as I've seen */
+.prose {
+    /* I don't love using @apply but it has its place here */
+    @apply prose-neutral prose-invert;
 }
 
 @theme {
-    --default-font-family: 'Inter', sans-serif;
     --default-transition-duration: 500ms;
 
     /* variables defined in ~/static/styles/default.css */
     --color-background: var(--color-background);
     --color-on-background: var(--color-on-background);
     --color-on-background-highlight: var(--color-on-background-highlight);
+
+    --default-font-family: var(--font-family);
+    --default-font-feature-settings: var(--font-feature-settings);
+
+    /* Spacing Utilities */
 
     --spacing-xs: --spacing(0.5);
     --spacing-sm: --spacing(1);

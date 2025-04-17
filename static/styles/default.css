@@ -2,8 +2,26 @@
 :host {
     /* https://tailwindcss.com/docs/colors */
     --color-background: oklch(17.5% 0 0);
-    --color-on-background: oklch(92.2% 0 0); /* neutral-200 */
+    --color-on-background: oklch(87% 0 0); /* neutral-300 */
     --color-on-background-highlight: oklch(98.5% 0 0); /* neutral-50 */
+
+    /*
+        liga = ligatures
+        calt = contextual alternatives
+        cv05 = disambiguated L
+        cv08 = disambiguated i
+    */
+    --font-feature-settings: 'liga' 1, 'calt' 1, 'cv05' 1, 'cv08' 1;
+    --font-family: Inter, sans-serif;
+
+    @supports (font-variation-settings: normal) {
+        & {
+            --font-family: InterVariable, sans-serif;
+        }
+    }
+
+    font-family: var(--font-family);
+    font-feature-settings: var(--font-feature-settings);
 }
 
 * {
