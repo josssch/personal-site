@@ -4,26 +4,25 @@
     "": {
       "name": "impresso",
       "dependencies": {
-        "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
         "@lucide/svelte": "^0.488.0",
-        "@sveltejs/adapter-static": "^3.0.8",
         "clsx": "^2.1.1",
         "tailwind-merge": "^3.2.0",
       },
       "devDependencies": {
-        "@sveltejs/adapter-auto": "^4.0.0",
-        "@sveltejs/kit": "^2.16.0",
-        "@sveltejs/vite-plugin-svelte": "^5.0.0",
+        "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
+        "@sveltejs/adapter-static": "^3.0.8",
+        "@sveltejs/kit": "^2.20.7",
+        "@sveltejs/vite-plugin-svelte": "^5.0.3",
         "@tailwindcss/typography": "^0.5.16",
-        "@tailwindcss/vite": "^4.0.0",
-        "prettier": "^3.4.2",
+        "@tailwindcss/vite": "^4.1.4",
+        "prettier": "^3.5.3",
         "prettier-plugin-svelte": "^3.3.3",
         "prettier-plugin-tailwindcss": "^0.6.11",
-        "svelte": "^5.0.0",
-        "svelte-check": "^4.0.0",
-        "tailwindcss": "^4.0.0",
-        "typescript": "^5.0.0",
-        "vite": "^6.2.5",
+        "svelte": "^5.27.1",
+        "svelte-check": "^4.1.6",
+        "tailwindcss": "^4.1.4",
+        "typescript": "^5.8.3",
+        "vite": "^6.3.1",
       },
     },
   },
@@ -153,8 +152,6 @@
     "@rollup/rollup-win32-x64-msvc": ["@rollup/rollup-win32-x64-msvc@4.40.0", "", { "os": "win32", "cpu": "x64" }, "sha512-lpPE1cLfP5oPzVjKMx10pgBmKELQnFJXHgvtHCtuJWOv8MxqdEIMNtgHgBFf7Ea2/7EuVwa9fodWUfXAlXZLZQ=="],
 
     "@sveltejs/acorn-typescript": ["@sveltejs/acorn-typescript@1.0.5", "", { "peerDependencies": { "acorn": "^8.9.0" } }, "sha512-IwQk4yfwLdibDlrXVE04jTZYlLnwsTT2PIOQQGNLWfjavGifnk1JD1LcZjZaBTRcxZu2FfPfNLOE04DSu9lqtQ=="],
-
-    "@sveltejs/adapter-auto": ["@sveltejs/adapter-auto@4.0.0", "", { "dependencies": { "import-meta-resolve": "^4.1.0" }, "peerDependencies": { "@sveltejs/kit": "^2.0.0" } }, "sha512-kmuYSQdD2AwThymQF0haQhM8rE5rhutQXG4LNbnbShwhMO4qQGnKaaTy+88DuNSuoQDi58+thpq8XpHc1+oEKQ=="],
 
     "@sveltejs/adapter-static": ["@sveltejs/adapter-static@3.0.8", "", { "peerDependencies": { "@sveltejs/kit": "^2.0.0" } }, "sha512-YaDrquRpZwfcXbnlDsSrBQNCChVOT9MGuSg+dMAyfsAa1SmiAhrA5jUYUiIMC59G92kIbY/AaQOWcBdq+lh+zg=="],
 
