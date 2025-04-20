@@ -16,16 +16,18 @@
     import ArrowRight from '@lucide/svelte/icons/arrow-right'
     import { browser } from '$app/environment'
 
+    import merge from '$lib/utils/class-merge'
     import isEventSupported from '$lib/utils/is-event-supported'
     import scrollToWait from '$lib/utils/scroll-to-wait'
     import CircleButton from '../form/CircleButton.svelte'
 
     interface Props {
+        class?: string
         screens: Snippet<[ScreenState]>[]
         translatePx?: number
     }
 
-    const { screens, translatePx = 100 }: Props = $props()
+    const { class: clazz = '', screens, translatePx = 100 }: Props = $props()
 
     const isScrollEndSupported = browser && isEventSupported('onscrollend')
 
@@ -192,7 +194,7 @@
     onscroll={onScroll}
     onscrollend={onScrollEnd}
     style="--count: {screens.length}; --current-index: {currentIndex};"
-    class="size-full overflow-x-scroll overflow-y-hidden"
+    class={merge('size-full overflow-x-scroll overflow-y-hidden', clazz)}
 >
     <!-- this layer is responsible for the actual width of the carousel -->
     <div class="h-full w-[calc(var(--count)_*_100%)]">
