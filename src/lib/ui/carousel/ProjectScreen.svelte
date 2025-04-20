@@ -22,7 +22,7 @@
     // when this component is first initialized, take the state of this prop
     // and if it's true, wait 500ms before playing the animations (this is to account
     // for page animations)
-    const initialDelay = $state.snapshot(screenState.isVisible) ? 750 : 0
+    const initialDelayMs = $state.snapshot(screenState.isVisible) ? 750 : 0
 
     let numberTextEl: SlideInText
     let titleTextEl: SlideInText
@@ -46,14 +46,14 @@
         <h1 class="col-start-1 self-end text-4xl">
             <SlideInText
                 bind:this={numberTextEl}
-                settings={{ delayMs: initialDelay + 100, trigger: 'manual' }}
+                settings={{ delayMs: initialDelayMs + 100, trigger: 'manual' }}
             >
                 <span class="font-extralight">{displayNumber}</span>
             </SlideInText>
 
             <SlideInText
                 bind:this={titleTextEl}
-                settings={{ delayMs: initialDelay, trigger: 'manual' }}
+                settings={{ delayMs: initialDelayMs, trigger: 'manual' }}
             >
                 <span class="block font-bold">{title}</span>
             </SlideInText>
@@ -62,7 +62,7 @@
         <div class="col-start-1">
             <FlyUp
                 bind:this={projectCardEl}
-                settings={{ delayMs: initialDelay, trigger: 'manual' }}
+                settings={{ delayMs: initialDelayMs, trigger: 'manual' }}
             >
                 <ProjectCard
                     class="transition-transform hover:-translate-y-1"

@@ -60,14 +60,12 @@
 
 <style>
     @keyframes -global-up-right {
-        0% {
+        0%,
+        100% {
             transform: translate(0, 0);
         }
         50% {
             transform: translate(2px, -2px);
-        }
-        100% {
-            transform: translate(0, 0);
         }
     }
 </style>
