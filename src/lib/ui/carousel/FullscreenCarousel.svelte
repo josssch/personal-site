@@ -9,7 +9,10 @@
     }
 </script>
 
-<script lang="ts">
+<script
+    lang="ts"
+    generics="T = any"
+>
     import type { Snippet } from 'svelte'
 
     import ArrowLeft from '@lucide/svelte/icons/arrow-left'
@@ -23,11 +26,13 @@
 
     interface Props {
         class?: string
-        screens: Snippet<[ScreenState]>[]
         translatePx?: number
+
+        for: T[]
+        builder: Snippet<[T, ScreenState]>
     }
 
-    const { class: clazz = '', screens, translatePx = 100 }: Props = $props()
+    const { class: clazz = '', for: forArr, builder, translatePx = 100 }: Props = $props()
 
     const isScrollEndSupported = browser && isEventSupported('onscrollend')
 
@@ -35,8 +40,8 @@
     const screenElements: HTMLElement[] = $state([])
 
     $effect(() => {
-        // when the screens update
-        void screens
+        // when the array this is based off changes
+        void forArr
 
         // once the panel is mounted, update the clipping paths so that things display properly initially
         if (panel) updateClippingPaths()
@@ -125,8 +130,8 @@
 
         if (index < 0) {
             index = 0
-        } else if (index >= screens.length) {
-            index = screens.length - 1
+        } else if (index >= forArr.length) {
+            index = forArr.length - 1
         }
 
         currentIndex = index
@@ -184,7 +189,7 @@
         })
 
     const NAV_BUTTON_STYLES =
-        'transition group-hover:translate-y-0 group-hover:opacity-100 max-sm:size-8 sm:translate-y-1/2 sm:opacity-0'
+        'transition group-hover:translate-y-0 group-hover:opacity-100 sm:size-8 sm:translate-y-1/2 sm:opacity-0'
 </script>
 
 <svelte:window onresize={() => navigateTo(currentIndex, { instant: true })} />
@@ -193,7 +198,7 @@
     bind:this={panel}
     onscroll={onScroll}
     onscrollend={onScrollEnd}
-    style="--count: {screens.length}; --current-index: {currentIndex};"
+    style="--count: {forArr.length}; --current-index: {currentIndex};"
     class={merge('size-full overflow-x-scroll overflow-y-hidden', clazz)}
 >
     <!-- this layer is responsible for the actual width of the carousel -->
@@ -202,7 +207,7 @@
         <div class="sticky left-0 h-full w-[calc(100%_/_var(--count))]">
             <!-- <h1 class="center-x absolute">{currentIndex}</h1> -->
 
-            {#each screens as screen, i (i)}
+            {#each forArr as item, i (i)}
                 {@const state = {
                     currentIndex,
                     index: i,
@@ -216,7 +221,7 @@
                     style="--index: {i}; visibility: hidden;"
                     class="absolute -z-(--index) size-full"
                 >
-                    {@render screen(state)}
+                    {@render builder(item, state)}
                 </div>
             {/each}
 
@@ -231,7 +236,7 @@
                     <ArrowLeft />
                 </CircleButton>
 
-                {#each screens as _, i (i)}
+                {#each forArr as _, i (i)}
                     <button
                         onclick={() => navigateTo(i)}
                         aria-label="Go to Screen {i}"
