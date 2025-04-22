@@ -5,11 +5,13 @@ export type AnimationTrigger = 'instant' | 'intersection' | 'manual'
 export interface AnimationSettings {
     trigger: AnimationTrigger
     delayMs: number
+    threshold: number
 }
 
 export const DEFAULT_ANIMATION_SETTINGS: AnimationSettings = {
     delayMs: 0,
     trigger: 'intersection',
+    threshold: 0,
 }
 
 export interface ControllerSettings {
@@ -46,17 +48,20 @@ export const animateController: Action<HTMLElement, ControllerSettings, Controll
         if (animation.trigger === 'instant') {
             play()
         } else if (animation.trigger === 'intersection') {
-            observer = new IntersectionObserver(entries => {
-                // if no intersections have happened then we don't care
-                if (entries.length === 0) return
+            observer = new IntersectionObserver(
+                entries => {
+                    // if no intersections have happened then we don't care
+                    if (entries.length === 0) return
 
-                // if none of the entries are intersecting then we don't care
-                if (!entries.some(e => e.isIntersecting)) return
+                    // if none of the entries are intersecting then we don't care
+                    if (!entries.some(e => e.isIntersecting)) return
 
-                // once one of them is intersecting play the animation and stop observing
-                observer?.disconnect()
-                play()
-            })
+                    // once one of them is intersecting play the animation and stop observing
+                    observer?.disconnect()
+                    play()
+                },
+                { threshold: animation.threshold },
+            )
 
             observer.observe(node)
         }
