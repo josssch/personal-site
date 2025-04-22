@@ -1,7 +1,7 @@
 <script lang="ts">
     import { page } from '$app/state'
     import { onMount } from 'svelte'
-    import { fade } from 'svelte/transition'
+    import { blur } from 'svelte/transition'
 
     import Signature from '$lib/ui/branding/Signature.svelte'
     import Center from '$lib/ui/layout/Center.svelte'
@@ -11,7 +11,9 @@
 
     let { children } = $props()
 
+    const MIN_LOAD_TIME_MS = 1_000
     const firstLoadMs = Date.now()
+
     let isLoading = $state(true)
 
     onMount(() => {
@@ -19,10 +21,10 @@
 
         setTimeout(
             () => (isLoading = false),
-            // adds a minimum delay of 500ms to the page so the splashscreen
+            // adds a minimum delay to the page so the splashscreen
             // doesn't feel too quick for some people
             // FIXME: make it so people who have been here in the same session have no delay
-            Math.max(0, 500 - loadTimeMs),
+            Math.max(0, MIN_LOAD_TIME_MS - loadTimeMs),
         )
     })
 </script>
@@ -34,13 +36,22 @@
     -->
     <div
         class="fixed inset-0 z-10 bg-theme-bg"
-        out:fade
+        out:blur
     >
-        <Center class="animate-pulse p-xl sm:p-2xl">
-            <Signature
-                crossfadeKey={SIGNATURE_NAV_KEY}
-                class="w-full max-w-64"
-            />
+        <Center class="p-xl sm:p-2xl">
+            <div class="relative">
+                <Signature
+                    crossfadeKey={SIGNATURE_NAV_KEY}
+                    class="w-full max-w-64 animate-pulse"
+                />
+
+                <span class="absolute right-lg bottom-lg font-medium">Software Engineer</span>
+            </div>
+
+            <!-- some text to let people know that the site isn't frozen after 5 seconds -->
+            <span class="delayed-fade-in absolute bottom-lg center-x text-theme-on-bg-faint">
+                Just a moment...
+            </span>
         </Center>
     </div>
 {:else}
@@ -60,3 +71,16 @@
         {/key}
     </div>
 {/if}
+
+<style>
+    .delayed-fade-in {
+        opacity: 0;
+        animation: fade-in 0.5s ease-in-out 5s forwards;
+    }
+
+    @keyframes fade-in {
+        to {
+            opacity: 1;
+        }
+    }
+</style>
