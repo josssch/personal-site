@@ -14,6 +14,12 @@
     --default-font-family: var(--font-family);
     --default-font-feature-settings: var(--font-feature-settings);
 
+    /*
+        Make the default sans font the same as the default font,
+        even though it doesn't apply features
+    */
+    --font-sans: var(--default-font-family);
+
     /* Spacing Utilities */
 
     --spacing-xs: --spacing(0.5);
@@ -28,10 +34,11 @@
 
 /* If they want to be used with Tailwind utilities, we must pre-define them */
 @theme inline {
+    --color-theme-on-bg-faint: var(--theme-on-bg-faint);
     --color-theme-on-bg: var(--theme-on-bg);
     --color-theme-on-bg-em: var(--theme-on-bg-em);
-    --color-theme-bg: var(--theme-bg);
 
+    --color-theme-bg: var(--theme-bg);
     --color-theme-bg-1: var(--theme-bg-1);
     --color-theme-bg-2: var(--theme-bg-2);
     --color-theme-bg-3: var(--theme-bg-3);
@@ -44,6 +51,7 @@
     --theme-text-color: --value(--color-*);
 
     /* For text on the background */
+    --theme-on-bg-faint: color-mix(in oklab, var(--theme-text-color), 15% black);
     --theme-on-bg: var(--theme-text-color);
     --theme-on-bg-em: color-mix(in oklab, var(--theme-on-bg), 10% white);
 }
