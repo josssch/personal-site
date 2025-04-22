@@ -18,6 +18,7 @@
     import ArrowLeft from '@lucide/svelte/icons/arrow-left'
     import ArrowRight from '@lucide/svelte/icons/arrow-right'
     import { browser } from '$app/environment'
+    import { onMount } from 'svelte'
 
     import merge from '$lib/utils/class-merge'
     import isEventSupported from '$lib/utils/is-event-supported'
@@ -28,16 +29,26 @@
         class?: string
         translatePx?: number
 
+        index?: number
+
         for: T[]
         builder: Snippet<[T, ScreenState]>
     }
 
-    const { class: clazz = '', for: forArr, builder, translatePx = 100 }: Props = $props()
+    let {
+        class: clazz = '',
+        for: forArr,
+        builder,
+        index: currentIndex = $bindable(0),
+        translatePx = 100,
+    }: Props = $props()
 
     const isScrollEndSupported = browser && isEventSupported('onscrollend')
 
     let panel: HTMLDivElement
     const screenElements: HTMLElement[] = $state([])
+
+    onMount(() => navigateTo(currentIndex, { instant: true }))
 
     $effect(() => {
         // when the array this is based off changes
@@ -47,7 +58,6 @@
         if (panel) updateClippingPaths()
     })
 
-    let currentIndex = $state(0)
     let enableSnapping = true
 
     let lastScrollX = 0
