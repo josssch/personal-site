@@ -1,5 +1,5 @@
-<script>
-    import Markdown from '$lib/ui/layout/Markdown.svelte'
+<script lang="ts">
+    import Markdown from '$lib/ui/typography/Markdown.svelte'
 </script>
 
 <Markdown class="container mx-auto py-2xl">
