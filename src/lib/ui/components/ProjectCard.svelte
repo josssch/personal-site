@@ -3,6 +3,7 @@
 
     import ArrowUpRight from '@lucide/svelte/icons/arrow-up-right'
 
+    import { insetSend } from '$lib/inset-transition'
     import merge from '$lib/utils/class-merge'
     import ProjectResources from './ProjectResources.svelte'
 
@@ -19,6 +20,7 @@
         </h1>
 
         <ArrowUpRight
+            aria-label="Open Project Page"
             class="animate-[up-right_2s_infinite] [animation-play-state:paused] group-hover/project-card:[animation-play-state:running]"
         />
     </div>
@@ -32,7 +34,10 @@
         links={project.links}
     />
 
-    <div class="absolute inset-0 -z-1 rounded-2xl bg-theme-bg-1"></div>
+    <div
+        class="absolute inset-0 -z-1 rounded-2xl bg-theme-bg-1"
+        out:insetSend|global={{ key: `project-${project.slug}` }}
+    ></div>
 </a>
 
 <style>

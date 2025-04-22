@@ -4,9 +4,9 @@
     import { page } from '$app/state'
 
     import { projects } from '$lib/data/projects'
+    import { insetReceive } from '$lib/inset-transition'
     import FlyUp from '$lib/ui/animators/FlyUp.svelte'
     import SlideInText from '$lib/ui/animators/SlideInText.svelte'
-    import ProjectResources from '$lib/ui/components/ProjectResources.svelte'
     import Image from '$lib/ui/layout/Image.svelte'
     import ChipSpan from '$lib/ui/typography/ChipSpan.svelte'
 
@@ -16,7 +16,10 @@
     let banner: FlyUp
 </script>
 
-<div class="min-h-full w-full bg-theme-bg py-3xl text-theme-on-bg theme-bg-neutral-950">
+<div
+    class="min-h-full w-full bg-theme-bg-1 py-3xl text-theme-on-bg theme-bg-neutral-950"
+    in:insetReceive={{ key: `project-${project.slug}` }}
+>
     <FlyUp
         bind:this={banner}
         settings={{ trigger: 'manual' }}
@@ -39,11 +42,9 @@
                 <h1 class="mb-md text-3xl font-bold text-balance">{project.title}</h1>
             </SlideInText>
 
-            <!-- <SlideInText settings={{ delayMs: 50 }}> -->
-            <p class="text-theme-on-bg-faint">
-                {project.summary}
-            </p>
-            <!-- </SlideInText> -->
+            <SlideInText settings={{ delayMs: 50 }}>
+                <p class="text-theme-on-bg-faint">{project.summary}</p>
+            </SlideInText>
         </div>
 
         <FlyUp>
