@@ -50,7 +50,7 @@
                     supports-[font-variation-settings:normal]:transition-[background-color,color,font-weight]
                     {isCurrent
                         ? 'text-theme-on-bg-em'
-                        : 'font-light text-theme-on-bg hover:bg-theme-bg-1'}"
+                        : 'font-light text-theme-on-bg hover:bg-theme-bg-2'}"
                     href={item.href}
                 >
                     {item.label}
