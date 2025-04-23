@@ -46,8 +46,11 @@
 
             <SlideInText settings={{ delayMs: (items.length - i - 1) * 150, trigger: 'instant' }}>
                 <a
-                    class="transition-colors supports-[font-variation-settings:normal]:transition-[color,font-weight]
-                    {isCurrent ? 'text-theme-on-bg-em' : 'font-light text-theme-on-bg'}"
+                    class="rounded-lg px-md py-sm transition-colors
+                    supports-[font-variation-settings:normal]:transition-[background-color,color,font-weight]
+                    {isCurrent
+                        ? 'text-theme-on-bg-em'
+                        : 'font-light text-theme-on-bg hover:bg-theme-bg-1'}"
                     href={item.href}
                 >
                     {item.label}
