@@ -2,6 +2,7 @@
     import type { Project } from '$lib/types/project'
 
     import { page } from '$app/state'
+    import { onMount } from 'svelte'
 
     import { projects } from '$lib/data/projects'
     import { insetReceive } from '$lib/inset-transition'
@@ -10,10 +11,26 @@
     import Image from '$lib/ui/layout/Image.svelte'
     import ChipSpan from '$lib/ui/typography/ChipSpan.svelte'
 
+    const BODY_STYLES = ['theme-bg-(--project-theme-bg)', 'theme-text-(--project-theme-text)']
+
     const project: Project = projects[page.params.slug]
 
     const mountTime = Date.now()
     let banner: FlyUp
+
+    onMount(() => {
+        const body = document.body
+
+        body.style.setProperty('--project-theme-bg', project.theme.backgroundColor)
+        body.style.setProperty('--project-theme-text', project.theme.textColor)
+        body.classList.add(...BODY_STYLES)
+
+        return () => {
+            body.style.removeProperty('--project-theme-bg')
+            body.style.removeProperty('--project-theme-text')
+            body.classList.remove(...BODY_STYLES)
+        }
+    })
 </script>
 
 <div

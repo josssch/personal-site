@@ -48,7 +48,7 @@
 
 @utility theme-text-* {
     /* prettier-ignore */
-    --theme-text-color: --value(--color-*);
+    --theme-text-color: --value(--color-*, [*]);
 
     /* For text on the background */
     --theme-on-bg-faint: color-mix(in oklab, var(--theme-text-color), 15% black);
@@ -58,7 +58,7 @@
 
 @utility theme-bg-* {
     /* prettier-ignore */
-    --theme-bg-color: --value(--color-*);
+    --theme-bg-color: --value(--color-*, [*]);
 
     /* The background color */
     --theme-bg: var(--theme-bg-color);

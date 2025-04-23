@@ -30,7 +30,16 @@
     const displayNumber = $derived((screenState.index + 1).toString().padStart(2, '0'))
 </script>
 
-<div class={merge('relative size-full bg-theme-bg text-theme-on-bg', project.theme, clazz)}>
+<div
+    style="
+        --project-theme-bg: {project.theme.backgroundColor};
+        --project-theme-text: {project.theme.textColor};
+    "
+    class={merge(
+        'relative size-full bg-theme-bg text-theme-on-bg theme-bg-(--project-theme-bg) theme-text-(--project-theme-text)',
+        clazz,
+    )}
+>
     <div
         class="container mx-auto grid h-full grid-rows-2 gap-xl px-lg py-xl sm:px-xl lg:grid-cols-2"
     >
