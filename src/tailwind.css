@@ -80,6 +80,29 @@ body {
 }
 
 /*
+    Making this a CSS class because having control over the actual
+    element is important for page transitions.
+*/
+@layer components {
+    .main {
+        min-width: 100%;
+        min-height: 100%;
+
+        padding-block: var(--spacing-3xl);
+    }
+
+    .main .article {
+        padding-inline: var(--spacing-lg);
+
+        /*
+            On the low side for line length
+            https://baymard.com/blog/line-length-readability
+        */
+        max-width: 60ch;
+    }
+}
+
+/*
     utilities for centering along an axis for absolute positioning
     @utility so they can be used with variants
 */
@@ -92,4 +115,15 @@ body {
 @utility center-y {
     top: 50%;
     transform: translateY(-50%);
+}
+
+@utility leading-base {
+    /* resets the normal line height to the same as the base font size */
+    line-height: calc(var(--tw-leading, var(--leading-normal)) * var(--text-base));
+}
+
+@custom-variant supports-variable-font {
+    @supports (font-variation-settings: normal) {
+        @slot;
+    }
 }

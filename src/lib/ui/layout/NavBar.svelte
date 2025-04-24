@@ -47,7 +47,7 @@
             <SlideInText settings={{ delayMs: (items.length - i - 1) * 150, trigger: 'instant' }}>
                 <a
                     class="rounded-lg px-md py-sm transition-colors
-                    supports-[font-variation-settings:normal]:transition-[background-color,color,font-weight]
+                    supports-variable-font:transition-[background-color,color,font-weight]
                     {isCurrent
                         ? 'text-theme-on-bg-em'
                         : 'font-light text-theme-on-bg hover:bg-theme-bg-2'}"

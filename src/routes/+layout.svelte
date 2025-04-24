@@ -59,7 +59,7 @@
         <NavBar
             items={[
                 { href: '/', label: 'Projects' },
-                { href: '/contact', label: 'Services' },
+                // { href: '/contact', label: 'Services' },
                 { href: '/about', label: 'About' },
             ]}
         />

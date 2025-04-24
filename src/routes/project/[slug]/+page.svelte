@@ -33,8 +33,8 @@
     })
 </script>
 
-<div
-    class="min-h-full w-full bg-theme-bg-1 py-3xl text-theme-on-bg theme-bg-neutral-950"
+<main
+    class="main bg-theme-bg-1 text-theme-on-bg"
     in:insetReceive={{ key: `project-${project.slug}` }}
 >
     <FlyUp
@@ -53,7 +53,7 @@
         />
     </FlyUp>
 
-    <div class="mx-auto mt-lg flex flex-col gap-xl p-lg md:max-w-172">
+    <article class="article mx-auto mt-lg flex flex-col gap-xl">
         <div>
             <SlideInText settings={{ delayMs: 150 }}>
                 <h1 class="mb-md text-3xl font-bold text-balance">{project.title}</h1>
@@ -69,10 +69,21 @@
                 <div>
                     <h2 class="mb-lg text-lg font-medium">Resources</h2>
 
-                    <ProjectResources
-                        class="flex-col *:justify-start"
-                        links={project.links}
-                    />
+                    <ul>
+                        {#each project.links as link (link.href)}
+                            <li>
+                                <a
+                                    class="inline-flex gap-md"
+                                    href={link.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <link.icon />
+                                    {link.label}
+                                </a>
+                            </li>
+                        {/each}
+                    </ul>
                 </div>
 
                 <div>
@@ -92,5 +103,5 @@
         <FlyUp settings={{ threshold: 0.1 }}>
             <pre class="font-sans text-wrap">{project.description}</pre>
         </FlyUp>
-    </div>
-</div>
+    </article>
+</main>

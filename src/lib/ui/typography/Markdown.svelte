@@ -6,7 +6,7 @@
 
 <div
     {...props}
-    class={merge('prose', clazz)}
+    class={merge('prose max-w-[unset]', clazz)}
 >
     {@render children?.()}
 </div>
