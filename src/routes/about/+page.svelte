@@ -33,7 +33,7 @@
             />
         </aside>
 
-        <article class="article max-md:mx-auto">
+        <article class="main__article max-md:mx-auto">
             <Markdown class="prose-h1:font-bold">
                 <SlideInText settings={{ delayMs: 250 }}>
                     <h1

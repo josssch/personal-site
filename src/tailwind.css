@@ -91,7 +91,7 @@ body {
         padding-block: var(--spacing-3xl);
     }
 
-    .main .article {
+    .main__article {
         padding-inline: var(--spacing-lg);
 
         /*

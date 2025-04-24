@@ -53,7 +53,7 @@
         />
     </FlyUp>
 
-    <article class="article mx-auto mt-lg flex flex-col gap-xl">
+    <article class="main__article mx-auto mt-lg flex flex-col gap-xl">
         <div>
             <SlideInText settings={{ delayMs: 150 }}>
                 <h1 class="mb-md text-3xl font-bold text-balance">{project.title}</h1>
