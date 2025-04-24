@@ -22,7 +22,7 @@ export default {
 
     tailwindStylesheet: './src/tailwind.css',
     tailwindAttributes: ['tw', 'class'],
-    tailwindFunctions: ['clsx', 'twMerge', 'cn'],
+    tailwindFunctions: ['clsx', 'twMerge', 'cn', 'merge'],
 
     importOrder: [
         '<TYPES>',
