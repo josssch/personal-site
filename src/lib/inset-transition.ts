@@ -1,6 +1,6 @@
 import type { EasingFunction, TransitionConfig } from 'svelte/transition'
 
-import { quadOut } from 'svelte/easing'
+import { quintOut } from 'svelte/easing'
 
 // just a global store, I don't need to worry about key conflicts right now
 const fromNodes = new Map<string, Element>()
@@ -15,7 +15,7 @@ export interface InsetClipParams {
 const DEFAULT_PARAMS: Required<Omit<InsetClipParams, 'key'>> = {
     duration: 750,
     delay: 0,
-    easing: quadOut,
+    easing: quintOut,
 }
 
 export function insetSend(node: Element, params: InsetClipParams): TransitionConfig {
