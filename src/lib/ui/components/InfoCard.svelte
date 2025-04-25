@@ -29,33 +29,31 @@
     }: Props = $props()
 </script>
 
+{#snippet asSnippet(input: string | Snippet)}
+    {#if typeof input === 'string'}
+        {input}
+    {:else}
+        {@render input()}
+    {/if}
+{/snippet}
+
 <div
     {...props}
     class={merge('rounded-2xl bg-theme-bg-1 p-lg shadow-md', clazz)}
 >
     {#if leadIn}
-        <div>
-            {#if typeof leadIn === 'string'}
-                {leadIn}
-            {:else}
-                {@render leadIn()}
-            {/if}
-        </div>
+        <div>{@render asSnippet(leadIn)}</div>
     {/if}
 
     <h2 class="text-lg font-semibold text-theme-on-bg-em">
-        {#if typeof title === 'string'}
-            {title}
-        {:else}
-            {@render title()}
-        {/if}
+        {@render asSnippet(title)}
     </h2>
 
     {#if startedOn || endedOn}
         <p class="text-sm leading-base font-light text-theme-on-bg-faint">
             {#if current}
                 <!-- add a history icon flipped around to indicate "going forward" -->
-                <History class="inline size-4 -scale-x-100" />
+                <History class="inline size-[1em] -scale-x-100" />
             {/if}
 
             {startedOn} &mdash;

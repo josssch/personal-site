@@ -82,6 +82,7 @@
                         <FlyUp>
                             <InfoCard
                                 id={toHash(exp.startedOn)}
+                                leadIn={exp.industry || exp.company}
                                 title={exp.title}
                                 points={exp.duties}
                                 startedOn={exp.startedOn}
@@ -99,7 +100,7 @@
                         id="education"
                         class="mt-[unset] mb-[unset]"
                     >
-                        Education
+                        Education & Certifications
                     </h2>
                 </SlideInText>
 

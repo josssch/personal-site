@@ -10,6 +10,6 @@ export const education: Education[] = [
     },
     {
         type: 'High School',
-        certification: 'Specialised High Skills Major',
+        certification: 'Specialist High Skills Major',
     },
 ]
