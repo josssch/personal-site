@@ -6,6 +6,7 @@ export interface WorkExperience {
 
     startedOn: string
     endedOn?: string
+    isCurrent?: boolean
 
     duties: string[]
 }

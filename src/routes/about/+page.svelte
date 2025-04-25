@@ -1,26 +1,32 @@
 <script lang="ts">
     import type { HeadingEntry } from '$lib/types/toc-entry'
 
+    import { education } from '$lib/data/education'
     import { experience } from '$lib/data/work-experience'
     import FlyUp from '$lib/ui/animators/FlyUp.svelte'
     import SlideInText from '$lib/ui/animators/SlideInText.svelte'
     import Signature from '$lib/ui/branding/Signature.svelte'
-    import ExperienceCard from '$lib/ui/components/ExperienceCard.svelte'
+    import InfoCard from '$lib/ui/components/InfoCard.svelte'
     import TableOfContents from '$lib/ui/components/TableOfContents.svelte'
     import Markdown from '$lib/ui/typography/Markdown.svelte'
-
-    // convert the string to a valid hash for usage in a URL
-    const toHash = (str: string) => encodeURIComponent(str.toLowerCase().replace(/\s+/g, '-'))
+    import toHash from '$lib/utils/to-hash'
 
     const headings: HeadingEntry[] = [
         { id: 'greeting', label: 'Top' },
+
         { id: 'experience', label: 'Work History' },
         ...experience.map(entry => ({
             id: toHash(entry.startedOn),
             label: entry.title,
             indent: 1,
         })),
+
         { id: 'education', label: 'Education' },
+        ...education.map(entry => ({
+            id: toHash(entry.type),
+            label: entry.certification,
+            indent: 1,
+        })),
     ]
 </script>
 
@@ -28,7 +34,7 @@
     <div class="flex justify-center gap-xl max-md:flex-col">
         <aside class="top-3xl flex h-min px-lg md:sticky md:justify-end">
             <TableOfContents
-                class="w-full md:min-w-72"
+                class="w-full max-md:max-h-1/2 md:min-w-72"
                 {headings}
             />
         </aside>
@@ -74,9 +80,13 @@
                 <div class="not-prose mt-lg flex flex-col gap-lg">
                     {#each experience as exp (exp)}
                         <FlyUp>
-                            <ExperienceCard
+                            <InfoCard
                                 id={toHash(exp.startedOn)}
-                                experience={exp}
+                                title={exp.title}
+                                points={exp.duties}
+                                startedOn={exp.startedOn}
+                                endedOn={exp.endedOn}
+                                current={exp.isCurrent}
                             />
                         </FlyUp>
                     {/each}
@@ -94,8 +104,17 @@
                 </SlideInText>
 
                 <div class="not-prose mt-lg flex flex-col gap-lg">
-                    {#each experience as exp (exp)}
-                        <FlyUp><ExperienceCard experience={exp} /></FlyUp>
+                    {#each education as edu (edu)}
+                        <FlyUp>
+                            <InfoCard
+                                id={toHash(edu.type)}
+                                leadIn={edu.type}
+                                title={edu.certification}
+                                startedOn={edu.startedOn}
+                                endedOn={edu.endedOn}
+                                current={edu.isCurrent}
+                            />
+                        </FlyUp>
                     {/each}
                 </div>
 
