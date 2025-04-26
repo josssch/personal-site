@@ -98,7 +98,7 @@ body {
             On the low side for line length
             https://baymard.com/blog/line-length-readability
         */
-        max-width: 60ch;
+        @apply max-w-prose;
     }
 }
 
