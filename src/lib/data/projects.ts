@@ -9,6 +9,8 @@ import Globe from '@lucide/svelte/icons/globe'
 
 export const projects: Record<string, Project> = {
     orbiting: {
+        logoHref: '/img/proj_orbiting_logo.png',
+        bannerHref: '/img/proj_orbiting_banner.png',
         slug: 'orbiting',
         theme: {
             backgroundColor: 'var(--color-neutral-950)',
@@ -17,7 +19,8 @@ export const projects: Record<string, Project> = {
         title: 'Orbiting',
         summary:
             "A beautiful, yet, customizable control panel for all your apps. It's the best way to have complete control over your app in production.",
-        description: 'Todo',
+        description: () => import('$lib/ui/projects/OrbitingDescription.svelte'),
+        detailComponent: () => import('$lib/ui/projects/OrbitingDetail.svelte'),
         links: [
             {
                 icon: Globe,
@@ -30,34 +33,7 @@ export const projects: Record<string, Project> = {
                 href: 'https://github.com/OrbitingTech',
             },
         ],
-        tags: [],
         technologies: ['MongoDB', 'Redis', 'Svelte', 'Tailwind', 'TypeScript'],
-    },
-
-    lorem: {
-        slug: 'lorem',
-        theme: {
-            backgroundColor: 'var(--color-gray-950)',
-            textColor: 'var(--color-gray-200)',
-        },
-        title: 'Lorem',
-        summary:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        links: [
-            {
-                icon: Globe,
-                label: 'Website',
-                href: 'https://lorem.com',
-            },
-            {
-                icon: GitBranch,
-                label: 'Github',
-                href: 'https://github.com/Lorem',
-            },
-        ],
         tags: [],
-        technologies: ['MongoDB', 'Redis', 'Svelte', 'Tailwind', 'TypeScript'],
     },
 }

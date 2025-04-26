@@ -2,10 +2,13 @@
     import type { Project } from '$lib/types/project'
     import type { ScreenState } from './FullscreenCarousel.svelte'
 
+    import Maximize from '@lucide/svelte/icons/maximize'
+
+    import { insetSend } from '$lib/inset-transition'
     import merge from '$lib/utils/class-merge'
     import FlyUp from '../animators/FlyUp.svelte'
     import SlideInText from '../animators/SlideInText.svelte'
-    import ProjectCard from '../components/ProjectCard.svelte'
+    import ProjectResources from '../components/ProjectResources.svelte'
 
     interface Props {
         class?: string
@@ -17,13 +20,15 @@
 
     let numberTextEl: SlideInText
     let titleTextEl: SlideInText
-    let projectCardEl: FlyUp
+    let summaryTextEl: SlideInText
+    let resourcesEl: FlyUp
 
     $effect(() => {
         if (screenState.isVisible) {
             numberTextEl.play()
             titleTextEl.play()
-            projectCardEl.play()
+            summaryTextEl.play()
+            resourcesEl.play()
         }
     })
 
@@ -40,37 +45,61 @@
         clazz,
     )}
 >
-    <div
-        class="container mx-auto grid h-full grid-rows-2 gap-xl px-lg py-xl sm:px-xl lg:grid-cols-2"
-    >
-        <h1 class="col-start-1 self-end text-4xl">
-            <SlideInText
-                bind:this={numberTextEl}
-                settings={{ delayMs: 100, trigger: 'manual' }}
-            >
-                <span class="font-extralight">{displayNumber}</span>
-            </SlideInText>
+    <div class="container mx-auto flex h-full p-lg max-md:flex-col">
+        {#if project.detailComponent}
+            {#await project.detailComponent() then component}
+                <div class="pointer-events-none absolute inset-0 overflow-hidden">
+                    <component.default {project} />
+                </div>
+            {/await}
+        {/if}
+
+        <div class="z-1 flex h-full flex-col justify-center gap-lg text-xl md:basis-1/2">
+            <h1 class="text-4xl">
+                <SlideInText
+                    bind:this={numberTextEl}
+                    settings={{ delayMs: 100, trigger: 'manual' }}
+                >
+                    <span class="font-extralight text-theme-on-bg-faint">{displayNumber}</span>
+                </SlideInText>
+
+                <SlideInText
+                    bind:this={titleTextEl}
+                    settings={{ trigger: 'manual', delayMs: 50 }}
+                >
+                    <span class="block font-bold">{project.title}</span>
+                </SlideInText>
+            </h1>
 
             <SlideInText
-                bind:this={titleTextEl}
+                bind:this={summaryTextEl}
                 settings={{ trigger: 'manual' }}
             >
-                <span class="block font-bold">{project.title}</span>
+                <p class="max-w-prose">{project.summary}</p>
             </SlideInText>
-        </h1>
 
-        <div class="col-start-1">
             <FlyUp
-                bind:this={projectCardEl}
+                bind:this={resourcesEl}
                 settings={{ trigger: 'manual' }}
             >
-                <ProjectCard
-                    class="transition-transform hover:-translate-y-1"
-                    {project}
-                />
+                <div
+                    class="w-fit"
+                    out:insetSend|global={{ key: `project-${project.slug}` }}
+                >
+                    <ProjectResources
+                        firstIsPrimary
+                        links={[
+                            {
+                                icon: Maximize,
+                                label: 'Read More',
+                                href: `/project/${project.slug}`,
+                                internal: true,
+                            },
+                            ...project.links,
+                        ]}
+                    />
+                </div>
             </FlyUp>
         </div>
-
-        <!-- <div class="col-start-2 row-span-full max-sm:hidden">hi</div> -->
     </div>
 </div>

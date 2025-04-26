@@ -1,11 +1,11 @@
 <script lang="ts">
-    import type { ProjectLink } from '$lib/types/project'
+    import type { Link } from '$lib/types/link'
 
     import merge from '$lib/utils/class-merge'
     import Button from '../form/Button.svelte'
 
     interface Props {
-        links: ProjectLink[]
+        links: Link[]
         firstIsPrimary?: boolean
         vertical?: boolean
         class?: string
@@ -23,7 +23,7 @@
             aria-label={link.label}
             class="min-w-12 {firstIsPrimary ? 'first:grow not-first:[&>span]:hidden' : ''}"
             href={link.href}
-            target="_blank"
+            target={link.internal ? '' : '_blank'}
         >
             <Icon title={link.label} />
             <span>{link.label}</span>

@@ -1,24 +1,25 @@
-import type { SiComponentType } from '@icons-pack/svelte-simple-icons'
 import type { Component } from 'svelte'
+import type { LazyComponent } from './lazy-component'
+import type { Link } from './link'
 
 export interface Project {
     slug: string
     theme: ProjectTheme
     title: string
     summary: string
-    description: string
-    links: ProjectLink[]
+    description: LazyComponent<ProjectDetailComponent>
+    links: Link[]
     tags: string[]
     technologies: string[]
+
+    logoHref?: string
+    bannerHref?: string
+    detailComponent?: LazyComponent<ProjectDetailComponent>
 }
+
+export type ProjectDetailComponent = Component<{ project: Project } | any>
 
 export interface ProjectTheme {
     backgroundColor: string
     textColor: string
-}
-
-export interface ProjectLink {
-    label: string
-    href: string
-    icon?: Component | SiComponentType
 }
