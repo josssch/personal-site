@@ -176,7 +176,8 @@
             // where carousel screens do not have a background
             for (const el of screenElements) {
                 // for our currentEl and nextEl we will remove these styles
-                if (el === currentEl || el === nextEl) {
+                // only consider nextEl when there's progress being made (this fixes focus issues)
+                if (el === currentEl || (el === nextEl && progress > 0)) {
                     el.style.removeProperty('visibility')
                     el.style.removeProperty('pointer-events') // gross that it's different
                     continue
@@ -199,7 +200,7 @@
         })
 
     const NAV_BUTTON_STYLES =
-        'transition group-hover:translate-y-0 group-hover:opacity-100 sm:size-8 sm:translate-y-1/2 sm:opacity-0'
+        'transition group-hocus:translate-y-0 group-hocus:opacity-100 sm:size-8 sm:translate-y-1/2 sm:opacity-0'
 </script>
 
 <svelte:window onresize={() => navigateTo(currentIndex, { instant: true })} />
@@ -236,7 +237,7 @@
             {/each}
 
             <div
-                class="group absolute bottom-lg center-x z-1 flex items-center gap-md opacity-50 transition-opacity hover:opacity-100 sm:-mt-xl sm:pt-xl"
+                class="group absolute bottom-lg center-x z-1 flex items-center gap-md opacity-50 transition-opacity sm:-mt-xl sm:pt-xl hocus:opacity-100"
             >
                 <CircleButton
                     aria-label="Go Back"
@@ -250,7 +251,7 @@
                     <button
                         onclick={() => navigateTo(i)}
                         aria-label="Go to Screen {i}"
-                        class="rounded-full bg-theme-on-bg transition-all group-hover:translate-y-0 group-hover:scale-100 sm:translate-y-sm sm:scale-75
+                        class="rounded-full bg-theme-on-bg transition-all group-hocus:translate-y-0 group-hocus:scale-100 sm:translate-y-sm sm:scale-75
                         {i === currentIndex ? 'size-2' : 'size-1.5 opacity-50'}"
                     ></button>
                 {/each}

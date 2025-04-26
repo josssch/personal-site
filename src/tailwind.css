@@ -127,3 +127,5 @@ body {
         @slot;
     }
 }
+
+@custom-variant hocus (&:focus-within, &:hover);
