@@ -7,7 +7,7 @@
 
 <Button
     {...props}
-    class={merge('justify-center rounded-full', clazz)}
+    class={merge('justify-center rounded-full p-md', clazz)}
 >
     {@render children()}
 </Button>
