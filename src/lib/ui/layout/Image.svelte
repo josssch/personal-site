@@ -18,7 +18,7 @@
 
 <img
     {...props}
-    class={merge(isLoading && 'animate-pulse text-current/0', 'bg-theme-bg-1', clazz)}
+    class={merge(isLoading && 'animate-pulse bg-theme-bg-2 text-current/0', clazz)}
     onload={event => {
         isLoading = false
         onload?.(event)
