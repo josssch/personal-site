@@ -229,7 +229,7 @@
                     bind:this={screenElements[i]}
                     data-item-index={i}
                     style="--index: {i}; visibility: hidden;"
-                    class="absolute -z-(--index) size-full"
+                    class="absolute size-full"
                 >
                     {@render builder(item, state)}
                 </div>
