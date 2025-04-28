@@ -31,7 +31,7 @@ export default {
         '<BUILTIN_MODULES>',
         '<THIRD_PARTY_MODULES>',
         '',
-        '^\\$lib',
+        '^\\$',
         '^[./]',
         '',
     ],

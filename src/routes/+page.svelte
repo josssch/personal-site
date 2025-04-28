@@ -3,9 +3,11 @@
     import { page } from '$app/state'
     import { untrack } from 'svelte'
 
+    import { DEFAULT_META_TAGS } from '$lib/data/default-meta'
     import { projects } from '$lib/data/projects'
     import FullscreenCarousel from '$lib/ui/carousel/FullscreenCarousel.svelte'
     import ProjectScreen from '$lib/ui/carousel/ProjectScreen.svelte'
+    import MetaTags from '$lib/ui/layout/MetaTags.svelte'
 
     let carousel: FullscreenCarousel
 
@@ -37,6 +39,12 @@
 </script>
 
 <svelte:window onkeydown={handleKeyPress} />
+
+<MetaTags
+    {...DEFAULT_META_TAGS}
+    title="Projects"
+    description="Explore my projects and learn more about my work."
+/>
 
 <FullscreenCarousel
     bind:this={carousel}

@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { HeadingEntry } from '$lib/types/toc-entry'
 
+    import { DEFAULT_META_TAGS } from '$lib/data/default-meta'
     import { education } from '$lib/data/education'
     import { experience } from '$lib/data/work-experience'
     import FlyUp from '$lib/ui/animators/FlyUp.svelte'
@@ -8,6 +9,7 @@
     import Signature from '$lib/ui/branding/Signature.svelte'
     import InfoCard from '$lib/ui/components/InfoCard.svelte'
     import TableOfContents from '$lib/ui/components/TableOfContents.svelte'
+    import MetaTags from '$lib/ui/layout/MetaTags.svelte'
     import Markdown from '$lib/ui/typography/Markdown.svelte'
     import toHash from '$lib/utils/to-hash'
 
@@ -29,6 +31,12 @@
         })),
     ]
 </script>
+
+<!-- I could title it "About Me" but my name being in the title is enough -->
+<MetaTags
+    {...DEFAULT_META_TAGS}
+    path="/about"
+/>
 
 <main class="main relative bg-theme-bg text-theme-on-bg">
     <div class="flex justify-center gap-xl max-md:flex-col">

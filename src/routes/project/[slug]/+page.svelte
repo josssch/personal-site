@@ -4,6 +4,7 @@
     import { page } from '$app/state'
     import { onMount } from 'svelte'
 
+    import { DEFAULT_META_TAGS } from '$lib/data/default-meta'
     import { projects } from '$lib/data/projects'
     import { insetReceive } from '$lib/inset-transition'
     import FlyUp from '$lib/ui/animators/FlyUp.svelte'
@@ -11,6 +12,7 @@
     import Detail from '$lib/ui/components/Detail.svelte'
     import DetailsGrid from '$lib/ui/components/DetailsGrid.svelte'
     import Image from '$lib/ui/layout/Image.svelte'
+    import MetaTags from '$lib/ui/layout/MetaTags.svelte'
     import ChipSpan from '$lib/ui/typography/ChipSpan.svelte'
     import FancyLink from '$lib/ui/typography/FancyLink.svelte'
     import Markdown from '$lib/ui/typography/Markdown.svelte'
@@ -36,6 +38,15 @@
         }
     })
 </script>
+
+<MetaTags
+    {...DEFAULT_META_TAGS}
+    title={project.title}
+    description={project.summary}
+    path="/project/{project.slug}"
+    imagePath={project.bannerHref}
+    imageAlt="Banner image for {project.title}"
+/>
 
 <main
     class="main bg-theme-bg-1 text-theme-on-bg"
