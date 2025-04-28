@@ -1,6 +1,9 @@
 <script lang="ts">
     import type { HeadingEntry } from '$lib/types/toc-entry'
 
+    import { page } from '$app/state'
+    import { onMount } from 'svelte'
+
     import { DEFAULT_META_TAGS } from '$lib/data/default-meta'
     import { education } from '$lib/data/education'
     import { experience } from '$lib/data/work-experience'
@@ -30,6 +33,16 @@
             indent: 1,
         })),
     ]
+
+    // this is to enable hashes in the URL to scroll to the corresponding section
+    // which typically breaks when using frameworks like SvelteKit
+    onMount(() => {
+        const hash = page.url.hash
+        if (!hash) return
+
+        const element = document.getElementById(hash.slice(1))
+        element?.scrollIntoView()
+    })
 </script>
 
 <!-- I could title it "About Me" but my name being in the title is enough -->
