@@ -157,6 +157,9 @@
         })
     }
 
+    const prefersReducedMotion =
+        browser && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
     const updateClippingPaths = () =>
         requestAnimationFrame(() => {
             const panelWidth = panel.clientWidth
@@ -179,12 +182,18 @@
                 // only consider nextEl when there's progress being made (this fixes focus issues)
                 if (el === currentEl || (el === nextEl && progress > 0)) {
                     el.style.removeProperty('visibility')
-                    el.style.removeProperty('pointer-events') // gross that it's different
+                    el.style.removeProperty('pointer-events') // gross that it's different casing
                     continue
                 }
 
                 el.style.visibility = 'hidden'
                 el.style.pointerEvents = 'none'
+            }
+
+            if (prefersReducedMotion) {
+                if (currentEl != null) currentEl.style.opacity = `${uProgress}`
+                if (nextEl != null) nextEl.style.opacity = `${progress}`
+                return
             }
 
             if (currentEl != null) {
@@ -217,8 +226,6 @@
     <div class="h-full w-[calc(var(--count)_*_100%)]">
         <!-- this layer is here to keep all elements in the same place regardless of the scroll position -->
         <div class="sticky left-0 h-full w-[calc(100%_/_var(--count))]">
-            <!-- <h1 class="center-x absolute">{currentIndex}</h1> -->
-
             {#each forArr as item, i (i)}
                 {@const state = {
                     currentIndex,
