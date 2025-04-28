@@ -20,7 +20,10 @@ const DEFAULT_PARAMS: Required<Omit<InsetClipParams, 'key'>> = {
 
 export function insetSend(node: Element, params: InsetClipParams): TransitionConfig {
     const { key, duration, delay, easing } = Object.assign({}, DEFAULT_PARAMS, params)
-    fromNodes.set(key, node)
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        fromNodes.set(key, node)
+    }
 
     // this needs a duration so that the target element can be available when
     // the receiving happens, even if there's no css involved (maybe in the future)

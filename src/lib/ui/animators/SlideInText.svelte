@@ -19,7 +19,7 @@
     <span
         use:animateController={{ animation, keyframes: 'slide-in' }}
         bind:this={controller}
-        class="inline-block translate-y-full"
+        class="inline-block not-motion-reduce:translate-y-full"
     >
         {@render children()}
     </span>

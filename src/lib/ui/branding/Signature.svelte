@@ -14,15 +14,20 @@
 <script lang="ts">
     import type { CrossfadeParams } from 'svelte/transition'
 
+    import { browser } from '$app/environment'
+
     import merge from '$lib/utils/class-merge'
 
     const { class: clazz = '', crossfadeKey = null as string | null, ...props } = $props()
 
+    const shouldPlay = () =>
+        crossfadeKey && browser && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
     const optionalReceive = (node: Node, options: CrossfadeParams = {}) =>
-        crossfadeKey ? receive(node, { key: crossfadeKey, ...options }) : {}
+        shouldPlay() ? receive(node, { key: crossfadeKey, ...options }) : {}
 
     const optionalSend = (node: Node, options: CrossfadeParams = {}) =>
-        crossfadeKey ? send(node, { key: crossfadeKey, ...options }) : {}
+        shouldPlay() ? send(node, { key: crossfadeKey, ...options }) : {}
 </script>
 
 <svg
@@ -32,6 +37,7 @@
     viewBox="538.885 393.631 405.872 212.819"
     fill="currentColor"
     {...props}
+    aria-label="Josh"
     class={merge('w-32', clazz)}
 >
     <path

@@ -18,7 +18,7 @@
 <div
     use:animateController={{ animation, keyframes: 'fly-in' }}
     bind:this={controller}
-    class="translate-y-4 opacity-0"
+    class="not-motion-reduce:translate-y-4 not-motion-reduce:opacity-0"
 >
     {@render children()}
 </div>

@@ -211,6 +211,7 @@
     onscrollend={onScrollEnd}
     style="--count: {forArr.length}; --current-index: {currentIndex};"
     class={merge('size-full overflow-x-scroll overflow-y-hidden', clazz)}
+    tabindex="-1"
 >
     <!-- this layer is responsible for the actual width of the carousel -->
     <div class="h-full w-[calc(var(--count)_*_100%)]">
@@ -244,13 +245,13 @@
                     class="mr-lg {NAV_BUTTON_STYLES}"
                     onclick={() => navigateTo(currentIndex - 1)}
                 >
-                    <ArrowLeft />
+                    <ArrowLeft aria-hidden="true" />
                 </CircleButton>
 
                 {#each forArr as _, i (i)}
                     <button
                         onclick={() => navigateTo(i)}
-                        aria-label="Go to Screen {i}"
+                        aria-label="Go to Screen {i + 1}"
                         class="rounded-full bg-theme-on-bg transition-all group-hocus:translate-y-0 group-hocus:scale-100 sm:translate-y-sm sm:scale-75
                         {i === currentIndex ? 'size-2' : 'size-1.5 opacity-50'}"
                     ></button>
@@ -261,7 +262,7 @@
                     class="ml-lg {NAV_BUTTON_STYLES}"
                     onclick={() => navigateTo(currentIndex + 1)}
                 >
-                    <ArrowRight />
+                    <ArrowRight aria-hidden="true" />
                 </CircleButton>
             </div>
         </div>

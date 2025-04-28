@@ -28,7 +28,7 @@
 >
     <div
         class="container mx-auto flex items-center gap-xl px-xl pb-lg transition-[padding,opacity] ease-out hover:opacity-100 sm:gap-2xl sm:opacity-75
-        {isScrolled ? 'pt-lg' : 'pt-lg sm:pt-xl'}"
+        {isScrolled ? 'pt-lg' : 'pt-lg not-motion-reduce:sm:pt-xl'}"
     >
         <a
             href="/"

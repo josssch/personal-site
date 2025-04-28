@@ -53,7 +53,10 @@
         <p class="text-sm leading-base font-light text-theme-on-bg-faint">
             {#if current}
                 <!-- add a history icon flipped around to indicate "going forward" -->
-                <History class="inline size-[1em] -scale-x-100" />
+                <History
+                    class="inline size-[1em] -scale-x-100"
+                    aria-label="Still ongoing"
+                />
             {/if}
 
             {startedOn} &mdash;

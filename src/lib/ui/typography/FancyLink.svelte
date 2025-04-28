@@ -9,9 +9,13 @@
 <a
     class={merge('inline-flex gap-md focus-within:underline hover:underline', clazz)}
     href={link.href}
+    aria-label={link.label}
     target={!link.internal ? '_blank' : ''}
     rel="noopener noreferrer"
 >
-    <link.icon title={link.label} />
+    <link.icon
+        title={link.label}
+        aria-hidden="true"
+    />
     <span class="text-wrap">{link.label}</span>
 </a>

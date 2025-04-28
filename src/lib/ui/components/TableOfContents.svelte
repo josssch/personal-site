@@ -66,7 +66,10 @@
 >
     <h3 class="mb-md font-semibold">
         <SlideInText>
-            <Hash class="inline w-4 text-theme-on-bg-faint" />
+            <Hash
+                class="inline w-4 text-theme-on-bg-faint"
+                aria-hidden="true"
+            />
             On This Page
         </SlideInText>
     </h3>

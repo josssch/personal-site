@@ -25,7 +25,10 @@
             href={link.href}
             target={link.internal ? '' : '_blank'}
         >
-            <Icon title={link.label} />
+            <Icon
+                title={link.label}
+                aria-hidden="true"
+            />
             <span>{link.label}</span>
         </Button>
     {/each}
