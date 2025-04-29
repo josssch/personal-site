@@ -29,7 +29,7 @@ export const projects: Record<string, Project> = {
             },
             {
                 icon: GitBranch,
-                label: 'Github',
+                label: 'GitHub',
                 href: 'https://github.com/OrbitingTech',
             },
         ],
