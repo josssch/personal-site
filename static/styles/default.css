@@ -21,7 +21,18 @@
 
 * {
     cursor: default;
-    user-select: none;
+}
+
+::selection,
+::-webkit-selection,
+::-moz-selection {
+    /*
+        creates an invert sort of effect, but is flawed because
+        it doesn't change based on the actual theme, just whatever the root one is
+        works for now
+    */
+    color: var(--color-theme-bg);
+    background-color: var(--color-theme-on-bg);
 }
 
 html,
