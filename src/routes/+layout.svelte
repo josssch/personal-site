@@ -1,10 +1,12 @@
 <script lang="ts">
-    import { page } from '$app/state'
     import { onMount } from 'svelte'
     import { blur } from 'svelte/transition'
 
+    import { page } from '$app/state'
+    import { DEFAULT_META_TAGS } from '$lib/data/default-meta'
     import Signature from '$lib/ui/branding/Signature.svelte'
     import Center from '$lib/ui/layout/Center.svelte'
+    import MetaTags from '$lib/ui/layout/MetaTags.svelte'
     import NavBar, { SIGNATURE_NAV_KEY } from '$lib/ui/layout/NavBar.svelte'
 
     import '../tailwind.css'
@@ -27,7 +29,14 @@
             Math.max(0, MIN_LOAD_TIME_MS - loadTimeMs),
         )
     })
+
+    const meta = $derived(page.data.meta ? page.data.meta : {})
 </script>
+
+<MetaTags
+    {...DEFAULT_META_TAGS}
+    {...meta}
+/>
 
 {#if isLoading}
     <!--

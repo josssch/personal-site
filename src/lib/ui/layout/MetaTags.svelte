@@ -15,7 +15,7 @@
         formatTitle = title => title,
     }: MetaTagsProps = $props()
 
-    const formattedTitle = formatTitle(title)
+    const formattedTitle = $derived(formatTitle(title))
 </script>
 
 {#snippet meta(name: string, content?: string)}
