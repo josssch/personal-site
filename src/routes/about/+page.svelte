@@ -6,6 +6,7 @@
 
     import { DEFAULT_META_TAGS } from '$lib/data/default-meta'
     import { education } from '$lib/data/education'
+    import { socialLinks } from '$lib/data/social-links'
     import { experience } from '$lib/data/work-experience'
     import FlyUp from '$lib/ui/animators/FlyUp.svelte'
     import SlideInText from '$lib/ui/animators/SlideInText.svelte'
@@ -13,6 +14,7 @@
     import InfoCard from '$lib/ui/components/InfoCard.svelte'
     import TableOfContents from '$lib/ui/components/TableOfContents.svelte'
     import MetaTags from '$lib/ui/layout/MetaTags.svelte'
+    import FancyLink from '$lib/ui/typography/FancyLink.svelte'
     import Markdown from '$lib/ui/typography/Markdown.svelte'
     import toHash from '$lib/utils/to-hash'
 
@@ -70,6 +72,16 @@
                         Hello, I'm Josh 👋
                     </h1>
                 </SlideInText>
+
+                <ul class="not-prose my-xl flex flex-wrap items-center justify-evenly gap-lg">
+                    {#each socialLinks as link, i (link.href)}
+                        <li>
+                            <SlideInText settings={{ delayMs: i * 50 + 250 }}>
+                                <FancyLink {link} />
+                            </SlideInText>
+                        </li>
+                    {/each}
+                </ul>
 
                 <FlyUp>
                     <p>

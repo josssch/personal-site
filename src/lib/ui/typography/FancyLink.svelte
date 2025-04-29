@@ -7,7 +7,7 @@
 </script>
 
 <a
-    class={merge('inline-flex gap-md focus-within:underline hover:underline', clazz)}
+    class={merge('inline-flex items-center gap-md focus-within:underline hover:underline', clazz)}
     href={link.href}
     aria-label={link.label}
     target={!link.internal ? '_blank' : ''}
