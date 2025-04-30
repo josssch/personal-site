@@ -22,6 +22,8 @@ jobs:
               run: bun run check
 
             - name: Vite Build
+              env:
+                  PUBLIC_SITE_BASE_URL: https://www.jossh.dev
               run: bun run build
 
             - name: Upload GitHub Pages artifact
