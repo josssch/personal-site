@@ -9,7 +9,7 @@ jobs:
         runs-on: ubuntu-latest
 
         env:
-            PUBLIC_SITE_BASE_URL: https://www.jossh.dev
+            PUBLIC_SITE_BASE_URL: https://jossh.dev
 
         steps:
             - name: Checkout
