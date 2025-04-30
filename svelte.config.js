@@ -6,7 +6,11 @@ const config = {
     preprocess: vitePreprocess(),
 
     kit: {
-        adapter: adapter(),
+        adapter: adapter({
+            // it seems to be a toss up between whether GitHub pages supports this
+            // so I will be trying it and crossing my fingers
+            precompress: true,
+        }),
 
         csp: {
             mode: 'hash',
