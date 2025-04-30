@@ -1,10 +1,9 @@
 <script lang="ts">
     import type { HeadingEntry } from '$lib/types/toc-entry'
 
-    import { page } from '$app/state'
     import { onMount } from 'svelte'
 
-    import { DEFAULT_META_TAGS } from '$lib/data/default-meta'
+    import { page } from '$app/state'
     import { education } from '$lib/data/education'
     import { socialLinks } from '$lib/data/social-links'
     import { experience } from '$lib/data/work-experience'
@@ -13,7 +12,6 @@
     import Signature from '$lib/ui/branding/Signature.svelte'
     import InfoCard from '$lib/ui/components/InfoCard.svelte'
     import TableOfContents from '$lib/ui/components/TableOfContents.svelte'
-    import MetaTags from '$lib/ui/layout/MetaTags.svelte'
     import FancyLink from '$lib/ui/typography/FancyLink.svelte'
     import Markdown from '$lib/ui/typography/Markdown.svelte'
     import toHash from '$lib/utils/to-hash'
@@ -24,7 +22,7 @@
         { id: 'experience', label: 'Work History' },
         ...experience.map(entry => ({
             id: toHash(entry.startedOn),
-            label: entry.title,
+            label: entry.industry || entry.company || '',
             indent: 1,
         })),
 
@@ -46,12 +44,6 @@
         element?.scrollIntoView()
     })
 </script>
-
-<!-- I could title it "About Me" but my name being in the title is enough -->
-<MetaTags
-    {...DEFAULT_META_TAGS}
-    path="/about"
-/>
 
 <main class="main relative bg-theme-bg text-theme-on-bg">
     <div class="flex justify-center gap-xl max-md:flex-col">
@@ -86,16 +78,19 @@
                 <FlyUp>
                     <p>
                         I'm a full-stack software engineer with experience in the insurance and
-                        retail industries. As of late, my focus has been on system-level application
-                        and service development.
+                        retail industries. Lately, my focus has been on system-level application and
+                        service development.
                     </p>
 
                     <p>
-                        Currently working as a <strong>System Administrator</strong>, managing
-                        server infrastructure and develop custom automation software. In this
-                        role—and in previous positions—my focus has been on optimizing workflows and
-                        reducing man-hours through developing and maintaining specialized software
-                        solutions.
+                        <strong>I build software that fits the way people work.</strong> My priority
+                        when we work together is understanding and integrating with your workflow seamlessly.
+                        That means taking the time to get it right, the way you want it.
+                    </p>
+
+                    <p class="text-(--tw-prose-bold)">
+                        Get in touch if you need an independent developer to help refine your
+                        workflow and build custom software that fits right in.
                     </p>
                 </FlyUp>
 
