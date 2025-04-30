@@ -1,9 +1,9 @@
 <script lang="ts">
     import type { HeadingEntry } from '$lib/types/toc-entry'
 
+    import { page } from '$app/state'
     import { onMount } from 'svelte'
 
-    import { page } from '$app/state'
     import { education } from '$lib/data/education'
     import { socialLinks } from '$lib/data/social-links'
     import { experience } from '$lib/data/work-experience'

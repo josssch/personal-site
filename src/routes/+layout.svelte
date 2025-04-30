@@ -1,8 +1,8 @@
 <script lang="ts">
+    import { page } from '$app/state'
     import { onMount } from 'svelte'
     import { blur } from 'svelte/transition'
 
-    import { page } from '$app/state'
     import { DEFAULT_META_TAGS } from '$lib/data/default-meta'
     import Signature from '$lib/ui/branding/Signature.svelte'
     import Center from '$lib/ui/layout/Center.svelte'
