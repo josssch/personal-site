@@ -49,9 +49,10 @@
                     class="rounded-lg px-md py-sm transition-colors
                     supports-variable-font:transition-[background-color,color,font-weight]
                     {isCurrent
-                        ? 'text-theme-on-bg-em'
+                        ? 'font-medium text-theme-on-bg-em'
                         : 'font-light text-theme-on-bg hover:bg-theme-bg-2'}"
                     href={item.href}
+                    title={isCurrent ? 'Current Page' : ''}
                 >
                     {item.label}
                 </a>
