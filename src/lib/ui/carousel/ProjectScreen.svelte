@@ -45,7 +45,7 @@
         clazz,
     )}
 >
-    <div class="container mx-auto flex h-full p-lg max-md:flex-col">
+    <div class="container mx-auto flex h-full p-lg max-md:flex-col sm:p-xl">
         {#if project.detailComponent}
             {#await project.detailComponent() then component}
                 <div class="pointer-events-none absolute inset-0 overflow-hidden">
