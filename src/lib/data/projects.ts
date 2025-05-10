@@ -9,9 +9,9 @@ import Globe from '@lucide/svelte/icons/globe'
 
 export const projects: Record<string, Project> = {
     orbiting: {
+        slug: 'orbiting',
         logoHref: '/img/proj_orbiting_logo.png',
         bannerHref: '/img/proj_orbiting_banner.png',
-        slug: 'orbiting',
         theme: {
             backgroundColor: 'var(--color-neutral-950)',
             textColor: 'var(--color-neutral-200)',
@@ -34,6 +34,28 @@ export const projects: Record<string, Project> = {
             },
         ],
         technologies: ['MongoDB', 'Redis', 'Svelte', 'Tailwind', 'TypeScript'],
+        tags: [],
+    },
+    'mock-ui': {
+        slug: 'mock-ui',
+        bannerHref: '/img/proj_mock-ui_banner.png',
+        theme: {
+            backgroundColor: 'var(--color-neutral-900)',
+            textColor: 'var(--color-gray-200)',
+        },
+        title: 'Mock UI',
+        summary:
+            'A no-fluff starting point for building user interfaces, no setup required. Meant to accelerate minimum viable products and help ship faster.',
+        description: () => import('$lib/ui/projects/MockUIDescription.svelte'),
+        detailComponent: () => import('$lib/ui/projects/MockUIDetail.svelte'),
+        links: [
+            {
+                icon: GitBranch,
+                label: 'GitHub',
+                href: 'https://github.com/josssch/mock-ui',
+            },
+        ],
+        technologies: ['Svelte', 'Tailwind', 'TypeScript'],
         tags: [],
     },
 }
