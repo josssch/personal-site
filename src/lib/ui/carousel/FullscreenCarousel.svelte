@@ -209,7 +209,7 @@
         })
 
     const NAV_BUTTON_STYLES =
-        'transition group-hocus:translate-y-0 group-hocus:opacity-100 sm:size-8 sm:translate-y-1/2 sm:opacity-0'
+        'transition group-hocus:translate-y-0 group-hocus:opacity-100 sm:size-8 sm:translate-y-sm'
 </script>
 
 <svelte:window onresize={() => navigateTo(currentIndex, { instant: true })} />
