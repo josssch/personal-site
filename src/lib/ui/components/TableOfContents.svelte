@@ -85,10 +85,12 @@
 
             <SlideInText settings={{ delayMs: 100 }}>
                 <li
-                    style="--ident-by: {(heading.indent ?? 0) / 2}em;"
+                    style="--ident-by: {heading.indent ?? 0}em;"
                     class="relative py-sm pl-lg indent-(--ident-by) text-nowrap transition-colors before:absolute before:top-0 before:left-0.5 before:h-full before:w-[1px]
                     before:bg-theme-on-bg-faint supports-variable-font:transition-[color,font-weight]
-                    {isCurrent ? 'font-medium text-theme-on-bg-em' : ''}"
+                    {isCurrent
+                        ? 'font-medium text-theme-on-bg-em'
+                        : 'font-light text-theme-on-bg-faint'}"
                 >
                     <a href="#{heading.id}">{heading.label}</a>
                 </li>
