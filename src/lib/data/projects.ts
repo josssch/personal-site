@@ -50,6 +50,11 @@ export const projects: Record<string, Project> = {
         detailComponent: () => import('$lib/ui/projects/MockUIDetail.svelte'),
         links: [
             {
+                icon: Globe,
+                label: 'Live Demo',
+                href: 'https://mui.jossh.dev',
+            },
+            {
                 icon: GitBranch,
                 label: 'GitHub',
                 href: 'https://github.com/josssch/mock-ui',
