@@ -17,7 +17,7 @@
 
     const BODY_STYLES = ['theme-bg-(--project-theme-bg)', 'theme-text-(--project-theme-text)']
 
-    const project: Project = projects[page.params.slug]
+    const project: Project = projects[page.params.slug!]
 
     const mountTime = Date.now()
     let banner: FlyUp
@@ -71,11 +71,17 @@
         <FlyUp>
             <DetailsGrid>
                 <Detail title="Resources">
-                    <ul>
-                        {#each project.links as link (link.href)}
-                            <li><FancyLink {link} /></li>
-                        {/each}
-                    </ul>
+                    {#if project.links.length > 0}
+                        <ul>
+                            {#each project.links as link (link.href)}
+                                <li><FancyLink {link} /></li>
+                            {/each}
+                        </ul>
+                    {:else}
+                        <p class="text-sm text-theme-on-bg-faint">
+                            No resources currently available.
+                        </p>
+                    {/if}
                 </Detail>
 
                 <Detail title="Technologies Used">
@@ -92,7 +98,7 @@
             <hr class="border-theme-bg-3" />
 
             <FlyUp settings={{ threshold: 0.1 }}>
-                <Markdown class="font-sans text-wrap sm:text-lg">
+                <Markdown class="font-sans text-wrap text-theme-on-bg sm:text-lg">
                     <component.default {project} />
                 </Markdown>
             </FlyUp>

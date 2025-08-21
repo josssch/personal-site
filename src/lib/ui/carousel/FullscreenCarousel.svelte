@@ -33,6 +33,8 @@
 
         for: T[]
         builder: Snippet<[T, ScreenState]>
+
+        style?: string
     }
 
     let {
@@ -41,6 +43,7 @@
         builder,
         index: currentIndex = $bindable(0),
         translatePx = 100,
+        style,
     }: Props = $props()
 
     const isScrollEndSupported = browser && isEventSupported('onscrollend')
@@ -218,7 +221,7 @@
     bind:this={panel}
     onscroll={onScroll}
     onscrollend={onScrollEnd}
-    style="--count: {forArr.length}; --current-index: {currentIndex};"
+    style="--count: {forArr.length}; --current-index: {currentIndex}; {style ?? ''}"
     class={merge('size-full overflow-x-scroll overflow-y-hidden', clazz)}
     tabindex="-1"
 >

@@ -25,6 +25,8 @@
     // get the initial index out of the window hash (minus one)
     const initialIndex = window.location.hash ? Number(window.location.hash.slice(1)) - 1 : 0
 
+    const allProjects = Object.values(projects)
+
     // update the window hash every time the index changes
     // fixme: makes it so users can't edit the hash
     let index = $state(initialIndex)
@@ -40,8 +42,13 @@
 
 <FullscreenCarousel
     bind:this={carousel}
-    for={Object.values(projects)}
+    for={allProjects}
     bind:index
+    style="
+        --project-theme-bg: {allProjects[index]?.theme.backgroundColor};
+        --project-theme-text: {allProjects[index]?.theme.textColor};
+    "
+    class="theme-bg-(--project-theme-bg) theme-text-(--project-theme-text)"
 >
     {#snippet builder(project, state)}
         <ProjectScreen
