@@ -19,6 +19,8 @@
     <link.icon
         title={link.label}
         aria-hidden="true"
+        class="size-[1.5em]"
+        size="1.5em"
     />
     <span class="text-wrap">{link.label}</span>
 </a>

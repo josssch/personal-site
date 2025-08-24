@@ -2,10 +2,20 @@
 
 @plugin '@tailwindcss/typography';
 
-/* this is the simplest way to default the prose styles as far as I've seen */
-.prose {
-    /* I don't love using @apply but it has its place here */
-    @apply prose-neutral prose-invert;
+@layer base {
+    html {
+        /* Make the default theme neutral */
+        @apply theme-bg-neutral-900 theme-text-neutral-200;
+    }
+
+    body {
+        background-color: var(--color-theme-bg);
+        color: var(--color-theme-on-bg);
+    }
+
+    .lucide-icon {
+        width: 1em;
+    }
 }
 
 @theme {
@@ -69,16 +79,6 @@
     --theme-bg-3: color-mix(in oklab, var(--theme-bg), 17.5% white);
 }
 
-html {
-    /* Make the default theme neutral */
-    @apply theme-bg-neutral-900 theme-text-neutral-200;
-}
-
-body {
-    background-color: var(--color-theme-bg);
-    color: var(--color-theme-on-bg);
-}
-
 /*
     Making this a CSS class because having control over the actual
     element is important for page transitions.
@@ -120,6 +120,12 @@ body {
 @utility leading-base {
     /* resets the normal line height to the same as the base font size */
     line-height: calc(var(--tw-leading, var(--leading-normal)) * var(--text-base));
+}
+
+/* this is the simplest way to default the prose styles as far as I've seen */
+@utility prose {
+    /* I don't love using @apply but it has its place here */
+    @apply prose-neutral prose-invert;
 }
 
 @custom-variant supports-variable-font {
