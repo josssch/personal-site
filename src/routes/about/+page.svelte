@@ -14,6 +14,7 @@
     import TableOfContents from '$lib/ui/components/TableOfContents.svelte'
     import FancyLink from '$lib/ui/typography/FancyLink.svelte'
     import Markdown from '$lib/ui/typography/Markdown.svelte'
+    import scrollToElement from '$lib/utils/scroll-to-element'
     import toHash from '$lib/utils/to-hash'
 
     const headings: HeadingEntry[] = [
@@ -41,7 +42,7 @@
         if (!hash) return
 
         const element = document.getElementById(hash.slice(1))
-        element?.scrollIntoView()
+        if (element) scrollToElement(element, { behavior: 'instant' })
     })
 </script>
 
