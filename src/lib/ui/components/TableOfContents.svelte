@@ -2,6 +2,7 @@
     import type { HeadingEntry } from '$lib/types/toc-entry'
     import type { HTMLAttributes } from 'svelte/elements'
 
+    import ChevronRight from '@lucide/svelte/icons/chevron-right'
     import Hash from '@lucide/svelte/icons/hash'
     import { onMount } from 'svelte'
 
@@ -11,9 +12,16 @@
     interface Props extends HTMLAttributes<HTMLDivElement> {
         headings: HeadingEntry[]
         class?: string
+        expanded?: boolean
     }
 
-    const { headings, class: clazz = '', ...props }: Props = $props()
+    let {
+        headings,
+        class: clazz = '',
+        // default expanded to true on small screens (40rem is what Tailwind's `sm:` variant uses)
+        expanded = $bindable(window && !window.matchMedia('(max-width: 40rem)').matches),
+        ...props
+    }: Props = $props()
 
     let currentIndex = $state(0)
 
@@ -64,17 +72,31 @@
     {...props}
     class={merge('inline-block rounded-2xl bg-theme-bg-1 p-lg shadow-md', clazz)}
 >
-    <h3 class="mb-md font-semibold">
-        <SlideInText>
-            <Hash
-                class="inline w-4 text-theme-on-bg-faint"
-                aria-hidden="true"
-            />
-            On This Page
-        </SlideInText>
-    </h3>
+    <button
+        type="button"
+        aria-label="Expand"
+        class="flex w-full justify-between"
+        onclick={() => (expanded = !expanded)}
+    >
+        <h3 class="mb-md text-lg font-bold">
+            <SlideInText>
+                <Hash
+                    class="mb-0.5 inline text-theme-on-bg-faint"
+                    aria-hidden="true"
+                />
+                Overview
+            </SlideInText>
+        </h3>
 
-    <ul class="relative">
+        <ChevronRight class="text-lg transition-transform {expanded ? 'rotate-90' : ''}" />
+    </button>
+
+    <ul
+        class={[
+            'relative transition-[max-height,margin]',
+            expanded ? 'max-h-[75vh] overflow-y-auto' : '-mt-md max-h-0 overflow-y-hidden',
+        ]}
+    >
         <div
             style="--nearest-index: {currentIndex};"
             class="absolute z-1 h-[calc(--spacing(2)+1.5em)] w-[2px] translate-y-[calc(100%_*_var(--nearest-index))] bg-theme-on-bg-em transition-transform duration-300"
