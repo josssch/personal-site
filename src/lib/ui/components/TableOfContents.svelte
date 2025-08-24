@@ -4,9 +4,11 @@
 
     import ChevronRight from '@lucide/svelte/icons/chevron-right'
     import Hash from '@lucide/svelte/icons/hash'
+    import { goto } from '$app/navigation'
     import { onMount } from 'svelte'
 
     import merge from '$lib/utils/class-merge'
+    import scrollToElement from '$lib/utils/scroll-to-element'
     import SlideInText from '../animators/SlideInText.svelte'
 
     interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -61,6 +63,12 @@
             currentIndex = closestEl
         }
     }
+
+    function scrollTo(heading: string) {
+        const el = document.getElementById(heading)
+        if (!el) return
+        scrollToElement(el)
+    }
 </script>
 
 <svelte:window
@@ -114,7 +122,15 @@
                         ? 'font-medium text-theme-on-bg-em'
                         : 'font-light text-theme-on-bg-faint'}"
                 >
-                    <a href="#{heading.id}">{heading.label}</a>
+                    <a
+                        onclick={e => {
+                            e.preventDefault()
+                            scrollTo(heading.id)
+                            // using this rather than goto to avoid triggering svelte things
+                            window.history.replaceState(null, '', `#${heading.id}`)
+                        }}
+                        href="#{heading.id}">{heading.label}</a
+                    >
                 </li>
             </SlideInText>
         {/each}
