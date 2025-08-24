@@ -17,7 +17,7 @@
     import toHash from '$lib/utils/to-hash'
 
     const headings: HeadingEntry[] = [
-        { id: 'greeting', label: 'Top' },
+        { id: 'greeting', label: 'Introduction' },
 
         { id: 'experience', label: 'Work History' },
         ...experience.map(entry => ({

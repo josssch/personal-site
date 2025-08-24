@@ -24,7 +24,7 @@
 
 <nav
     class="fixed z-100 w-full transition
-    {isScrolled ? 'bg-theme-bg-1/33 shadow-sm backdrop-blur-lg' : ''}"
+    {isScrolled ? 'bg-theme-bg-1/33 shadow-md backdrop-blur-lg' : ''}"
 >
     <div
         class="container mx-auto flex items-center gap-xl px-xl pb-lg transition-[padding,opacity] ease-out hover:opacity-100 sm:gap-2xl sm:opacity-75
