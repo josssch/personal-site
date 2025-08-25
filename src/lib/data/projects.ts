@@ -36,6 +36,22 @@ export const projects: Record<string, Project> = {
         technologies: ['MongoDB', 'Redis', 'Svelte', 'Tailwind', 'TypeScript'],
         tags: [],
     },
+    'book-me': {
+        title: 'Book Me',
+        summary:
+            'A platform for schedule-based freelancers to share a public calendar where clients can easily book time slots. It handles availability, time zones, and more, all with an emphasis on privacy and transparent scheduling.',
+        theme: {
+            backgroundColor: 'var(--color-indigo-950)',
+            textColor: 'var(--color-indigo-100)',
+        },
+        bannerHref: '/img/proj_book-me_banner.jpg',
+        description: () => import('$lib/ui/projects/BookMeDescription.svelte'),
+        detailComponent: () => import('$lib/ui/projects/BookMeDetail.svelte'),
+        slug: 'book-me',
+        links: [],
+        technologies: ['PostgreSQL', 'Svelte', 'Tailwind', 'TypeScript'],
+        tags: [],
+    },
     'mock-ui': {
         slug: 'mock-ui',
         bannerHref: '/img/proj_mock-ui_banner.png',

@@ -109,13 +109,19 @@
 */
 
 @utility center-x {
+    --center-x-transform: translateX(-50%);
     left: 50%;
-    transform: translateX(-50%);
+    @apply center-transform;
 }
 
 @utility center-y {
+    --center-y-transform: translateY(-50%);
     top: 50%;
-    transform: translateY(-50%);
+    @apply center-transform;
+}
+
+@utility center-transform {
+    transform: var(--center-x-transform,) var(--center-y-transform,);
 }
 
 @utility leading-base {
