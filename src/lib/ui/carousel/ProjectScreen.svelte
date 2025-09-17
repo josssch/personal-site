@@ -67,7 +67,9 @@
                     bind:this={titleTextEl}
                     settings={{ trigger: 'manual', delayMs: 50 }}
                 >
-                    <span class="block font-bold">{project.title}</span>
+                    <span class="block bg-theme-on-bg px-sm leading-tight font-bold text-theme-bg">
+                        {project.title}
+                    </span>
                 </SlideInText>
             </h1>
 
