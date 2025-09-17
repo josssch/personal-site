@@ -1,7 +1,7 @@
 <script lang="ts">
     import { replaceState } from '$app/navigation'
     import { page } from '$app/state'
-    import { untrack } from 'svelte'
+    import { onDestroy, untrack } from 'svelte'
 
     import { projects } from '$lib/data/projects'
     import FullscreenCarousel from '$lib/ui/carousel/FullscreenCarousel.svelte'
@@ -36,6 +36,19 @@
             untrack(() => page.state),
         ),
     )
+
+    const projectThemeBg = $derived(allProjects[index]?.theme.backgroundColor)
+    const projectThemeText = $derived(allProjects[index]?.theme.textColor)
+
+    $effect(() => {
+        document.body.classList.toggle('transition-colors', true)
+        document.body.style.backgroundColor = projectThemeBg
+    })
+
+    onDestroy(() => {
+        document.body.classList.toggle('transition-colors', false)
+        document.body.style.backgroundColor = ''
+    })
 </script>
 
 <svelte:window onkeydown={handleKeyPress} />
@@ -45,8 +58,8 @@
     for={allProjects}
     bind:index
     style="
-        --project-theme-bg: {allProjects[index]?.theme.backgroundColor};
-        --project-theme-text: {allProjects[index]?.theme.textColor};
+        --project-theme-bg: {projectThemeBg};
+        --project-theme-text: {projectThemeText};
     "
     class="theme-bg-(--project-theme-bg) theme-text-(--project-theme-text)"
 >
