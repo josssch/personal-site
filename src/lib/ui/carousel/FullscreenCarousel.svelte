@@ -222,7 +222,7 @@
     onscroll={onScroll}
     onscrollend={onScrollEnd}
     style="--count: {forArr.length}; --current-index: {currentIndex}; {style ?? ''}"
-    class={merge('size-full overflow-x-scroll overflow-y-hidden', clazz)}
+    class={merge('size-full overflow-x-scroll overflow-y-hidden overscroll-none', clazz)}
     tabindex="-1"
 >
     <!-- this layer is responsible for the actual width of the carousel -->
