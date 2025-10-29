@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { replaceState } from '$app/navigation'
+    import { goto, replaceState } from '$app/navigation'
+    import { resolve } from '$app/paths'
     import { page } from '$app/state'
     import { onDestroy, untrack } from 'svelte'
 
@@ -19,6 +20,15 @@
         if (event.key === 'ArrowRight') {
             carousel.navigateBy(1)
             event.preventDefault()
+            return
+        }
+
+        if (event.key === 'Enter') {
+            goto(resolve('/project/[slug]', { slug: project.slug }), {
+                state: { from: page.url.pathname + `#${index + 1}` },
+            })
+
+            event.preventDefault()
         }
     }
 
@@ -37,8 +47,9 @@
         ),
     )
 
-    const projectThemeBg = $derived(allProjects[index]?.theme.backgroundColor)
-    const projectThemeText = $derived(allProjects[index]?.theme.textColor)
+    const project = $derived(allProjects[index])
+    const projectThemeBg = $derived(project.theme.backgroundColor)
+    const projectThemeText = $derived(project.theme.textColor)
 
     $effect(() => {
         document.body.classList.toggle('transition-colors', true)

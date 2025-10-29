@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { Project } from '$lib/types/project'
 
+    import { goto } from '$app/navigation'
     import { page } from '$app/state'
     import { onMount } from 'svelte'
 
@@ -36,6 +37,15 @@
         }
     })
 </script>
+
+<svelte:window
+    onkeydown={e => {
+        if (e.key === 'Escape' && page.state.from) {
+            goto(page.state.from)
+            e.preventDefault()
+        }
+    }}
+/>
 
 <main
     class="main bg-theme-bg-1 text-theme-on-bg"
