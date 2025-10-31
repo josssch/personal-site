@@ -13,6 +13,7 @@
 
     import SlideInText from '../animators/SlideInText.svelte'
     import Signature from '../branding/Signature.svelte'
+    import GradualBackdropBlur from './GradualBackdropBlur.svelte'
 
     const { items = [] as NavBarItem[] } = $props()
 
@@ -22,10 +23,12 @@
 
 <svelte:window bind:scrollY />
 
-<nav
-    class="fixed z-100 w-full transition
-    {isScrolled ? 'bg-theme-bg-1/33 shadow-md backdrop-blur-lg' : ''}"
->
+<nav class="fixed z-100 w-full transition">
+    <GradualBackdropBlur
+        class="h-[115%] bg-linear-to-t from-transparent to-theme-bg transition-opacity transition-discrete
+        {isScrolled ? 'opacity-100' : 'hidden opacity-0'}"
+    />
+
     <div
         class="container mx-auto flex items-center gap-xl px-xl pb-lg transition-[padding,opacity] ease-out hover:opacity-100 sm:gap-2xl sm:opacity-75
         {isScrolled ? 'pt-lg' : 'pt-lg not-motion-reduce:sm:pt-xl'}"
