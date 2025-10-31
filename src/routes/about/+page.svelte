@@ -56,7 +56,7 @@
         </aside>
 
         <article class="main__article max-md:mx-auto">
-            <Markdown class="prose-h1:font-bold">
+            <Markdown>
                 <SlideInText settings={{ delayMs: 250 }}>
                     <h1
                         id="greeting"
@@ -67,7 +67,7 @@
                 </SlideInText>
 
                 <ul class="not-prose my-xl flex flex-wrap items-center justify-evenly gap-lg">
-                    {#each socialLinks as link, i (link.href)}
+                    {#each Object.values(socialLinks) as link, i (link.href)}
                         <li>
                             <SlideInText settings={{ delayMs: i * 50 + 250 }}>
                                 <FancyLink {link} />
