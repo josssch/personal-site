@@ -7,7 +7,7 @@
     import Markdown from '$lib/ui/typography/Markdown.svelte'
 </script>
 
-<main class="main mx-auto">
+<main class="main bg-theme-bg text-theme-on-bg">
     <article class="main__article mx-auto mt-xl">
         <Markdown>
             <h1>Programming Tutoring</h1>
