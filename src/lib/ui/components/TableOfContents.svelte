@@ -83,13 +83,13 @@
     <button
         type="button"
         aria-label="Expand"
-        class="flex w-full justify-between"
+        class="mb-md flex w-full items-center justify-between"
         onclick={() => (expanded = !expanded)}
     >
-        <h3 class="mb-md text-lg font-bold">
+        <h3 class="text-lg text-theme-on-bg-faint">
             <SlideInText>
                 <Hash
-                    class="mb-0.5 inline text-theme-on-bg-faint"
+                    class="mb-0.5 inline"
                     aria-hidden="true"
                 />
                 Overview
@@ -107,7 +107,7 @@
     >
         <div
             style="--nearest-index: {currentIndex};"
-            class="absolute z-1 h-[calc(--spacing(2)+1.5em)] w-[2px] translate-y-[calc(100%_*_var(--nearest-index))] bg-theme-on-bg-em transition-transform duration-300"
+            class="absolute left-0.5 z-1 h-[calc(--spacing(2)+1.25em)] w-px translate-y-[calc(100%*var(--nearest-index))] rounded-full bg-theme-on-bg-em transition-transform duration-150"
         ></div>
 
         {#each headings as heading, i (heading.id)}
@@ -116,8 +116,8 @@
             <SlideInText settings={{ delayMs: 100 }}>
                 <li
                     style="--ident-by: {heading.indent ?? 0}em;"
-                    class="relative py-sm pl-lg indent-(--ident-by) text-nowrap transition-colors before:absolute before:top-0 before:left-0.5 before:h-full before:w-[1px]
-                    before:bg-theme-on-bg-faint supports-variable-font:transition-[color,font-weight]
+                    class="relative py-sm pl-lg indent-(--ident-by) leading-tight text-nowrap transition-colors before:absolute before:top-0 before:left-0.5
+                    before:h-full before:w-px before:bg-theme-bg-3 supports-variable-font:transition-[color,font-weight,font-size]
                     {isCurrent
                         ? 'font-medium text-theme-on-bg-em'
                         : 'font-light text-theme-on-bg-faint'}"
