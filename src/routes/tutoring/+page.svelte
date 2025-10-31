@@ -45,10 +45,10 @@
             </p>
 
             <Button
-                class="not-prose w-full text-lg theme-bg-blue-900 theme-text-white"
+                class="not-prose w-full text-lg font-medium theme-bg-blue-700 theme-text-white"
                 href={socialLinks.email.href}
             >
-                <socialLinks.email.icon />
+                <socialLinks.email.icon class="size-6 stroke-2" />
                 Discuss Tutoring Options
             </Button>
 
@@ -80,6 +80,8 @@
                 Aside from technologies, this also includes deep knowledge of interpreters,
                 compilers, algorithms, and advanced data structures.
             </p>
+
+            <hr />
 
             <Signature class="ml-auto" />
         </Markdown>
