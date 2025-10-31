@@ -5,12 +5,17 @@
         children,
         type = 'button' as 'button' | 'submit' | 'reset',
         href = null as string | null,
+        openInNewTab = href != null && href.startsWith('http'),
         class: clazz = '',
         ...props
     } = $props()
 
     const isAnchor = $derived(href !== null)
-    const ANCHOR_SPECIFIC_TAGS = { target: '_blank', rel: 'noopener noreferrer' }
+    const ANCHOR_SPECIFIC_TAGS = $derived({
+        // undefined because _self overrides svelte routing
+        target: openInNewTab ? '_blank' : undefined,
+        rel: 'noopener noreferrer',
+    })
 </script>
 
 <svelte:element
