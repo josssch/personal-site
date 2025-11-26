@@ -1,4 +1,6 @@
 <script lang="ts">
+    import type { MetaTagsProps } from '$lib/types/meta-tags'
+
     import { page } from '$app/state'
     import { onMount } from 'svelte'
     import { blur } from 'svelte/transition'
@@ -30,7 +32,7 @@
         )
     })
 
-    const meta = $derived(page.data.meta ? page.data.meta : {})
+    const meta: MetaTagsProps = $derived(page.data.meta ? page.data.meta : {})
 </script>
 
 <MetaTags
