@@ -13,6 +13,7 @@
 
     let controller: ControllerElement
     export const play = () => controller.play?.()
+    export const reset = () => controller.reset?.()
 </script>
 
 <div

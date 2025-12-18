@@ -18,19 +18,33 @@
     import GradualBackdropBlur from './GradualBackdropBlur.svelte'
 
     const { items = [] as NavBarItem[] } = $props()
+    const itemPlayers: SlideInText[] = $derived(new Array(items.length).fill(null))
 
     let scrollY = $state(browser ? window.scrollY : 0)
     let innerWidth = $state(browser ? window.innerWidth : 0)
 
     const isScrolled = $derived(scrollY > 0)
 
+    let trueExpandedHeight = $state(0)
     let isExpanded = $state(false)
-    $inspect(isExpanded)
 
     $effect(() => {
         // when the scroll height changes, or the window width changes
         ;(void scrollY, innerWidth)
         isExpanded = false
+    })
+
+    $effect(() => {
+        // this will be triggered when isExpanded changes and onMount,
+        // when the window size is greater than 40rem (`sm`), onMount this will trigger an
+        // automatic playing of all navigation items because they'll be visible
+        itemPlayers.forEach(player => {
+            if (isExpanded || window.matchMedia('(min-width: 40rem)').matches) {
+                player.play()
+            } else {
+                player.reset()
+            }
+        })
     })
 
     function onToggleExpand(event: MouseEvent) {
@@ -84,28 +98,36 @@
         </button>
 
         <div
-            class="flex items-center gap-xl max-sm:mt-lg max-sm:w-full max-sm:flex-col sm:gap-2xl
-            {isExpanded ? '' : 'hidden'}"
+            {@attach div => {
+                trueExpandedHeight = div.scrollHeight
+            }}
+            style="--true-height: {trueExpandedHeight}px;"
+            class="overflow-hidden max-sm:w-full
+            {isExpanded
+                ? 'visible transition-[max-height] transition-discrete max-sm:max-h-(--true-height)'
+                : 'max-sm:invisible max-sm:max-h-0'}"
         >
-            {#each items as item, i (item.href)}
-                {@const isCurrent = page.url.pathname === item.href}
+            <div class="flex items-center gap-xl max-sm:mt-lg max-sm:flex-col sm:gap-2xl">
+                {#each items as item, i (item.href)}
+                    {@const isCurrent = page.url.pathname === item.href}
 
-                <SlideInText
-                    settings={{ delayMs: (items.length - i - 1) * 150, trigger: 'instant' }}
-                >
-                    <a
-                        class="rounded-lg px-md py-sm transition-colors
-                        supports-variable-font:transition-[background-color,color,font-weight]
-                        {isCurrent
-                            ? 'font-medium text-theme-on-bg-em'
-                            : 'font-light text-theme-on-bg hover:bg-theme-bg-2'}"
-                        href={item.href}
-                        title={isCurrent ? 'Current Page' : ''}
+                    <SlideInText
+                        bind:this={itemPlayers[i]}
+                        settings={{ delayMs: i * 150, trigger: 'manual' }}
                     >
-                        {item.label}
-                    </a>
-                </SlideInText>
-            {/each}
+                        <a
+                            class="supports-variable-font:transition-[background-color,color,font-weight rounded-lg px-md py-sm transition-colors
+                            {isCurrent
+                                ? 'font-medium text-theme-on-bg-em'
+                                : 'font-light text-theme-on-bg hover:bg-theme-bg-2'}"
+                            href={item.href}
+                            title={isCurrent ? 'Current Page' : ''}
+                        >
+                            {item.label}
+                        </a>
+                    </SlideInText>
+                {/each}
+            </div>
         </div>
     </div>
 </nav>

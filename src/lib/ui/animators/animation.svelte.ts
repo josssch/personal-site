@@ -19,7 +19,7 @@ export interface ControllerSettings {
     keyframes: string
 }
 
-export type ControllerAttributes = { play?: () => void }
+export type ControllerAttributes = { play?: () => void; reset?: () => void }
 export type ControllerElement = HTMLElement & ControllerAttributes
 
 export const animateController: Action<HTMLElement, ControllerSettings, ControllerAttributes> = (
@@ -36,8 +36,14 @@ export const animateController: Action<HTMLElement, ControllerSettings, Controll
         hasPlayed = true
     }
 
+    const reset = () => {
+        node.style.animation = ''
+        hasPlayed = false
+    }
+
     // add our play function to the node so that it can be called externally
     ;(node as ControllerElement).play = play
+    ;(node as ControllerElement).reset = reset
 
     $effect(() => {
         // keep track of whether the animation has played in this instance
