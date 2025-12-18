@@ -23,6 +23,7 @@
     import merge from '$lib/utils/class-merge'
     import isEventSupported from '$lib/utils/is-event-supported'
     import scrollToWait from '$lib/utils/scroll-to-wait'
+    import { dragToScroll } from '../drag-to-scroll'
     import CircleButton from '../form/CircleButton.svelte'
 
     interface Props {
@@ -219,6 +220,7 @@
 
 <div
     bind:this={panel}
+    use:dragToScroll={{ xMultiplier: 2 }}
     onscroll={onScroll}
     onscrollend={onScrollEnd}
     style="--count: {forArr.length}; --current-index: {currentIndex}; {style ?? ''}"
@@ -226,9 +228,9 @@
     tabindex="-1"
 >
     <!-- this layer is responsible for the actual width of the carousel -->
-    <div class="h-full w-[calc(var(--count)_*_100%)]">
+    <div class="h-full w-[calc(var(--count)*100%)]">
         <!-- this layer is here to keep all elements in the same place regardless of the scroll position -->
-        <div class="sticky left-0 h-full w-[calc(100%_/_var(--count))]">
+        <div class="sticky left-0 h-full w-[calc(100%/var(--count))]">
             {#each forArr as item, i (i)}
                 {@const state = {
                     currentIndex,
