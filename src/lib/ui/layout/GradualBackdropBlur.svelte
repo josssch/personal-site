@@ -11,7 +11,7 @@
 
     let { stepCount = 5, direction = 'up', blurPx = 2, class: clazz, ...props }: Props = $props()
 
-    const stepPercent = 100 / stepCount
+    const stepPercent = $derived(100 / stepCount)
 </script>
 
 <div
