@@ -12,8 +12,8 @@
 <p>
     The code I cherish the most in my projects tends to be in the backend, which is where I like to
     spend most of my time. Having to break away just to write a user interface takes away a lot of
-    time from other things. Especially if you consider <em>just some</em> of the core principles you
-    must follow:
+    time from other things. Especially if you consider <em>just some</em> of the core principles you must
+    follow:
 </p>
 
 <ol>

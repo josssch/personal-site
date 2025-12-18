@@ -70,7 +70,7 @@
         <NavBar
             items={[
                 { href: '/', label: 'Projects' },
-                // { href: '/contact', label: 'Services' },
+                { href: '/tutoring', label: 'Tutoring' },
                 { href: '/about', label: 'About' },
             ]}
         />

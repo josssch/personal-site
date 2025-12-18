@@ -84,8 +84,8 @@
                     </p>
 
                     <p>
-                        <strong>I build software that fits the way people work.</strong> My priority
-                        when we work together is understanding and integrating with your workflow seamlessly.
+                        <strong>I build software that fits the way people work.</strong> My priority when
+                        we work together is understanding and integrating with your workflow seamlessly.
                         That means taking the time to get it right, the way you want it.
                     </p>
 
