@@ -49,20 +49,24 @@
 
     function onToggleExpand(event: MouseEvent) {
         // stop propagation to prevent the window click handler from being triggered
+        // this is because when we toggle isExpanded, the event.target gets removed from the DOM
+        // so all checks for the nav will stop working
         event.stopPropagation()
         isExpanded = !isExpanded
     }
 </script>
 
-<!--
-    the onclick being handled this way means we get automatic closing for free when the user
-    navigates or interacts with anything else, which presumably means they're done interacting with
-    the nav
--->
 <svelte:window
-    onclick={() => (isExpanded = false)}
     bind:scrollY
     bind:innerWidth
+    onclick={event => {
+        if (!isExpanded) return
+
+        const target = event.target
+        if (target instanceof HTMLElement && !target.closest('nav')) {
+            isExpanded = false
+        }
+    }}
 />
 
 <nav class="fixed z-100 w-full transition">
@@ -87,14 +91,18 @@
         </a>
 
         <button
-            class="relative -m-xl p-xl sm:hidden"
+            class="relative size-[1em] sm:hidden"
             onclick={onToggleExpand}
         >
-            {#if isExpanded}
-                <X />
-            {:else}
-                <Menu />
-            {/if}
+            <!-- yeah, it's repetitive, but if I need to reuse it then I will fix it -->
+            <X
+                class="absolute inset-0 transition
+                {isExpanded ? 'scale-100 delay-150' : 'scale-50 opacity-0'}"
+            />
+            <Menu
+                class="absolute inset-0 transition
+                {isExpanded ? 'scale-50 opacity-0' : 'scale-100 delay-150'}"
+            />
         </button>
 
         <div
@@ -116,6 +124,7 @@
                         settings={{ delayMs: i * 150, trigger: 'manual' }}
                     >
                         <a
+                            onclick={() => (isExpanded = false)}
                             class="supports-variable-font:transition-[background-color,color,font-weight rounded-lg px-md py-sm transition-colors
                             {isCurrent
                                 ? 'font-medium text-theme-on-bg-em'
