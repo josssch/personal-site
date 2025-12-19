@@ -11,7 +11,9 @@
     import Menu from '@lucide/svelte/icons/menu'
     import X from '@lucide/svelte/icons/x'
     import { browser } from '$app/environment'
+    import { afterNavigate } from '$app/navigation'
     import { page } from '$app/state'
+    import { onMount } from 'svelte'
 
     import SlideInText from '../animators/SlideInText.svelte'
     import Signature from '../branding/Signature.svelte'
@@ -25,7 +27,19 @@
 
     const isScrolled = $derived(scrollY > 0)
 
-    let trueExpandedHeight = $state(0)
+    let navMenuWrapper: HTMLDivElement
+    let navMenuHeight = $state(0)
+
+    onMount(() => {
+        const observer = new ResizeObserver(() => {
+            navMenuHeight = navMenuWrapper.scrollHeight
+        })
+
+        observer.observe(navMenuWrapper)
+
+        return () => observer.disconnect()
+    })
+
     let isExpanded = $state(false)
 
     $effect(() => {
@@ -35,6 +49,9 @@
     })
 
     $effect(() => {
+        // depend on this so the effect is triggered when the window width changes
+        void innerWidth
+
         // this will be triggered when isExpanded changes and onMount,
         // when the window size is greater than 40rem (`sm`), onMount this will trigger an
         // automatic playing of all navigation items because they'll be visible
@@ -45,6 +62,10 @@
                 player.reset()
             }
         })
+    })
+
+    afterNavigate(() => {
+        isExpanded = false
     })
 
     function onToggleExpand(event: MouseEvent) {
@@ -106,10 +127,8 @@
         </button>
 
         <div
-            {@attach div => {
-                trueExpandedHeight = div.scrollHeight
-            }}
-            style="--true-height: {trueExpandedHeight}px;"
+            bind:this={navMenuWrapper}
+            style="--true-height: {navMenuHeight}px;"
             class="overflow-hidden max-sm:w-full
             {isExpanded
                 ? 'visible transition-[max-height] transition-discrete max-sm:max-h-(--true-height)'
@@ -124,7 +143,6 @@
                         settings={{ delayMs: i * 150, trigger: 'manual' }}
                     >
                         <a
-                            onclick={() => (isExpanded = false)}
                             class="supports-variable-font:transition-[background-color,color,font-weight rounded-lg px-md py-sm transition-colors
                             {isCurrent
                                 ? 'font-medium text-theme-on-bg-em'
