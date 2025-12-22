@@ -83,56 +83,52 @@
     <button
         type="button"
         aria-label="Expand"
-        class="mb-md flex w-full items-center justify-between"
+        class="flex w-full items-center justify-between"
         onclick={() => (expanded = !expanded)}
     >
-        <h3 class="text-lg text-theme-on-bg-faint">
-            <SlideInText>
-                <Hash
-                    class="mb-0.5 inline"
-                    aria-hidden="true"
-                />
-                Overview
-            </SlideInText>
+        <h3 class="text-sm font-medium text-theme-on-bg-faint">
+            <SlideInText>ON THIS PAGE</SlideInText>
         </h3>
 
         <ChevronRight class="text-lg transition-transform {expanded ? 'rotate-90' : ''}" />
     </button>
 
-    <ul
+    <div
         class={[
-            'relative transition-[max-height,margin]',
-            expanded ? 'max-h-[75vh] overflow-y-auto' : '-mt-md max-h-0 overflow-y-hidden',
+            'group transition-[max-height,margin]',
+            expanded ? 'max-h-[50vh] overflow-y-auto' : 'max-h-0 overflow-y-hidden',
         ]}
     >
-        <div
-            style="--nearest-index: {currentIndex};"
-            class="absolute left-0.5 z-1 h-[calc(--spacing(2)+1.25em)] w-px translate-y-[calc(100%*var(--nearest-index))] rounded-full bg-theme-on-bg-em transition-transform duration-150"
-        ></div>
+        <ul class="relative mt-md">
+            <div
+                style="
+                --top: {(currentIndex / headings.length) * 100}%;
+                --left: {headings[currentIndex]?.indent ?? 0}em;
+            "
+                class="absolute top-(--top) left-(--left) z-1 size-1 translate-y-[0.5lh] bg-theme-on-bg transition-[top,left] duration-100"
+            ></div>
 
-        {#each headings as heading, i (heading.id)}
-            {@const isCurrent = currentIndex === i}
+            {#each headings as heading, i (heading.id)}
+                {@const isCurrent = currentIndex === i}
 
-            <SlideInText settings={{ delayMs: 100 }}>
-                <li
-                    style="--ident-by: {heading.indent ?? 0}em;"
-                    class="relative py-sm pl-lg indent-(--ident-by) leading-tight text-nowrap transition-colors before:absolute before:top-0 before:left-0.5
-                    before:h-full before:w-px before:bg-theme-bg-3 supports-variable-font:transition-[color,font-weight,font-size]
-                    {isCurrent
-                        ? 'font-medium text-theme-on-bg-em'
-                        : 'font-light text-theme-on-bg-faint'}"
-                >
-                    <a
-                        onclick={e => {
-                            e.preventDefault()
-                            scrollTo(heading.id)
-                            // using this rather than goto to avoid triggering svelte things
-                            window.history.replaceState(null, '', `#${heading.id}`)
-                        }}
-                        href="#{heading.id}">{heading.label}</a
+                <SlideInText settings={{ delayMs: i * 25 + 100 }}>
+                    <li
+                        style="--ident-by: {heading.indent ?? 0}em;"
+                        class="relative py-sm pl-lg indent-(--ident-by) leading-tight text-nowrap transition-colors supports-variable-font:transition-[color,font-weight,font-size]
+                    {isCurrent ? 'text-theme-on-bg' : 'font-light text-theme-on-bg-faint'}"
                     >
-                </li>
-            </SlideInText>
-        {/each}
-    </ul>
+                        <a
+                            onclick={e => {
+                                e.preventDefault()
+                                scrollTo(heading.id)
+                                // using this rather than goto to avoid triggering svelte things
+                                window.history.replaceState(null, '', `#${heading.id}`)
+                            }}
+                            href="#{heading.id}">{heading.label}</a
+                        >
+                    </li>
+                </SlideInText>
+            {/each}
+        </ul>
+    </div>
 </div>
