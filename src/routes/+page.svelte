@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { replaceState } from '$app/navigation'
+    import { afterNavigate, replaceState } from '$app/navigation'
     import { page } from '$app/state'
     import { onDestroy, untrack } from 'svelte'
 
@@ -36,6 +36,12 @@
             untrack(() => page.state),
         ),
     )
+
+    afterNavigate(() => {
+        replaceState('', {
+            from: `/#${index + 1}`,
+        })
+    })
 
     const projectThemeBg = $derived(allProjects[index]?.theme.backgroundColor)
     const projectThemeText = $derived(allProjects[index]?.theme.textColor)

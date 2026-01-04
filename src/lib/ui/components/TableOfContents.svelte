@@ -3,8 +3,6 @@
     import type { HTMLAttributes } from 'svelte/elements'
 
     import ChevronRight from '@lucide/svelte/icons/chevron-right'
-    import Hash from '@lucide/svelte/icons/hash'
-    import { goto } from '$app/navigation'
     import { onMount } from 'svelte'
 
     import merge from '$lib/utils/class-merge'

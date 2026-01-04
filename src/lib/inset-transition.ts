@@ -4,18 +4,23 @@ import { quintOut } from 'svelte/easing'
 
 // just a global store, I don't need to worry about key conflicts right now
 const fromNodes = new Map<string, Element>()
+const returnRects = new Map<string, DOMRect>()
 
 export interface InsetClipParams {
     key: string
     duration?: number
     delay?: number
     easing?: EasingFunction
+    registerReturn?: boolean
+    shouldRun?: () => boolean
 }
 
 const DEFAULT_PARAMS: Required<Omit<InsetClipParams, 'key'>> = {
     duration: 750,
     delay: 0,
     easing: quintOut,
+    registerReturn: false,
+    shouldRun: () => true,
 }
 
 export function insetSend(node: Element, params: InsetClipParams): TransitionConfig {
@@ -31,10 +36,14 @@ export function insetSend(node: Element, params: InsetClipParams): TransitionCon
 }
 
 export function insetReceive(node: Element, params: InsetClipParams): TransitionConfig {
-    const { key, duration, delay, easing } = Object.assign({}, DEFAULT_PARAMS, params)
+    const { key, duration, delay, easing, registerReturn, shouldRun } = Object.assign(
+        {},
+        DEFAULT_PARAMS,
+        params,
+    )
 
     const fromNode = fromNodes.get(key)
-    if (!fromNode) {
+    if (!fromNode || !shouldRun()) {
         // no fallback right now, just a clean page load
         return { delay, duration, easing }
     }
@@ -42,28 +51,63 @@ export function insetReceive(node: Element, params: InsetClipParams): Transition
     // clear the entry from the map, it shouldn't be reused
     fromNodes.delete(key)
 
-    const fromStyle = getComputedStyle(fromNode)
-    const toStyle = getComputedStyle(node)
+    const fromRect = fromNode.getBoundingClientRect()
+    const toRect = node.getBoundingClientRect()
 
-    const fromBorder = fromStyle.borderRadius || '0'
-    const toBorder = toStyle.borderRadius || '0'
-
-    const { top, right, bottom, left } = fromNode.getBoundingClientRect()
+    if (registerReturn) {
+        returnRects.set(key, fromRect)
+    }
 
     return {
         delay,
         duration,
         easing,
-        // a clip-path that grows to the size of the target node from the given node
-        // also lerps between the border radius (though assumes symmetry)
+        css: insetCss(fromRect, toRect),
+    }
+}
+
+export function insetReturn(node: Element, params: InsetClipParams): TransitionConfig {
+    const { key, duration, delay, easing, shouldRun } = Object.assign({}, DEFAULT_PARAMS, params)
+
+    const returnRect = returnRects.get(key)
+    if (!returnRect || !shouldRun()) {
+        // no fallback right now, just a clean page load
+        return { duration: 0 }
+    }
+
+    returnRects.delete(key)
+
+    const fromRect = node.getBoundingClientRect()
+    const insetFn = insetCss(returnRect, fromRect)
+
+    return {
+        delay,
+        duration,
+        easing,
         css: (t, u) => `
-            clip-path: rect(
-                ${top * u}px
-                calc(${right * u}px + ${100 * t}%)
-                calc(${bottom * u}px + ${100 * t}%)
-                ${left * u}px
-                round calc(${fromBorder} * ${u} + ${t} * ${toBorder})
-            );
+            z-index: 100;
+            position: relative;
+            opacity: ${Math.min(1, t * 4) * 100}%;
+            ${insetFn(t, u)}
         `,
     }
+}
+
+function insetCss(from: DOMRect, to: DOMRect): NonNullable<TransitionConfig['css']> {
+    // yeah I technically should not be adding this window logic here
+    const insetTop = Math.max(0, from.top - to.top) - window.scrollY
+    const insetLeft = Math.max(0, from.left - to.left) - window.scrollX
+    const insetRight = Math.max(0, to.right - from.right) + window.scrollX
+    const insetBottom = Math.max(0, to.bottom - from.bottom) + window.scrollY
+
+    // a clip-path that grows to the size of the target node from the given node
+    // also lerps between the border radius (though assumes symmetry)
+    return (_t, u) => `
+        clip-path: inset(
+            ${insetTop * u}px
+            ${insetRight * u}px
+            ${insetBottom * u}px
+            ${insetLeft * u}px
+        );
+    `
 }

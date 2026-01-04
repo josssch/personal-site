@@ -1,11 +1,12 @@
 <script lang="ts">
     import type { Project } from '$lib/types/project'
 
+    import ArrowLeft from '@lucide/svelte/icons/arrow-left'
     import { page } from '$app/state'
     import { onMount } from 'svelte'
 
     import { projects } from '$lib/data/projects'
-    import { insetReceive } from '$lib/inset-transition'
+    import { insetReceive, insetReturn } from '$lib/inset-transition'
     import FlyUp from '$lib/ui/animators/FlyUp.svelte'
     import SlideInText from '$lib/ui/animators/SlideInText.svelte'
     import Detail from '$lib/ui/components/Detail.svelte'
@@ -39,7 +40,14 @@
 
 <main
     class="main bg-theme-bg-1 text-theme-on-bg"
-    in:insetReceive={{ key: `project-${project.slug}` }}
+    in:insetReceive={{ key: `project-${project.slug}`, registerReturn: true }}
+    out:insetReturn={{
+        key: `project-${project.slug}`,
+        shouldRun: () => {
+            // only run the transition if the user is navigating to the projects page
+            return page.url.pathname === '/'
+        },
+    }}
 >
     <FlyUp
         bind:this={banner}
@@ -59,12 +67,26 @@
 
     <article class="main__article mx-auto mt-xl flex flex-col gap-xl">
         <div>
+            {#if page.state.from}
+                <SlideInText settings={{ delayMs: 250 }}>
+                    <FancyLink
+                        class="mb-md text-theme-on-bg-faint [--icon-size:1em]"
+                        link={{
+                            href: page.state.from,
+                            label: 'Projects',
+                            icon: ArrowLeft,
+                            internal: true,
+                        }}
+                    />
+                </SlideInText>
+            {/if}
+
             <SlideInText settings={{ delayMs: 150 }}>
                 <h1 class="mb-md text-4xl font-bold text-balance">{project.title}</h1>
             </SlideInText>
 
             <SlideInText settings={{ delayMs: 50 }}>
-                <p class="text-lg text-theme-on-bg-faint">{project.summary}</p>
+                <p class="text-lg">{project.summary}</p>
             </SlideInText>
         </div>
 
