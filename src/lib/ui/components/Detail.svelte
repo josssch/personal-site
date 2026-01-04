@@ -11,7 +11,7 @@
 </script>
 
 <div class={clazz}>
-    <h2 class="mb-lg text-lg font-medium">{title}</h2>
+    <h2 class="mb-lg text-sm font-medium text-theme-on-bg-faint">{title.toUpperCase()}</h2>
 
     {@render children?.()}
 </div>
