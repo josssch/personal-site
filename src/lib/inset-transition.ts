@@ -87,7 +87,7 @@ export function insetReturn(node: Element, params: InsetClipParams): TransitionC
         css: (t, u) => `
             z-index: 100;
             position: relative;
-            opacity: ${Math.min(1, t * 4) * 100}%;
+            opacity: ${Math.min(1, t * 8) * 100}%;
             ${insetFn(t, u)}
         `,
     }
@@ -97,12 +97,16 @@ function insetCss(from: DOMRect, to: DOMRect): NonNullable<TransitionConfig['css
     // yeah I technically should not be adding this window logic here
     const insetTop = Math.max(0, from.top - to.top) - window.scrollY
     const insetLeft = Math.max(0, from.left - to.left) - window.scrollX
-    const insetRight = Math.max(0, to.right - from.right) + window.scrollX
-    const insetBottom = Math.max(0, to.bottom - from.bottom) + window.scrollY
+    const insetRight =
+        Math.max(0, Math.min(to.right, document.body.clientWidth) - from.right) + window.scrollX
+    const insetBottom = Math.max(0, Math.min(to.bottom, document.body.clientHeight) - from.bottom)
 
     // a clip-path that grows to the size of the target node from the given node
     // also lerps between the border radius (though assumes symmetry)
     return (_t, u) => `
+        max-height: 100vh;
+        max-width: 100vw;
+        overflow: hidden;
         clip-path: inset(
             ${insetTop * u}px
             ${insetRight * u}px
