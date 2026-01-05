@@ -112,7 +112,7 @@
                 <SlideInText settings={{ delayMs: i * 25 + 100 }}>
                     <li
                         style="--ident-by: {heading.indent ?? 0}em;"
-                        class="relative py-sm pl-lg indent-(--ident-by) leading-tight text-nowrap transition-colors supports-variable-font:transition-[color,font-weight,font-size]
+                        class="relative px-lg py-sm indent-(--ident-by) leading-tight text-nowrap transition-colors supports-variable-font:transition-[color,font-weight,font-size]
                     {isCurrent ? 'text-theme-on-bg' : 'font-light text-theme-on-bg-faint'}"
                     >
                         <a

@@ -4,4 +4,5 @@ export interface Education {
     startedOn?: string
     endedOn?: string
     isCurrent?: boolean
+    achievements?: string[]
 }

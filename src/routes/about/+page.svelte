@@ -20,7 +20,7 @@
     const headings: HeadingEntry[] = [
         { id: 'greeting', label: 'Introduction' },
 
-        { id: 'experience', label: 'Work History' },
+        { id: 'experience', label: 'Experience' },
         ...experience.map(entry => ({
             id: toHash(entry.startedOn),
             label: entry.industry || entry.company || '',
@@ -102,7 +102,7 @@
                         id="experience"
                         class="mt-[unset] mb-[unset]"
                     >
-                        Work History
+                        Professional Experience
                     </h2>
                 </SlideInText>
 
@@ -143,6 +143,7 @@
                                 startedOn={edu.startedOn}
                                 endedOn={edu.endedOn}
                                 current={edu.isCurrent}
+                                points={edu.achievements}
                             />
                         </FlyUp>
                     {/each}

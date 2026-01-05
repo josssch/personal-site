@@ -39,7 +39,7 @@
 
 <div
     {...props}
-    class={merge('rounded-2xl bg-theme-bg-1 p-lg shadow-md', clazz)}
+    class={merge('rounded-2xl border-2 border-theme-bg-2 bg-theme-bg-1 p-lg shadow-md', clazz)}
 >
     {#if leadIn}
         <div>{@render asSnippet(leadIn)}</div>
@@ -70,7 +70,7 @@
 
     <ul class="list-disc overflow-hidden pl-lg">
         {#each points as point, i (i)}
-            <li class="not-last:mb-md marker:text-theme-on-bg-faint first:mt-lg">{point}</li>
+            <li class="not-last:mb-xs marker:text-theme-on-bg-faint first:mt-lg">{point}</li>
         {/each}
     </ul>
 </div>
