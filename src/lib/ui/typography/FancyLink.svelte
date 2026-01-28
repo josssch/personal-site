@@ -8,7 +8,7 @@
 
 <a
     class={merge(
-        'inline-flex items-center gap-md underline-offset-4 focus-within:underline hover:underline',
+        'inline-flex items-center gap-md underline-offset-4 *:first:size-(--icon-size,1.5em) focus-within:underline hover:underline',
         clazz,
     )}
     href={link.href}
