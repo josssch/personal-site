@@ -7,9 +7,10 @@ export const experience: WorkExperience[] = [
         startedOn: 'November 2024',
         isCurrent: true,
         duties: [
-            'Building and maintaining software tailored to integrate into existing systems',
-            'Automating work that previously took several man hours weekly',
-            'Administrator over Active Directory and Windows Server',
+            'Created automation tooling for improved efficiency across all retail locations, with custom integrations into POS and inventory systems',
+            'Created data pipeline tooling to remove countless manual data entry tasks, saving hundreds of hours of work',
+            'Maintained the security of internal systems and networks',
+            'Worked closely with CEO to develop business intelligence reporting tools',
         ],
     },
     {
@@ -18,8 +19,8 @@ export const experience: WorkExperience[] = [
         startedOn: 'April 2024',
         isCurrent: true,
         duties: [
-            'Planning, developing, and implementing features for an active user-base',
-            'Maintaining and migrating an active production database between updates',
+            'Planned, developed, and implemented features for an active user-base',
+            'Maintained and handled migrating an active production database between updates',
         ],
     },
     {
@@ -28,8 +29,8 @@ export const experience: WorkExperience[] = [
         startedOn: 'February 2022',
         endedOn: 'April 2024',
         duties: [
-            'Developed and maintained a suite of full-stack web applications',
             'Collaborated with a team to develop and test new features',
+            'Developed and maintained a suite of full-stack web applications',
             'Used Azure DevOps for CI/CD workflows',
         ],
     },
@@ -39,8 +40,8 @@ export const experience: WorkExperience[] = [
         startedOn: 'September 2017',
         isCurrent: true,
         duties: [
-            'Working closely with clients to understand their needs and workflow',
-            'Developing applications tailored to that specific workflow in an iterative manner',
+            'Worked closely with clients to understand their needs and workflow',
+            'Developed applications tailored to a specific workflow in an iterative manner',
             'Worked with an estimated 50+ unique clients—and counting',
         ],
     },

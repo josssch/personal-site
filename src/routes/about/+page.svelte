@@ -78,21 +78,21 @@
 
                 <FlyUp>
                     <p>
-                        I'm a full-stack software engineer with experience in the insurance and
-                        retail industries. Lately, my focus has been on system-level application and
-                        service development.
+                        I'm an independent contractor and full-stack software engineer based in
+                        Canada, with experience working in the insurance and retail industries. My
+                        focus has been building task automation, data pipeline tooling, and business
+                        intelligence tooling to streamline internal workflows.
                     </p>
 
                     <p>
-                        <strong>I build software that fits the way people work.</strong> My priority when
-                        we work together is understanding and integrating with your workflow seamlessly.
-                        That means taking the time to get it right, the way you want it.
+                        I work closely with stakeholders and end-users to understand existing
+                        processes before writing code. After 50+ independent clients and counting, I
+                        know that effective tooling comes from understanding the problem first.
                     </p>
 
-                    <p class="text-(--tw-prose-bold)">
-                        Get in touch if you need an independent developer to help refine your
-                        workflow and build custom software that fits right in.
-                    </p>
+                    <strong>
+                        Currently available for contract work and open to full-time opportunities.
+                    </strong>
                 </FlyUp>
 
                 <hr />
