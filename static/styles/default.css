@@ -23,9 +23,8 @@
     cursor: default;
 }
 
-::selection,
-::-webkit-selection,
-::-moz-selection {
+/* this needs to be JUST ::selection, it cannot have multiple selectors because chrome throws a fit */
+::selection {
     /*
         creates an invert sort of effect, but is flawed because
         it doesn't change based on the actual theme, just whatever the root one is
