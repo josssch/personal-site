@@ -6,12 +6,14 @@ export interface AnimationSettings {
     trigger: AnimationTrigger
     delayMs: number
     threshold: number
+    duration: string
 }
 
 export const DEFAULT_ANIMATION_SETTINGS: AnimationSettings = {
     delayMs: 0,
     trigger: 'intersection',
     threshold: 0,
+    duration: 'var(--default-transition-duration)',
 }
 
 export interface ControllerSettings {
@@ -29,7 +31,7 @@ export const animateController: Action<HTMLElement, ControllerSettings, Controll
     let hasPlayed = false
 
     const play = () => {
-        node.style.animation = `${keyframes} var(--default-transition-duration)
+        node.style.animation = `${keyframes} ${animation.duration}
             var(--default-transition-timing-function) forwards ${animation.delayMs}ms`
 
         // update the hasPlayed flag after the animation has played
