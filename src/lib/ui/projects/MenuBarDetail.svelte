@@ -1,8 +1,10 @@
 <script lang="ts">
     import type { ScreenState } from '../carousel/FullscreenCarousel.svelte'
 
+    import Check from '@lucide/svelte/icons/check'
     import Loader from '@lucide/svelte/icons/loader'
     import Play from '@lucide/svelte/icons/play'
+    import { onDestroy } from 'svelte'
 
     import BlurDown from '../animators/BlurDown.svelte'
     import ProjectBgDetail from '../carousel/ProjectBgDetail.svelte'
@@ -18,13 +20,36 @@
     })
 
     const menuItems = ['Update Homebrew', 'Run DB Service', 'Stop DB Service', 'Cleanup Downloads']
-    let pending = $state(Array.from({ length: 4 }, () => false))
+    let itemState: ('idle' | 'pending' | 'completed')[] = $state(
+        Array.from({ length: menuItems.length }, () => 'idle'),
+    )
+
+    const timeouts: ReturnType<typeof setTimeout>[] = []
+    onDestroy(() => {
+        timeouts.forEach(clearTimeout)
+    })
+
+    function runAfter(fn: () => unknown, delay: number = 5000): void {
+        const timeout = setTimeout(() => {
+            timeouts.splice(timeouts.indexOf(timeout), 1)
+            fn()
+        }, delay)
+
+        timeouts.push(timeout)
+    }
 
     const handleClick = (i: number) => {
-        pending[i] = true
-        setTimeout(() => {
-            pending[i] = false
-        }, 3000)
+        if (itemState[i] !== 'idle') return
+
+        itemState[i] = 'pending'
+
+        runAfter(() => {
+            itemState[i] = 'completed'
+
+            runAfter(() => {
+                itemState[i] = 'idle'
+            }, 3000)
+        }, 5000)
     }
 </script>
 
@@ -44,8 +69,10 @@
             class="inline-flex w-full items-center gap-md rounded-md px-md py-xs text-nowrap text-white/90 transition-colors duration-0 hover:bg-blue-600 hover:text-white"
             onclick={() => handleClick(i)}
         >
-            {#if pending[i]}
+            {#if itemState[i] === 'pending'}
                 <Loader class="animate-spin text-xs" />
+            {:else if itemState[i] === 'completed'}
+                <Check class="text-xs" />
             {:else}
                 <Play
                     class="text-xs"
