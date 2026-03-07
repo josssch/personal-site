@@ -45,16 +45,8 @@
         clazz,
     )}
 >
-    <div class="container mx-auto flex h-full p-lg max-md:flex-col sm:p-xl">
-        {#if project.detailComponent}
-            {#await project.detailComponent() then component}
-                <div class="pointer-events-none absolute inset-0 overflow-hidden">
-                    <component.default {project} />
-                </div>
-            {/await}
-        {/if}
-
-        <div class="z-1 flex h-full flex-col justify-center gap-lg text-xl md:basis-1/2">
+    <div class="container mx-auto flex h-full p-lg max-md:flex-col max-md:justify-center sm:p-xl">
+        <div class="z-1 flex flex-col justify-center gap-lg text-xl md:h-full md:basis-1/2">
             <h1 class="text-4xl">
                 <SlideInText
                     bind:this={numberTextEl}
@@ -103,5 +95,14 @@
                 </div>
             </FlyUp>
         </div>
+
+        {#if project.detailComponent}
+            {#await project.detailComponent() then component}
+                <component.default
+                    {project}
+                    {screenState}
+                />
+            {/await}
+        {/if}
     </div>
 </div>

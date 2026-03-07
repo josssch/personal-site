@@ -7,6 +7,7 @@
 
     import { projects } from '$lib/data/projects'
     import { insetReceive, insetReturn } from '$lib/inset-transition'
+    import BlurDown from '$lib/ui/animators/BlurDown.svelte'
     import FlyUp from '$lib/ui/animators/FlyUp.svelte'
     import SlideInText from '$lib/ui/animators/SlideInText.svelte'
     import Detail from '$lib/ui/components/Detail.svelte'
@@ -119,11 +120,11 @@
         {#await project.description() then component}
             <hr class="border-theme-bg-3" />
 
-            <FlyUp settings={{ threshold: 0.1 }}>
+            <BlurDown settings={{ threshold: 0.1 }}>
                 <Markdown class="font-sans text-wrap text-theme-on-bg sm:text-lg">
                     <component.default {project} />
                 </Markdown>
-            </FlyUp>
+            </BlurDown>
         {/await}
     </article>
 </main>
