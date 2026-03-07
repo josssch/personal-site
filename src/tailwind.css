@@ -133,6 +133,9 @@
 @utility prose {
     /* I don't love using @apply but it has its place here */
     @apply prose-neutral prose-invert;
+
+    --tw-prose-bullets: var(--theme-on-bg-faint);
+    --tw-prose-counters: var(--theme-on-bg-faint);
 }
 
 @custom-variant supports-variable-font {
