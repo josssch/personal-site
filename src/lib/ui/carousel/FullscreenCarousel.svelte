@@ -220,7 +220,7 @@
 
 <div
     bind:this={panel}
-    use:dragToScroll={{ xMultiplier: 2 }}
+    use:dragToScroll={{ xMultiplier: 2, yMultiplier: 0 }}
     onscroll={onScroll}
     onscrollend={onScrollEnd}
     style="--count: {forArr.length}; --current-index: {currentIndex}; {style ?? ''}"
