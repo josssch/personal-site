@@ -55,12 +55,12 @@ export const projects: Record<string, Project> = {
             {
                 icon: GitBranch,
                 label: 'View Source',
-                href: 'https://github.com/josssch/menu-scripts',
+                href: 'https://github.com/josssch/easy-menu',
             },
             {
                 icon: Download,
                 label: 'Download for macOS',
-                href: 'https://github.com/josssch/menu-scripts/releases/latest/download/EasyMenu.dmg',
+                href: 'https://github.com/josssch/easy-menu/releases/latest/download/EasyMenu.dmg',
             },
         ],
         technologies: ['Swift', 'SwiftUI', 'SwiftData'],

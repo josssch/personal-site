@@ -89,7 +89,7 @@
 
 <ProjectBgDetail class="-bg-linear-30 from-[#3B5695] to-[#094781]" />
 
-<div class="mt-2xl self-center md:ml-auto md:scale-150">
+<div class="self-center md:ml-auto md:scale-150">
     <BlurDown
         bind:this={menuBarEl}
         settings={{ delayMs: 500, duration: '1000ms', trigger: 'manual' }}
