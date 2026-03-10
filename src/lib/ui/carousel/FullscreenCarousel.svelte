@@ -250,7 +250,7 @@
             {/each}
 
             <div
-                class="group absolute bottom-lg center-x z-1 flex items-center gap-md opacity-50 transition-opacity sm:-mt-xl sm:pt-xl hocus:opacity-100"
+                class="group absolute bottom-lg center-x z-1 flex items-center gap-md transition-opacity sm:-mt-xl sm:pt-xl"
             >
                 <CircleButton
                     aria-label="Go Back"
@@ -264,7 +264,7 @@
                     <button
                         onclick={() => navigateTo(i)}
                         aria-label="Go to Screen {i + 1}"
-                        class="rounded-full bg-theme-on-bg transition-all group-hocus:translate-y-0 group-hocus:scale-100 sm:translate-y-sm sm:scale-75
+                        class="rounded-full bg-theme-on-bg transition-all duration-250 group-hocus:translate-y-0 group-hocus:scale-100 sm:translate-y-sm sm:scale-75
                         {i === currentIndex ? 'size-2' : 'size-1.5 opacity-50'}"
                     ></button>
                 {/each}
