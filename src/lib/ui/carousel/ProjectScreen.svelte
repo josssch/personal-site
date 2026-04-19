@@ -38,10 +38,11 @@
 <div
     style="
         --project-theme-bg: {project.theme.backgroundColor};
+        --project-theme-bg-by: {project.theme.backgroundColorsBy || 'initial'};
         --project-theme-text: {project.theme.textColor};
     "
     class={merge(
-        'relative size-full bg-theme-bg text-theme-on-bg theme-bg-(--project-theme-bg) theme-text-(--project-theme-text)',
+        'relative size-full bg-theme-bg text-theme-on-bg theme-bg-(--project-theme-bg) theme-text-(--project-theme-text) theme-bg-by-(--project-theme-bg-by)',
         clazz,
     )}
 >

@@ -44,6 +44,7 @@ export const projects: Record<string, Project> = {
         bannerHref: '/img/proj_menu_banner.png',
         theme: {
             backgroundColor: 'var(--color-blue-900)',
+            backgroundColorsBy: 'var(--color-gray-500)',
             textColor: 'var(--color-blue-200)',
         },
         title: 'Easy Menu',

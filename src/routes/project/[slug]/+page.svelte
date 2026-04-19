@@ -17,7 +17,11 @@
     import FancyLink from '$lib/ui/typography/FancyLink.svelte'
     import Markdown from '$lib/ui/typography/Markdown.svelte'
 
-    const BODY_STYLES = ['theme-bg-(--project-theme-bg)', 'theme-text-(--project-theme-text)']
+    const BODY_STYLES = [
+        'theme-bg-(--project-theme-bg)',
+        'theme-bg-by-(--project-theme-bg-by)',
+        'theme-text-(--project-theme-text)',
+    ]
 
     const project: Project = projects[page.params.slug!]
 
@@ -28,11 +32,16 @@
         const body = document.body
 
         body.style.setProperty('--project-theme-bg', project.theme.backgroundColor)
+        body.style.setProperty(
+            '--project-theme-bg-by',
+            project.theme.backgroundColorsBy || 'initial',
+        )
         body.style.setProperty('--project-theme-text', project.theme.textColor)
         body.classList.add(...BODY_STYLES)
 
         return () => {
             body.style.removeProperty('--project-theme-bg')
+            body.style.removeProperty('--project-theme-bg-by')
             body.style.removeProperty('--project-theme-text')
             body.classList.remove(...BODY_STYLES)
         }

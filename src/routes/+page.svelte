@@ -51,6 +51,7 @@
     })
 
     const projectThemeBg = $derived(project?.theme.backgroundColor)
+    const projectThemeBgBy = $derived(project?.theme.backgroundColorsBy || 'initial')
     const projectThemeText = $derived(project?.theme.textColor)
 
     $effect(() => {
@@ -72,9 +73,10 @@
     bind:index
     style="
         --project-theme-bg: {projectThemeBg};
+        --project-theme-bg-by: {projectThemeBgBy};
         --project-theme-text: {projectThemeText};
     "
-    class="theme-bg-(--project-theme-bg) theme-text-(--project-theme-text)"
+    class="theme-bg-(--project-theme-bg) theme-text-(--project-theme-text) theme-bg-by-(--project-theme-bg-by)"
 >
     {#snippet builder(project, state)}
         <ProjectScreen

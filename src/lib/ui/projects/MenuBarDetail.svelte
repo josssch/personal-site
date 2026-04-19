@@ -55,7 +55,7 @@
 
 {#snippet runMenu(labels: string[])}
     <ul
-        class="inline-flex flex-col rounded-lg bg-black/50 p-md ring ring-current/50 ring-offset-1 ring-offset-black backdrop-blur-md ring-inset"
+        class="inline-flex flex-col rounded-xl bg-black/50 p-lg ring-2 ring-current/50 ring-offset-1 ring-offset-black backdrop-blur-md ring-inset"
     >
         {#each labels as label, i}
             {@render runMenuItem(label, i)}
@@ -66,16 +66,16 @@
 {#snippet runMenuItem(label: string, i: number)}
     <li>
         <button
-            class="inline-flex w-full items-center gap-md rounded-md px-md py-xs text-nowrap text-white/90 transition-colors duration-0 hover:bg-blue-600 hover:text-white"
+            class="inline-flex w-full items-center gap-lg rounded-md px-md py-sm text-2xl text-nowrap text-white/90 transition-colors duration-0 hover:bg-blue-600 hover:text-white"
             onclick={() => handleClick(i)}
         >
             {#if itemState[i] === 'pending'}
-                <Loader class="animate-spin text-xs" />
+                <Loader class="animate-spin text-[.75em]" />
             {:else if itemState[i] === 'completed'}
-                <Check class="text-xs" />
+                <Check class="text-[.75em]" />
             {:else}
                 <Play
-                    class="text-xs"
+                    class="text-[.75em]"
                     fill="currentColor"
                 />
             {/if}
@@ -89,7 +89,7 @@
 
 <ProjectBgDetail class="-bg-linear-30 from-[#3B5695] to-[#094781]" />
 
-<div class="self-center md:ml-auto md:scale-150">
+<div class="self-center max-md:mt-2xl md:ml-auto">
     <BlurDown
         bind:this={menuBarEl}
         settings={{ delayMs: 500, duration: '1000ms', trigger: 'manual' }}

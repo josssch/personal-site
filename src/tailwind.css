@@ -67,6 +67,10 @@
     --theme-on-bg-em: color-mix(in oklab, var(--theme-on-bg), 10% white);
 }
 
+@utility theme-bg-by-* {
+    --theme-bg-by: --value(--color-*, [*]);
+}
+
 @utility theme-bg-* {
     /* prettier-ignore */
     --theme-bg-color: --value(--color-*, [*]);
@@ -75,9 +79,9 @@
     --theme-bg: var(--theme-bg-color);
 
     /* For containers placed on top of the background or on each other */
-    --theme-bg-1: color-mix(in oklab, var(--theme-bg), 5% white);
-    --theme-bg-2: color-mix(in oklab, var(--theme-bg), 12.5% white);
-    --theme-bg-3: color-mix(in oklab, var(--theme-bg), 17.5% white);
+    --theme-bg-1: color-mix(in oklab, var(--theme-bg), 5% var(--theme-bg-by, white));
+    --theme-bg-2: color-mix(in oklab, var(--theme-bg), 12.5% var(--theme-bg-by, white));
+    --theme-bg-3: color-mix(in oklab, var(--theme-bg), 17.5% var(--theme-bg-by, white));
 }
 
 /*
