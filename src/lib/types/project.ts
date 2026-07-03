@@ -22,5 +22,6 @@ export type ProjectDetailComponent = Component<{ project: Project } | any>
 export interface ProjectTheme {
     backgroundColor: string
     backgroundColorsBy?: string
+    controlColor?: string
     textColor: string
 }

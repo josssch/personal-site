@@ -38,11 +38,12 @@
 <div
     style="
         --project-theme-bg: {project.theme.backgroundColor};
+        --project-theme-control: {project.theme.controlColor || 'initial'};
         --project-theme-bg-by: {project.theme.backgroundColorsBy || 'initial'};
         --project-theme-text: {project.theme.textColor};
     "
     class={merge(
-        'relative size-full bg-theme-bg text-theme-on-bg theme-bg-(--project-theme-bg) theme-text-(--project-theme-text) theme-bg-by-(--project-theme-bg-by)',
+        'theme-on-control-(--project-theme-on-control) relative size-full bg-theme-bg text-theme-on-bg theme-bg-(--project-theme-bg) theme-text-(--project-theme-text) theme-bg-by-(--project-theme-bg-by) theme-control-(--project-theme-control)',
         clazz,
     )}
 >
@@ -53,7 +54,7 @@
                     bind:this={numberTextEl}
                     settings={{ delayMs: 100, trigger: 'manual' }}
                 >
-                    <span class="font-extralight text-theme-on-bg-faint">{displayNumber}</span>
+                    <span class="font-extralight text-theme-on-bg-faint">{displayNumber}.</span>
                 </SlideInText>
 
                 <SlideInText

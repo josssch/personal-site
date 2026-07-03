@@ -53,12 +53,26 @@
     --color-theme-bg-1: var(--theme-bg-1);
     --color-theme-bg-2: var(--theme-bg-2);
     --color-theme-bg-3: var(--theme-bg-3);
+
+    /*--color-theme-on-control: var(--theme-on-control, var(--theme-on-bg));*/
+    --color-theme-control: var(--theme-control, var(--theme-bg-2));
+    --color-theme-control-alt: var(--theme-control-alt);
 }
 
 /* Utilities to manage a scoped theme */
 
+@utility theme-control-* {
+    --theme-control: --value(--color-*, [*]);
+
+    --theme-control-alt: --modifier(--color-*, [*]);
+    --theme-control-alt: color-mix(in oklab, var(--theme-control), 10% black);
+}
+
+@utility theme-on-control-* {
+    --theme-on-control: --value(--color-*, [*]);
+}
+
 @utility theme-text-* {
-    /* prettier-ignore */
     --theme-text-color: --value(--color-*, [*]);
 
     /* For text on the background */
@@ -72,7 +86,6 @@
 }
 
 @utility theme-bg-* {
-    /* prettier-ignore */
     --theme-bg-color: --value(--color-*, [*]);
 
     /* The background color */
@@ -127,6 +140,8 @@
 @utility center-transform {
     transform: var(--center-x-transform,) var(--center-y-transform,);
 }
+
+/* this comment fixes my LSP not recognizing empty default vars above */
 
 @utility leading-base {
     /* resets the normal line height to the same as the base font size */

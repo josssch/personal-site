@@ -25,7 +25,7 @@
     {type}
     {...props}
     class={merge(
-        'inline-flex items-center justify-center gap-md rounded-2xl bg-theme-bg-2 px-lg py-md text-center text-theme-on-bg shadow-lg transition duration-300 hover:bg-theme-bg-3 active:translate-y-0.5 active:text-theme-on-bg-em active:shadow-md active:duration-0',
+        'inline-flex items-center justify-center gap-md rounded-2xl bg-theme-control px-lg py-md text-center text-theme-on-bg shadow-lg transition duration-300 hover:bg-theme-control-alt active:translate-y-0.5 active:text-theme-on-bg-em active:shadow-md active:duration-0',
         clazz,
     )}
 >
