@@ -87,7 +87,7 @@
     </li>
 {/snippet}
 
-<ProjectBgDetail class="-bg-linear-30 from-[#3B5695] to-[#094781]" />
+<ProjectBgDetail class="-bg-linear-30 from-[#3B5695] to-[#06325b]" />
 
 <div class="self-center max-md:mt-2xl md:ml-auto">
     <BlurDown
