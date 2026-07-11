@@ -76,7 +76,7 @@
                     {/each}
                 </ul>
 
-                <FlyUp>
+                <FlyUp settings={{ delayMs: 300 }}>
                     <p>
                         I'm an independent contractor and full-stack software engineer based in
                         Canada, with experience working in the insurance and retail industries. My
