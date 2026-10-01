@@ -1,31 +1,42 @@
+export interface ScrollToWaitHandle {
+    willArrive: Promise<boolean>
+    discard(): void
+}
+
 /**
  * Calls scrollTo and waits for it to finish
  * @returns A promise that resolves when the scroll is complete, resolved value is whether it was successful
  */
-export default async function scrollToWait(
+export default function scrollToWait(
     element: Element,
     options: ScrollToOptions,
     { tolerance = 2, timeoutMs = 3_000 } = {},
-) {
+): ScrollToWaitHandle {
     element.scrollTo(options)
 
     // no need to wait if the scroll behavior is going to be instant, incase I call it with instant for some reason
     if (
         (options.behavior === 'auto' && getComputedStyle(element).scrollBehavior === 'instant') ||
         options.behavior === 'instant'
-    )
-        return true
+    ) {
+        return { willArrive: Promise.resolve(true), discard: () => {} }
+    }
 
     // default the target to the options provided or the current scroll position if not provided
     const targetLeft = options.left ?? element.scrollLeft
     const targetTop = options.top ?? element.scrollTop
 
+    // acts as our cancellation to prevent infinite scroll checking
+    let hasResolved = false
+
     // create a Promise that constantly checks the scroll position until it's within a
     // certain distance of the target distance (left or top, just incase we ever want to)
     const scrollWaiter = new Promise<boolean>(resolve => {
         function checkScroll() {
-            const { scrollLeft, scrollTop } = element
+            // do not continue looping once there has been a resolution
+            if (hasResolved) return
 
+            const { scrollLeft, scrollTop } = element
             if (
                 Math.abs(scrollLeft - targetLeft) < tolerance &&
                 Math.abs(scrollTop - targetTop) < tolerance
@@ -40,10 +51,23 @@ export default async function scrollToWait(
         checkScroll()
     })
 
+    const abort = new AbortController()
+
     // make the scroll waiter race against a timeout promise in the case
     // a user interrupts a scroll or something blocks it from happening
-    return Promise.race([
+    const didArrive = Promise.race<boolean>([
         scrollWaiter,
         new Promise(resolve => setTimeout(() => resolve(false), timeoutMs)),
-    ])
+        new Promise(resolve => (abort.signal.onabort = () => resolve(false))),
+    ]).finally(() => {
+        hasResolved = true
+    })
+
+    return {
+        willArrive: didArrive,
+        discard: () => {
+            if (hasResolved) return
+            abort.abort()
+        },
+    }
 }

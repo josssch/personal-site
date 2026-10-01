@@ -13,6 +13,7 @@
     lang="ts"
     generics="T = any"
 >
+    import type { ScrollToWaitHandle } from '$lib/utils/scroll-to-wait'
     import type { Snippet } from 'svelte'
 
     import ArrowLeft from '@lucide/svelte/icons/arrow-left'
@@ -51,6 +52,10 @@
 
     let panel: HTMLDivElement
     const screenElements: HTMLElement[] = $state([])
+
+    // start the value off with whatever the initial value of currentIndex is
+    let targetIndex = currentIndex
+    let lastScrollTo: ScrollToWaitHandle | null = null
 
     onMount(() => navigateTo(currentIndex, { instant: true }))
 
@@ -116,6 +121,7 @@
             // update the current index here as well, since if someone flicks too fast
             // the navigateTo(...) snapping won't happen, causing an update to the index to be missed
             currentIndex = Math.round(scrollX / panelWidth)
+            targetIndex = currentIndex
             return
         }
 
@@ -127,20 +133,16 @@
         })
     }
 
-    export const navigateBy = (diff: number) => navigateTo(currentIndex + diff)
+    export const navigateBy = (diff: number) => navigateTo(targetIndex + diff)
 
     export function navigateTo(index: number, { blockSnapping = true, instant = false } = {}) {
         if (!panel) return
 
-        const panelWidth = panel.clientWidth
+        // cancel whatever the last scroll was before proceeding to prevent race conditions
+        lastScrollTo?.discard()
+        lastScrollTo = null
 
-        // this is mostly for handling when resize happens, since the width changes and we expect
-        // a desync between the scroll left and the index, so correct it with no animation
-        if (instant) {
-            panel.scrollTo({ left: currentIndex * panelWidth, behavior: 'instant' })
-            updateClippingPaths()
-            return
-        }
+        const panelWidth = panel.clientWidth
 
         if (index < 0) {
             index = 0
@@ -148,15 +150,27 @@
             index = forArr.length - 1
         }
 
-        currentIndex = index
+        targetIndex = index
+
+        // this is mostly for handling when resize happens, since the width changes and we expect
+        // a desync between the scroll left and the index, so correct it with no animation
+        if (instant) {
+            panel.scrollTo({ left: targetIndex * panelWidth, behavior: 'instant' })
+            updateClippingPaths()
+            return
+        }
 
         if (blockSnapping) enableSnapping = false
 
-        scrollToWait(panel, {
-            left: currentIndex * panelWidth,
+        const handle = scrollToWait(panel, {
+            left: targetIndex * panelWidth,
             behavior: 'smooth',
-        }).then(() => {
-            // reset the snapping state after the scroll completes
+        })
+
+        // re-enable snapping upon completion/cancellation of scroll
+        lastScrollTo = handle
+        lastScrollTo.willArrive.then(() => {
+            if (lastScrollTo !== handle) return
             enableSnapping = true
         })
     }
@@ -255,7 +269,7 @@
                 <CircleButton
                     aria-label="Go Back"
                     class="mr-lg {NAV_BUTTON_STYLES}"
-                    onclick={() => navigateTo(currentIndex - 1)}
+                    onclick={() => navigateTo(targetIndex - 1)}
                 >
                     <ArrowLeft aria-hidden="true" />
                 </CircleButton>
@@ -272,7 +286,7 @@
                 <CircleButton
                     aria-label="Go Forward"
                     class="ml-lg {NAV_BUTTON_STYLES}"
-                    onclick={() => navigateTo(currentIndex + 1)}
+                    onclick={() => navigateTo(targetIndex + 1)}
                 >
                     <ArrowRight aria-hidden="true" />
                 </CircleButton>
