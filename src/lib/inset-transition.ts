@@ -87,7 +87,8 @@ export function insetReturn(node: Element, params: InsetClipParams): TransitionC
         css: (t, u) => `
             z-index: 100;
             position: relative;
-            opacity: ${Math.min(1, t * 8) * 100}%;
+            opacity: ${Math.min(1, t * 16) * 100}%;
+            filter: blur(${(1 - t) * 25}px);
             ${insetFn(t, u)}
         `,
     }
@@ -112,6 +113,8 @@ function insetCss(from: DOMRect, to: DOMRect): NonNullable<TransitionConfig['css
             ${insetRight * u}px
             ${insetBottom * u}px
             ${insetLeft * u}px
+            round
+            ${500 * u}px
         );
     `
 }
