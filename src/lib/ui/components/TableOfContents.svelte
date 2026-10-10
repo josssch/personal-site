@@ -100,10 +100,10 @@
         <ul class="relative mt-md">
             <div
                 style="
-                --top: {(currentIndex / headings.length) * 100}%;
-                --left: {headings[currentIndex]?.indent ?? 0}em;
-            "
-                class="absolute top-(--top) left-(--left) z-1 size-1 translate-y-[0.5lh] bg-theme-on-bg transition-[top,left] duration-100"
+                    --top: {(currentIndex / headings.length) * 100}%;
+                    --left: {headings[currentIndex]?.indent ?? 0}em;
+                "
+                class="absolute top-(--top) left-(--left) z-1 size-1 translate-y-[0.5lh] rounded-full bg-theme-on-bg transition-[top,left] duration-100"
             ></div>
 
             {#each headings as heading, i (heading.id)}
