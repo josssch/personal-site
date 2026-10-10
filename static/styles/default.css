@@ -4,9 +4,14 @@
         liga = ligatures
         calt = contextual alternatives
         cv05 = disambiguated L
-        cv08 = disambiguated i
+        cv06 = simplified U
+        cv11 = single story A
+        cv12 = compact F
+        cv13 = compact T
+        ss03 = rounded punctuation
     */
-    --font-feature-settings: 'liga' 1, 'calt' 1, 'cv05' 1, 'cv08' 1;
+    --font-feature-settings:
+        'liga' 1, 'calt' 1, 'cv05' 1, 'cv06' 1, 'cv11' 1, 'cv12' 1, 'cv13' 1, 'ss03' 1;
     --font-family: Inter, sans-serif;
 
     @supports (font-variation-settings: normal) {
