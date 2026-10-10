@@ -129,7 +129,7 @@
         {#await project.description() then component}
             <hr class="border-theme-bg-3" />
 
-            <BlurDown settings={{ threshold: 0.1 }}>
+            <BlurDown settings={{ threshold: 0.1, delayMs: 250, delayOnIntersect: true }}>
                 <Markdown class="font-sans text-wrap text-theme-on-bg sm:text-lg">
                     <component.default {project} />
                 </Markdown>

@@ -4,8 +4,8 @@
 
 @layer base {
     html {
-        /* Make the default theme neutral */
-        @apply theme-bg-neutral-900 theme-text-neutral-200;
+        /* Set the default theme */
+        @apply theme-bg-mist-900 theme-text-mist-200;
     }
 
     body {

@@ -8,5 +8,5 @@ export interface WorkExperience {
     endedOn?: string
     isCurrent?: boolean
 
-    duties: string[]
+    duties?: string[]
 }

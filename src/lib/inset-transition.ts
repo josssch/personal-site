@@ -88,7 +88,7 @@ export function insetReturn(node: Element, params: InsetClipParams): TransitionC
             z-index: 100;
             position: relative;
             opacity: ${Math.min(1, t * 16) * 100}%;
-            filter: blur(${(1 - t) * 25}px);
+            filter: blur(${(1 - t * 12) * 15}px);
             ${insetFn(t, u)}
         `,
     }

@@ -138,21 +138,21 @@
                 {#each items as item, i (item.href)}
                     {@const isCurrent = page.url.pathname === item.href}
 
-                    <SlideInText
-                        bind:this={itemPlayers[i]}
-                        settings={{ delayMs: i * 150, trigger: 'manual' }}
+                    <a
+                        class="rounded-full px-lg transition-colors supports-variable-font:transition-[background-color,color,font-weight]
+                        {isCurrent
+                            ? 'font-normal text-theme-on-bg-em'
+                            : 'font-light text-theme-on-bg hover:bg-theme-bg-2'}"
+                        href={item.href}
+                        title={isCurrent ? 'Current Page' : ''}
                     >
-                        <a
-                            class="supports-variable-font:transition-[background-color,color,font-weight rounded-lg px-md py-sm transition-colors
-                            {isCurrent
-                                ? 'font-medium text-theme-on-bg-em'
-                                : 'font-light text-theme-on-bg hover:bg-theme-bg-2'}"
-                            href={item.href}
-                            title={isCurrent ? 'Current Page' : ''}
+                        <SlideInText
+                            bind:this={itemPlayers[i]}
+                            settings={{ delayMs: i * 150, trigger: 'manual' }}
                         >
                             {item.label}
-                        </a>
-                    </SlideInText>
+                        </SlideInText>
+                    </a>
                 {/each}
             </div>
         </div>

@@ -7,7 +7,7 @@
     import { education } from '$lib/data/education'
     import { socialLinks } from '$lib/data/social-links'
     import { experience } from '$lib/data/work-experience'
-    import FlyUp from '$lib/ui/animators/FlyUp.svelte'
+    import BlurDown from '$lib/ui/animators/BlurDown.svelte'
     import SlideInText from '$lib/ui/animators/SlideInText.svelte'
     import Signature from '$lib/ui/branding/Signature.svelte'
     import InfoCard from '$lib/ui/components/InfoCard.svelte'
@@ -48,67 +48,68 @@
 
 <main class="main relative bg-theme-bg text-theme-on-bg">
     <div class="flex justify-center gap-xl max-md:flex-col">
-        <aside class="top-3xl flex h-min px-lg md:sticky md:justify-end">
-            <TableOfContents
-                class="w-full max-md:max-h-1/2 md:min-w-72"
-                {headings}
-            />
-        </aside>
+        <BlurDown settings={{ delayMs: 400 }}>
+            <aside class="top-3xl flex h-min px-lg md:sticky md:justify-end">
+                <TableOfContents
+                    class="w-full max-md:max-h-1/2 md:min-w-72"
+                    {headings}
+                />
+            </aside>
+        </BlurDown>
 
         <article class="main__article max-md:mx-auto">
             <Markdown>
-                <SlideInText settings={{ delayMs: 250 }}>
+                <BlurDown settings={{ delayMs: 50 }}>
                     <h1
                         id="greeting"
                         class="mb-[unset]"
                     >
                         Hello, I'm Josh 👋
                     </h1>
-                </SlideInText>
+                </BlurDown>
 
                 <ul class="not-prose my-xl flex flex-wrap items-center justify-evenly gap-lg">
                     {#each Object.values(socialLinks) as link, i (link.href)}
                         <li>
-                            <SlideInText settings={{ delayMs: i * 50 + 250 }}>
+                            <SlideInText settings={{ delayMs: 250 + i * 100 }}>
                                 <FancyLink {link} />
                             </SlideInText>
                         </li>
                     {/each}
                 </ul>
 
-                <FlyUp settings={{ delayMs: 300 }}>
+                <BlurDown settings={{ delayMs: 100 }}>
                     <p>
-                        I'm an independent contractor and full-stack software engineer based in
-                        Canada, with experience working in the insurance and retail industries. My
-                        focus has been building task automation, data pipeline tooling, and business
-                        intelligence tooling to streamline internal workflows.
+                        I’m a <strong>software engineer</strong> based in 🇨🇦 Canada, with experience across
+                        the software, insurance, and retail industries.
                     </p>
 
                     <p>
-                        I work closely with stakeholders and end-users to understand existing
-                        processes before writing code. After 50+ independent clients and counting, I
-                        know that effective tooling comes from understanding the problem first.
+                        I build automation, data pipelines, and business intelligence tools that
+                        make day-to-day work easier. I start by talking with the people who'll use
+                        them, understanding how they work and exactly what slows things down.
                     </p>
 
-                    <strong>
-                        Currently available for contract work and open to full-time opportunities.
-                    </strong>
-                </FlyUp>
+                    <p>
+                        I enjoy automating repetitive tasks so we can spend more time on the things
+                        that matter most.
+                    </p>
 
-                <hr />
+                    <hr />
+                </BlurDown>
 
-                <SlideInText settings={{ delayMs: 100 }}>
+                <BlurDown settings={{ delayMs: 150 }}>
                     <h2
                         id="experience"
                         class="mt-[unset] mb-[unset]"
                     >
                         Professional Experience
                     </h2>
-                </SlideInText>
+                </BlurDown>
 
                 <div class="not-prose mt-lg flex flex-col gap-lg">
-                    {#each experience as exp (exp)}
-                        <FlyUp>
+                    {#each experience as exp, i (exp)}
+                        <BlurDown settings={{ delayMs: 200 + i * 50 }}>
                             <InfoCard
                                 id={toHash(exp.startedOn)}
                                 leadIn={exp.industry || exp.company}
@@ -118,24 +119,24 @@
                                 endedOn={exp.endedOn}
                                 current={exp.isCurrent}
                             />
-                        </FlyUp>
+                        </BlurDown>
                     {/each}
                 </div>
 
                 <hr />
 
-                <SlideInText settings={{ delayMs: 100 }}>
+                <BlurDown settings={{ delayMs: 100 }}>
                     <h2
                         id="education"
                         class="mt-[unset] mb-[unset]"
                     >
                         Education & Certifications
                     </h2>
-                </SlideInText>
+                </BlurDown>
 
                 <div class="not-prose mt-lg flex flex-col gap-lg">
                     {#each education as edu (edu)}
-                        <FlyUp>
+                        <BlurDown>
                             <InfoCard
                                 id={toHash(edu.type)}
                                 leadIn={edu.type}
@@ -145,7 +146,7 @@
                                 current={edu.isCurrent}
                                 points={edu.achievements}
                             />
-                        </FlyUp>
+                        </BlurDown>
                     {/each}
                 </div>
 

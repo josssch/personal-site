@@ -1,16 +1,22 @@
 import type { Action } from 'svelte/action'
 
+import { onMount } from 'svelte'
+
+import { isIntersecting } from '$lib/utils/dom'
+
 export type AnimationTrigger = 'instant' | 'intersection' | 'manual'
 
 export interface AnimationSettings {
     trigger: AnimationTrigger
     delayMs: number
+    delayOnIntersect: boolean
     threshold: number
     duration: string
 }
 
 export const DEFAULT_ANIMATION_SETTINGS: AnimationSettings = {
     delayMs: 0,
+    delayOnIntersect: false,
     trigger: 'intersection',
     threshold: 0,
     duration: 'var(--default-transition-duration)',
@@ -30,9 +36,10 @@ export const animateController: Action<HTMLElement, ControllerSettings, Controll
 ) => {
     let hasPlayed = false
 
-    const play = () => {
+    const play = ({ withDelay = true } = {}) => {
+        const delayStr = withDelay ? `${animation.delayMs}ms` : ''
         node.style.animation = `${keyframes} ${animation.duration}
-            var(--default-transition-timing-function) forwards ${animation.delayMs}ms`
+            var(--default-transition-timing-function) forwards ${delayStr}`
 
         // update the hasPlayed flag after the animation has played
         hasPlayed = true
@@ -47,13 +54,16 @@ export const animateController: Action<HTMLElement, ControllerSettings, Controll
     ;(node as ControllerElement).play = play
     ;(node as ControllerElement).reset = reset
 
-    $effect(() => {
+    onMount(() => {
         // keep track of whether the animation has played in this instance
         if (hasPlayed) return
 
         let observer: IntersectionObserver | null = null
 
-        if (animation.trigger === 'instant') {
+        if (
+            animation.trigger === 'instant' ||
+            (animation.trigger === 'intersection' && isIntersecting(document.body, node))
+        ) {
             play()
         } else if (animation.trigger === 'intersection') {
             observer = new IntersectionObserver(
@@ -66,7 +76,7 @@ export const animateController: Action<HTMLElement, ControllerSettings, Controll
 
                     // once one of them is intersecting play the animation and stop observing
                     observer?.disconnect()
-                    play()
+                    play({ withDelay: animation.delayOnIntersect })
                 },
                 { threshold: animation.threshold },
             )

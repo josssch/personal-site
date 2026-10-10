@@ -7,7 +7,6 @@
 
     import merge from '$lib/utils/class-merge'
     import scrollToElement from '$lib/utils/scroll-to-element'
-    import SlideInText from '../animators/SlideInText.svelte'
 
     interface Props extends HTMLAttributes<HTMLDivElement> {
         headings: HeadingEntry[]
@@ -84,9 +83,7 @@
         class="flex w-full items-center justify-between"
         onclick={() => (expanded = !expanded)}
     >
-        <h3 class="text-sm font-medium text-theme-on-bg-faint">
-            <SlideInText>ON THIS PAGE</SlideInText>
-        </h3>
+        <h3 class="text-sm font-medium text-theme-on-bg-faint">ON THIS PAGE</h3>
 
         <ChevronRight class="text-lg transition-transform {expanded ? 'rotate-90' : ''}" />
     </button>
@@ -109,23 +106,21 @@
             {#each headings as heading, i (heading.id)}
                 {@const isCurrent = currentIndex === i}
 
-                <SlideInText settings={{ delayMs: i * 25 + 100 }}>
-                    <li
-                        style="--ident-by: {heading.indent ?? 0}em;"
-                        class="relative px-lg py-sm indent-(--ident-by) leading-tight text-nowrap transition-colors supports-variable-font:transition-[color,font-weight,font-size]
+                <li
+                    style="--ident-by: {heading.indent ?? 0}em;"
+                    class="relative px-lg py-sm indent-(--ident-by) leading-tight text-nowrap transition-colors supports-variable-font:transition-[color,font-weight,font-size]
                     {isCurrent ? 'text-theme-on-bg' : 'font-light text-theme-on-bg-faint'}"
+                >
+                    <a
+                        onclick={e => {
+                            e.preventDefault()
+                            scrollTo(heading.id)
+                            // using this rather than goto to avoid triggering svelte things
+                            window.history.replaceState(null, '', `#${heading.id}`)
+                        }}
+                        href="#{heading.id}">{heading.label}</a
                     >
-                        <a
-                            onclick={e => {
-                                e.preventDefault()
-                                scrollTo(heading.id)
-                                // using this rather than goto to avoid triggering svelte things
-                                window.history.replaceState(null, '', `#${heading.id}`)
-                            }}
-                            href="#{heading.id}">{heading.label}</a
-                        >
-                    </li>
-                </SlideInText>
+                </li>
             {/each}
         </ul>
     </div>

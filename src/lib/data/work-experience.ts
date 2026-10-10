@@ -2,8 +2,14 @@ import type { WorkExperience } from '$lib/types/work-experience'
 
 export const experience: WorkExperience[] = [
     {
-        title: 'System Administrator / Full-Stack Software Engineer',
-        industry: 'Retail',
+        title: 'Senior Full-Stack Software Engineer',
+        industry: 'Software Company',
+        startedOn: 'July 2026',
+        isCurrent: true,
+    },
+    {
+        title: 'Software Engineer, Business Operations',
+        industry: 'Retail Company',
         startedOn: 'November 2024',
         isCurrent: true,
         duties: [
@@ -14,7 +20,7 @@ export const experience: WorkExperience[] = [
         ],
     },
     {
-        title: 'Founder / Lead Full-Stack Software Engineer',
+        title: 'Founding Software Engineer',
         company: 'Orbiting Technologies',
         startedOn: 'April 2024',
         isCurrent: true,
@@ -25,7 +31,7 @@ export const experience: WorkExperience[] = [
     },
     {
         title: 'Full-Stack Software Engineer',
-        industry: 'Insurance',
+        industry: 'Insurance Company',
         startedOn: 'February 2022',
         endedOn: 'April 2024',
         duties: [
