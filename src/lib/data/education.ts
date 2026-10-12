@@ -6,7 +6,7 @@ export const education: Education[] = [
         certification: 'Bachelor of Computer Science',
         startedOn: '2022',
         endedOn: '2026',
-        achievements: ['Graduated GPA of 3.8/4.0'],
+        achievements: ['Graduated with GPA of 3.8/4.0'],
     },
     {
         type: 'High School',
