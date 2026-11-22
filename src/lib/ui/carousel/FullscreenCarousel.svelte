@@ -67,12 +67,19 @@
         if (panel) updateClippingPaths()
     })
 
+    function onMouseWheel(event: WheelEvent) {
+        const deltaX = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY
+        if (deltaX === 0) return
+        event.preventDefault()
+        panel.scrollLeft += deltaX
+    }
+
     let enableSnapping = true
 
     let lastScrollX = 0
     let lowDeltaCount = 0
 
-    function onScroll() {
+    function onScroll(_: UIEvent) {
         updateClippingPaths()
 
         const panelWidth = panel.clientWidth
@@ -236,6 +243,7 @@
     bind:this={panel}
     use:dragToScroll={{ xMultiplier: 2, yMultiplier: 0 }}
     onscroll={onScroll}
+    onwheel={onMouseWheel}
     onscrollend={onScrollEnd}
     style="--count: {forArr.length}; --current-index: {currentIndex}; {style ?? ''}"
     class={merge('size-full overflow-x-scroll overflow-y-hidden overscroll-none', clazz)}
